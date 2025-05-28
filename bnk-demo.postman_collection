@@ -1,0 +1,544 @@
+{
+	"info": {
+		"_postman_id": "e0e1a0ec-f96e-48c8-a2b2-654a90d82d73",
+		"name": "hexa-java-fsd-bnk-demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "45311135",
+		"_collection_link": "https://sreevathsan-4089336.postman.co/workspace/Sreevathsan's-Workspace~8edd9b2b-6aec-42ed-8780-e49402c4290a/collection/45311135-e0e1a0ec-f96e-48c8-a2b2-654a90d82d73?action=share&source=collection_link&creator=45311135"
+	},
+	"item": [
+		{
+			"name": "customer",
+			"item": [
+				{
+					"name": "http://localhost:8080/api/customer/add",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Suresh\",\r\n    \"last_name\": \"Reddy\",\r\n    \"email\": \"suresh.r@example.com\",\r\n    \"phone_number\": \"9012345678\",\r\n    \"address\": \"15, Bharathi Street, Anna Nagar East, Chennai - 600040\",\r\n    \"registration_date\": \"2025-05-27\"\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/customer/post",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customer",
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/customer/get-one/5",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/customer/get-one/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customer",
+								"get-one",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/customer/get-all",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/customer/get-all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customer",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/customer/put/3",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"Vimal\",\r\n    \"email\":\"vimal.p@example.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/customer/put/3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customer",
+								"put",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "branch",
+			"item": [
+				{
+					"name": "localhost:8080/api/branch/add",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n    \"ifscCode\": \"MAVK0000002\",\r\n    \"branchName\": \"Tambaram Sanatorium Branch\",\r\n    \"address\": \"56, GST Road, Tambaram Sanatorium, Chennai - 600047\",\r\n    \"email\": \"tambaram.sana@maverickbank.com\",\r\n    \"phoneNumber\": \"04422230002\"\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/branch/post",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"branch",
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/branch/get/ifscCode?ifscCode=MAVK0000001",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/branch/get/ifscCode?ifscCode=MAVK0000001",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"branch",
+								"get",
+								"ifscCode"
+							],
+							"query": [
+								{
+									"key": "ifscCode",
+									"value": "MAVK0000001"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/branch/get-one/2",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/branch/get-one/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"branch",
+								"get-one",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/branch/get-all",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/branch/get-all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"branch",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "accoutType",
+			"item": [
+				{
+					"name": "localhost:8080/api/accountType/post",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"STUDENT\",\r\n    \"initialDeposit\": 1000.00\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/accountType/post",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accountType",
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/accountType/put/2",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"initialDeposit\":10000.00\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/accountType/put/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accountType",
+								"put",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/accountType/get-all",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/accountType/get-all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accountType",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/accountType/get/type?type=STUDENT",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/accountType/get/type?type=STUDENT",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accountType",
+								"get",
+								"type"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "STUDENT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/accountType/get-one/2",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/accountType/get-one/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"accountType",
+								"get-one",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "account",
+			"item": [
+				{
+					"name": "localhost:8080/api/account/post/4/MAVK0000002/CURRENT",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"panNumber\": \"QRSTU3456V\",\r\n    \"aadharNumber\": \"456789012345\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/account/post/4/MAVK0000002/CURRENT",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"account",
+								"post",
+								"4",
+								"MAVK0000002",
+								"CURRENT"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/account/get-all",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/account/get-all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"account",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "document",
+			"item": [
+				{
+					"name": "localhost:8080/api/document/post/1",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"panDocLink\":\"demoLinkPanCustomer1\",\r\n    \"aadharDocLink\":\"demoLinkAadharCustomer1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/document/post/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"document",
+								"post",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/document/get/customerId?customerId=1",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/document/get/customerId?customerId=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"document",
+								"get",
+								"customerId"
+							],
+							"query": [
+								{
+									"key": "customerId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/document/get-all",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/document/get-all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"document",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
