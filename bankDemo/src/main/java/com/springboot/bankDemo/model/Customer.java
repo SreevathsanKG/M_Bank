@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 
@@ -27,6 +28,8 @@ public class Customer {
 	private String address;
 	@Column(nullable = false)
 	private LocalDate registrationDate;
+	@OneToOne(optional = false)
+	private User user;
 	
 	public int getId() { return id; }
 	public void setId(int id) { this.id = id; }
@@ -42,5 +45,7 @@ public class Customer {
 	public void setAddress(String address) { this.address = address; }
 	public LocalDate getRegistrationDate() { return registrationDate; } 
 	public void setRegistrationDate(LocalDate registrationDate) { this.registrationDate = registrationDate; }
-		
+	public User getUser() { return user; }
+	public void setUser(User user) { this.user = user; }
+	
 }

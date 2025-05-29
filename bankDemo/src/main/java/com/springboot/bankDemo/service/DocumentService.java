@@ -22,10 +22,15 @@ public class DocumentService {
 	}
 
 	// insert document
-	public Document postDocument(int customerId, Document document) {
-		Customer customer = customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("Invalid Customer ID"));
+	public Document postDocument(String username, Document document) {
+		Customer customer = customerRepository.getCustomerByUsername(username);
 		document.setCustomer(customer);
 		return documentRepository.save(document);
+	}
+	
+	// update document
+	public Document putDocument() {
+		return null;
 	}
 
 	// fetch document by customer id
@@ -40,5 +45,21 @@ public class DocumentService {
 	// fetch all document
 	public List<Document> getAll() {
 		return documentRepository.findAll();
+	}
+
+	public Document putDocument(String username, Document document) {
+		Customer customer = customerRepository.getCustomerByUsername(username);
+		Document dbDocument = documentRepository.getByCustomerId(customer.getId()).orElseThrow(() -> new RuntimeException("ID is Invalid"));
+		if(document.getPanDocLink() != null)
+			dbDocument.setPanDocLink(document.getPanDocLink());
+		if(document.getAadharDocLink() != null)
+			dbDocument.setAadharDocLink(document.getAadharDocLink());
+		return documentRepository.save(dbDocument);
+	}
+
+	public Object getDocByUsername(String username) throws ResourceNotFoundException {
+		Customer customer = customerRepository.getCustomerByUsername(username);
+		return documentRepository.getByCustomerId(customer.getId())			
+				.orElseThrow(() -> new ResourceNotFoundException("Resource not found for given Customer Id"));
 	}
 }

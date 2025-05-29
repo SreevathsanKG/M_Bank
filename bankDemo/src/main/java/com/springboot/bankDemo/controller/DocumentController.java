@@ -1,16 +1,16 @@
 package com.springboot.bankDemo.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.bankDemo.exception.ResourceNotFoundException;
@@ -25,27 +25,42 @@ public class DocumentController {
 	private DocumentService documentService;
 	
 	/*
-	 * AIM: to insert document of customer 
+	 * AIM: to insert document of customer by loggedIn credentials 
 	 * METHOD: POST 
-	 * PARAM: Document -> RequestBody, customerId -> PathVariable
+	 * PARAM: Document -> RequestBody, Principal
 	 * RESPONSE: Document 
-	 * PATH: /api/document/post/{customerId}
+	 * PATH: /api/document/post
 	 */
-	@PostMapping("/post/{customerId}")
-	public Document postDocument(@PathVariable int customerId, @RequestBody Document document) {
-		return documentService.postDocument(customerId, document);
+	@PostMapping("/post")
+	public Document postDocument(Principal principal, @RequestBody Document document) {
+		String username = principal.getName();
+		return documentService.postDocument(username, document);
 	}
 	
 	/*
-	 * AIM: fetch document by customer id
-	 * METHOD: GET 
-	 * PARAM: customerId -> RequestParam
+	 * AIM: update customer by loggedIn credentials 
+	 * METHOD: PUT 
+	 * PARAM: Document -> RequestBody, Principal
 	 * RESPONSE: Document 
-	 * PATH: /api/document/get/customerId?customerIf=3
+	 * PATH: /api/document/put
 	 */
-	@GetMapping("/get/customerId")
-	public ResponseEntity<?> getByCustomerId(@RequestParam int customerId) throws ResourceNotFoundException {
-		return ResponseEntity.status(HttpStatus.OK).body(documentService.getByCustomerId(customerId));
+	@PutMapping("/put")
+	public Document putDocument(Principal principal, @RequestBody Document document) {
+		String username = principal.getName();
+		return documentService.putDocument(username, document);
+	}
+	
+	/*
+	 * AIM: fetch document by customer loggedIn credential
+	 * METHOD: GET 
+	 * PARAM: Principal
+	 * RESPONSE: Document 
+	 * PATH: /api/document/get-one
+	 */
+	@GetMapping("/get-one")
+	public ResponseEntity<?> getDocByUsername(Principal principal) throws ResourceNotFoundException {
+		String username = principal.getName();
+		return ResponseEntity.status(HttpStatus.OK).body(documentService.getDocByUsername(username));
 	}
 	
 	/*

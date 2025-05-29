@@ -27,6 +27,7 @@ public class BranchController {
 	 * PARAM: Branch -> RequestBody
 	 * RESPONSE: Branch
 	 * PATH: /api/branch/post
+	 * ACCESS: GM
 	 * */
 	@PostMapping("/post")
 	public Branch postBranch(@RequestBody Branch branch) {

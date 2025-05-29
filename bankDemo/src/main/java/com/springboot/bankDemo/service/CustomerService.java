@@ -5,19 +5,27 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.springboot.bankDemo.model.Customer;
+import com.springboot.bankDemo.model.User;
 import com.springboot.bankDemo.repository.CustomerRepository;
 
 @Service
 public class CustomerService {
 
 	private CustomerRepository customerRepository;
+	private UserService userService;
 
-	public CustomerService(CustomerRepository customerRepository) {
+	public CustomerService(CustomerRepository customerRepository, UserService userService) {
+		super();
 		this.customerRepository = customerRepository;
+		this.userService = userService;
 	}
 
 	// insert values into customer
 	public Customer postCustomer(Customer customer) {
+		User user = customer.getUser();
+		user.setRole("CUSTOMER");
+		user = userService.signUp(user);
+		customer.setUser(user);
 		return customerRepository.save(customer);
 	}
 
@@ -32,8 +40,8 @@ public class CustomerService {
 	}
 
 	// update customer
-	public Customer putCustomer(int id, Customer updatedCustomer) {
-		Customer dbCustomer = customerRepository.findById(id).orElseThrow(()-> new RuntimeException("ID is Invalid"));
+	public Customer putCustomer(String username, Customer updatedCustomer) {
+		Customer dbCustomer = customerRepository.getCustomerByUsername(username);
 		if(updatedCustomer.getFirstName() != null)
 			dbCustomer.setFirstName(updatedCustomer.getFirstName());
 		if(updatedCustomer.getLastName() != null)
@@ -45,5 +53,9 @@ public class CustomerService {
 		if(updatedCustomer.getAddress() != null)
 			dbCustomer.setAddress(updatedCustomer.getAddress());
 		return customerRepository.save(dbCustomer);
+	}
+
+	public Customer getCustomerByUsername(String username) {
+		return customerRepository.getCustomerByUsername(username);
 	}
 }

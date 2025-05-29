@@ -1,10 +1,10 @@
 package com.springboot.bankDemo.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,27 +22,28 @@ public class CustomerController {
 	private CustomerService customerService;
 
 	/*
-	 * AIM: to insert values to customer 
+	 * AIM: to insert values to customer with user info
 	 * METHOD: POST 
 	 * PARAM: Customer -> RequestBody
 	 * RESPONSE: Customer 
 	 * PATH: /api/customer/post
 	 */
 	@PostMapping("/post")
-	public Customer postustomer(@RequestBody Customer customer) {
+	public Customer postCustomer(@RequestBody Customer customer) {
 		return customerService.postCustomer(customer);
 	}
 
 	/*
-	 * AIM: fetch customer by id 
+	 * AIM: fetch customer by loggedIn credentials
 	 * METHOD: GET 
 	 * PARAM: Customer -> PathVariable
 	 * RESPONSE: Customer 
-	 * PATH: /api/customer/get-one/{id}
+	 * PATH: /api/customer/get-one
 	 */
-	@GetMapping("/get-one/{id}")
-	public Customer getCustomerById(@PathVariable int id) {
-		return customerService.getCustomerByID(id);
+	@GetMapping("/get-one")
+	public Customer getCustomerByUsername(Principal principal) {
+		String username = principal.getName();
+		return customerService.getCustomerByUsername(username);
 	}
 
 	/*
@@ -57,14 +58,15 @@ public class CustomerController {
 		return customerService.getAll();
 	}
 	/*
-	 * AIM: update customer
+	 * AIM: update customer by loggedIn credential
 	 * METHOD: PUT
 	 * PARAM: CustomerId -> PathVariable, Customer -> RequestBody
 	 * RESPONSE: Customer
-	 * PATH: /api/customer/put/{id}
+	 * PATH: /api/customer/put
 	 * */
-	@PutMapping("/put/{id}")
-	public Customer putCustomer(@PathVariable int id, @RequestBody Customer updatedCustomer) {
-		return customerService.putCustomer(id, updatedCustomer);
+	@PutMapping("/put")
+	public Customer putCustomer(Principal principal, @RequestBody Customer updatedCustomer) {
+		String username = principal.getName();
+		return customerService.putCustomer(username, updatedCustomer);
 	}
 }

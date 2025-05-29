@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.springboot.bankDemo.exception.ResourceNotFoundException;
 import com.springboot.bankDemo.model.Beneficiary;
 import com.springboot.bankDemo.model.Customer;
 import com.springboot.bankDemo.repository.BeneficiaryRepository;
@@ -30,7 +31,7 @@ public class BeneficiaryService {
 	// update beneficiary
 	public Beneficiary putBeneficiary(int id, int customerId, Beneficiary beneficiary) {
 		Beneficiary dbBeneficiary = beneficiaryRepository.findById(id).orElseThrow(() -> new RuntimeException("ID is Invalid"));
-		Customer customer = customerRepository.findById(id).orElseThrow(() -> new RuntimeException("ID is Invalid"));
+		Customer customer = customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer ID is Invalid"));
 		if(beneficiary.getName() != null)
 			dbBeneficiary.setName(beneficiary.getName());
 		if(beneficiary.getAccountNumber() != null)
@@ -43,6 +44,20 @@ public class BeneficiaryService {
 			dbBeneficiary.setDescription(beneficiary.getDescription());
 		dbBeneficiary.setCustomer(customer);
 		return beneficiaryRepository.save(dbBeneficiary);
+	}
+	
+	// fetch by customer id
+	public Beneficiary getByCustomerId(int customerId) throws ResourceNotFoundException {
+		customerRepository.findById(customerId).orElseThrow(() -> new RuntimeException("Customer ID is Invalid"));
+		return beneficiaryRepository.getByCustomerId(customerId)
+				.orElseThrow(() -> new ResourceNotFoundException("Resource not found"));  // user writes JPQL
+//		return beneficiaryRepository.findByCustomerId(customerId)
+//				.orElseThrow(() -> new ResourceNotFoundException("Resource not found"));  // Jpa writes JPQL
+	}
+	
+	// fetch by id
+	public Beneficiary getById(int id) {
+		return beneficiaryRepository.findById(id).orElseThrow(() -> new RuntimeException("ID is Invalid"));
 	}
 	
 	// fetch all beneficiary
