@@ -20,7 +20,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"first_name\": \"Suresh\",\r\n    \"last_name\": \"Reddy\",\r\n    \"email\": \"suresh.r@example.com\",\r\n    \"phone_number\": \"9012345678\",\r\n    \"address\": \"15, Bharathi Street, Anna Nagar East, Chennai - 600040\",\r\n    \"registration_date\": \"2025-05-27\"\r\n  }",
+							"raw": "{\r\n    \"firstName\": \"Ravi\",\r\n    \"lastName\": \"Kumar\",\r\n    \"email\": \"ravi@example.com\",\r\n    \"phoneNumber\": \"9876512345\",\r\n    \"address\": \"45, 3rd Cross Street, Anna Nagar West, Chennai - 600040\",\r\n    \"registrationDate\": \"2025-05-28\",\r\n    \"user\":{\r\n        \"username\":\"ravi@example.com\",\r\n        \"password\":\"ravi@123\"\r\n    }\r\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,15 +44,27 @@
 					"response": []
 				},
 				{
-					"name": "localhost:8080/api/customer/get-one/5",
+					"name": "localhost:8080/api/customer/get-one",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "suresh@123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "suresh@example.com",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/api/customer/get-one/3",
+							"raw": "localhost:8080/api/customer/get-one",
 							"host": [
 								"localhost"
 							],
@@ -60,8 +72,7 @@
 							"path": [
 								"api",
 								"customer",
-								"get-one",
-								"3"
+								"get-one"
 							]
 						}
 					},
@@ -94,13 +105,25 @@
 					"name": "localhost:8080/api/customer/put/3",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ravi@123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ravi@example.com",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\":\"Vimal\",\r\n    \"email\":\"vimal.p@example.com\"\r\n}",
+							"raw": "{\r\n    \"lastName\":\"Karthick\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -108,7 +131,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/customer/put/3",
+							"raw": "localhost:8080/api/customer/put",
 							"host": [
 								"localhost"
 							],
@@ -116,8 +139,7 @@
 							"path": [
 								"api",
 								"customer",
-								"put",
-								"3"
+								"put"
 							]
 						}
 					},
@@ -132,13 +154,25 @@
 					"name": "localhost:8080/api/branch/add",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "m_bank@2004",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "m_bank@mavk.com",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n    \"ifscCode\": \"MAVK0000002\",\r\n    \"branchName\": \"Tambaram Sanatorium Branch\",\r\n    \"address\": \"56, GST Road, Tambaram Sanatorium, Chennai - 600047\",\r\n    \"email\": \"tambaram.sana@maverickbank.com\",\r\n    \"phoneNumber\": \"04422230002\"\r\n  }",
+							"raw": "{\r\n    \"ifscCode\": \"MAVK0000002\",\r\n    \"branchName\": \"Tambaram Sanatorium Branch\",\r\n    \"address\": \"56, GST Road, Tambaram Sanatorium, Chennai - 600047\",\r\n    \"email\": \"tambaram.sana@maverickbank.com\",\r\n    \"phoneNumber\": \"04422230002\"\r\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -191,6 +225,29 @@
 					"response": []
 				},
 				{
+					"name": "localhost:8080/api/branch/get-all",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/branch/get-all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"branch",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "localhost:8080/api/branch/get-one/2",
 					"request": {
 						"auth": {
@@ -209,29 +266,6 @@
 								"branch",
 								"get-one",
 								"2"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "localhost:8080/api/branch/get-all",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/api/branch/get-all",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"branch",
-								"get-all"
 							]
 						}
 					},
@@ -456,13 +490,25 @@
 					"name": "localhost:8080/api/document/post/1",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ravi@123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ravi@example.com",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"panDocLink\":\"demoLinkPanCustomer1\",\r\n    \"aadharDocLink\":\"demoLinkAadharCustomer1\"\r\n}",
+							"raw": "{\r\n    \"panDocLink\":\"demoLinkPanCustomer2\",\r\n    \"aadharDocLink\":\"demoLinkAadharCustomer2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -470,7 +516,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/document/post/1",
+							"raw": "localhost:8080/api/document/post",
 							"host": [
 								"localhost"
 							],
@@ -478,8 +524,7 @@
 							"path": [
 								"api",
 								"document",
-								"post",
-								"1"
+								"post"
 							]
 						}
 					},
@@ -489,12 +534,24 @@
 					"name": "localhost:8080/api/document/get/customerId?customerId=1",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "suresh@123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "suresh@example.com",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/api/document/get/customerId?customerId=1",
+							"raw": "localhost:8080/api/document/get-one",
 							"host": [
 								"localhost"
 							],
@@ -502,14 +559,7 @@
 							"path": [
 								"api",
 								"document",
-								"get",
-								"customerId"
-							],
-							"query": [
-								{
-									"key": "customerId",
-									"value": "1"
-								}
+								"get-one"
 							]
 						}
 					},
@@ -532,6 +582,214 @@
 							"path": [
 								"api",
 								"document",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/document/put",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ravi@123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ravi@example.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"panDocLink\":\"panDocLinkCustomer2update\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/document/put",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"document",
+								"put"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "manager",
+			"item": [
+				{
+					"name": "localhost:8080/api/manager/post/2",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "m_bank@2004",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "m_bank@mavk.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"firstName\": \"Divya\",\r\n    \"lastName\": \"Menon\",\r\n    \"email\": \"divya_bm@mavk.com\",\r\n    \"phoneNumber\": \"9123456789\",\r\n    \"address\": \"44, Thilagar Street, Tambaram Sanatorium, Chennai - 600047\",\r\n    \"branch\": { \"ifscCode\": \"MAVK0000002\" },\r\n    \"user\": {\r\n      \"username\": \"divya_bm@mavk.com\",\r\n      \"password\": \"Divya@1234\"\r\n    }\r\n\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/manager/post/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"manager",
+								"post",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/manager/put",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Ravi@1234",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ravi_bm@mavk.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"address\": \"12, 1st Cross Street, Anna Nagar, Chennai - 600040\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/manager/put",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"manager",
+								"put"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/manager/get-one",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Ravi@1234",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ravi_bm@mavk.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/manager/get-one",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"manager",
+								"get-one"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/manager/get-all",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "m_bank@2004",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "m_bank@mavk.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/manager/get-all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"manager",
 								"get-all"
 							]
 						}

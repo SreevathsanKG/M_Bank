@@ -35,6 +35,12 @@ public class SecurityConfig {
 					.requestMatchers("/api/branch/post").hasAuthority("GM")
 					.requestMatchers("/api/branch/get-all").permitAll()
 					.requestMatchers("/api/branch/get/ifscCode").permitAll()
+					// Manager 
+					.requestMatchers("/api/manager/post/{branchId}").hasAuthority("GM")
+					.requestMatchers("/api/manager/put").hasAuthority("MANAGER")
+					.requestMatchers("/api/manager/get-one").hasAuthority("MANAGER")
+					.requestMatchers("/api/manager/get-all").hasAuthority("GM")
+					
 					.anyRequest().authenticated()
 			 )
 			.httpBasic(Customizer.withDefaults());
