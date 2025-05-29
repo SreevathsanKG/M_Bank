@@ -50,7 +50,7 @@ public class ManagerService {
 	}
 
 	// get manager by username
-	public Manager getManagerByUsername(String username) {
+	public Manager getByUsername(String username) {
 		return managerRepository.getManagerByUsername(username);
 	}
 

@@ -21,13 +21,13 @@ public class SecurityConfig {
 					// Customer
 					.requestMatchers("/api/customer/post").permitAll()
 					.requestMatchers("/api/customer/get-one").hasAuthority("CUSTOMER")
-					.requestMatchers("/api/customer/get-all").permitAll()
+					.requestMatchers("/api/customer/get-all").hasAuthority("GM")
 					.requestMatchers("/api/customer/put").hasAuthority("CUSTOMER")
 					// Document
 					.requestMatchers("/api/document/post").hasAuthority("CUSTOMER")
 					.requestMatchers("/api/document/put").hasAuthority("CUSTOMER")
 					.requestMatchers("/api/document/get-one").hasAuthority("CUSTOMER")
-					.requestMatchers("/api/document/get-all").permitAll()
+					.requestMatchers("/api/document/get-all").hasAuthority("GM")
 					//Beneficiary
 					.requestMatchers("/api/beneficiary/post").hasAuthority("CUSTOMER")
 					.requestMatchers("/api/beneficiary/put").hasAuthority("CUSTOMER")
@@ -40,6 +40,12 @@ public class SecurityConfig {
 					.requestMatchers("/api/manager/put").hasAuthority("MANAGER")
 					.requestMatchers("/api/manager/get-one").hasAuthority("MANAGER")
 					.requestMatchers("/api/manager/get-all").hasAuthority("GM")
+					// CustomerExecutive
+					.requestMatchers("api/ce/post/{branchId}").hasAnyAuthority("MANAGER","GM")
+					.requestMatchers("/api/ce/put").hasAuthority("CUSTOMER_EXECUTIVE")
+					.requestMatchers("/api/ce/get-one").hasAuthority("CUSTOMER_EXECUTIVE")
+					.requestMatchers("/api/ce/get-all").hasAuthority("GM")
+					.requestMatchers("/api/ce/get/{branchId}").hasAnyAuthority("MANAGER","GM")
 					
 					.anyRequest().authenticated()
 			 )

@@ -25,9 +25,9 @@ public class ManagerController {
 	/*
 	 * AIM: manager inserted by GM
 	 * METHOD: POST 
-	 * PARAM: Document -> RequestBody, branchId -> Pathvariable 
-	 * RESPONSE: Document 
-	 * PATH: /api/document/post/{branchId}
+	 * PARAM: Manager -> RequestBody, branchId -> Pathvariable 
+	 * RESPONSE: Manager 
+	 * PATH: /api/anager/post/{branchId}
 	 * ACCESS: GM
 	 */
 	@PostMapping("/post/{branchId}")
@@ -38,9 +38,9 @@ public class ManagerController {
 	/*
 	 * AIM: update manager data 
 	 * METHOD: PUT 
-	 * PARAM: Document -> RequestBody, Username -> Principal
-	 * RESPONSE: Document 
-	 * PATH: /api/document/put
+	 * PARAM: Manager -> RequestBody, Username -> Principal
+	 * RESPONSE: manager 
+	 * PATH: /api/manager/put
 	 */
 	@PutMapping("/put")
 	public Manager putManager(Principal principal, @RequestBody Manager manager) {
@@ -52,20 +52,20 @@ public class ManagerController {
 	 * AIM: get manager ny username 
 	 * METHOD: GET
 	 * PARAM: Username ->Principal
-	 * RESPONSE: Document 
-	 * PATH: /api/document/get-one
+	 * RESPONSE: Manager 
+	 * PATH: /api/manager/get-one
 	 */
 	@GetMapping("/get-one")
-	public Manager getManagerbyUsername(Principal principal) {
+	public Manager getbyUsername(Principal principal) {
 		String username = principal.getName();
-		return managerService.getManagerByUsername(username);
+		return managerService.getByUsername(username);
 	}
 	
 	/*
 	 * AIM: fetch all manager
 	 * METHOD: GET
-	 * RESPONSE: Document 
-	 * PATH: /api/document/get-all
+	 * RESPONSE: Manager 
+	 * PATH: /api/manager/get-all
 	 */
 	@GetMapping("/get-all")
 	public List<Manager> getAll() {

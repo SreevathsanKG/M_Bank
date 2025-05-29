@@ -797,6 +797,175 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "customerExecutive",
+			"item": [
+				{
+					"name": "localhost:8080/api/ce/post/1",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "m_bank@2004",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "m_bank@mavk.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Meena\",\r\n    \"lastName\": \"Rao\",\r\n    \"email\": \"meena_ce@mavk.com\",\r\n    \"phoneNumber\": \"9876012345\",\r\n    \"address\": \"10, 3rd Street, Anna Nagar, Chennai - 600040\",\r\n    \"user\": {\r\n      \"username\": \"meena_ce@mavk.com\",\r\n      \"password\": \"Meena@1234\"\r\n    }\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/ce/post/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"ce",
+								"post",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/ce/put",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "Meena@1234",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "meena_ce@mavk.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"lastName\":\"Lakshmi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/ce/put",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"ce",
+								"put"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/ce/get-all",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "m_bank@mavk.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "m_bank@2004",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/ce/get-all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"ce",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/ce/get/1",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "m_bank@mavk.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "m_bank@2004",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/ce/get/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"ce",
+								"get",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "New Folder",
+			"item": []
 		}
 	]
 }
