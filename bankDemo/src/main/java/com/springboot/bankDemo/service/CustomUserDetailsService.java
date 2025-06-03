@@ -22,6 +22,8 @@ public class CustomUserDetailsService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepository.getByUsername(username);
+		if (user == null)
+			throw new UsernameNotFoundException("Invalid Credentials");
 		SimpleGrantedAuthority sga = new SimpleGrantedAuthority(user.getRole());
 		List<GrantedAuthority> list = List.of(sga);
 		org.springframework.security.core.userdetails.User springUser = new 

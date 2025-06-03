@@ -47,16 +47,11 @@
 					"name": "localhost:8080/api/customer/get-one",
 					"request": {
 						"auth": {
-							"type": "basic",
-							"basic": [
+							"type": "bearer",
+							"bearer": [
 								{
-									"key": "password",
-									"value": "suresh@123",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "suresh@example.com",
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXJlc2hAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDg3OTA0MDcsImV4cCI6MTc0ODgzMzYwN30.a-2lohzSP4GXsbDwd8bVI8Ep2v9vWpR795q8di8Lycg",
 									"type": "string"
 								}
 							]
@@ -280,13 +275,25 @@
 					"name": "localhost:8080/api/accountType/post",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "m_bank@2004",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "m_bank@mavk.com",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"type\": \"STUDENT\",\r\n    \"initialDeposit\": 1000.00\r\n  }",
+							"raw": "{\r\n    \"type\": \"BUSINESS\",\r\n    \"initialDeposit\": 25000.00\r\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -427,13 +434,25 @@
 					"name": "localhost:8080/api/account/post/4/MAVK0000002/CURRENT",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "m_bank@2004",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "m_bank@mavk.com",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"panNumber\": \"QRSTU3456V\",\r\n    \"aadharNumber\": \"456789012345\"\r\n}",
+							"raw": "{\r\n    \"panNumber\": \"FGHIJ5678K\",\r\n    \"aadharNumber\": \"234567890123\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -441,7 +460,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/account/post/4/MAVK0000002/CURRENT",
+							"raw": "localhost:8080/api/account/post/2/?ifscCode=MAVK0000002&type=CURRENT",
 							"host": [
 								"localhost"
 							],
@@ -450,9 +469,289 @@
 								"api",
 								"account",
 								"post",
-								"4",
-								"MAVK0000002",
-								"CURRENT"
+								"2",
+								""
+							],
+							"query": [
+								{
+									"key": "ifscCode",
+									"value": "MAVK0000002"
+								},
+								{
+									"key": "type",
+									"value": "CURRENT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/account/get-all",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/account/get-all",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"account",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/account/post/MAVK0000002/CURRENT",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ravi@123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ravi@example.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"panNumber\": \"FGHIJ5678K\",\r\n    \"aadharNumber\": \"234567890123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/account/post/?ifscCode=MAVK0000002&type=CURRENT",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"account",
+								"post",
+								""
+							],
+							"query": [
+								{
+									"key": "ifscCode",
+									"value": "MAVK0000002"
+								},
+								{
+									"key": "type",
+									"value": "CURRENT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/account/put/status/{accountId}/?status=ACTIVE",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/account/put/status/2/?status=ACTIVE",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"account",
+								"put",
+								"status",
+								"2",
+								""
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "ACTIVE"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/account/put/balance/{accountId}/?amtToAdd=100",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/account/put/balance/2/?amtToAdd=100",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"account",
+								"put",
+								"balance",
+								"2",
+								""
+							],
+							"query": [
+								{
+									"key": "amtToAdd",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/account/get/id/2",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "/api/account/get/id/2",
+							"path": [
+								"api",
+								"account",
+								"get",
+								"id",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/account/get/customerId/2",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/account/get/customerId/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"account",
+								"get",
+								"customerId",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/account/get/ifsc?ifscCode=MAVK0000001",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/account/get/ifsc?ifscCode=MAVK0000001",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"account",
+								"get",
+								"ifsc"
+							],
+							"query": [
+								{
+									"key": "ifscCode",
+									"value": "MAVK0000001"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/account/get-one",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/account/get-one",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"account",
+								"get-one"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/account/get/status?status:ACTIVE",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/account/get/status?status:ACTIVE",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"account",
+								"get",
+								"status"
+							],
+							"query": [
+								{
+									"key": "status:ACTIVE",
+									"value": null
+								}
 							]
 						}
 					},
@@ -667,7 +966,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/manager/post/2",
+							"raw": "localhost:8080/api/manager/post/branchId?branchId=1",
 							"host": [
 								"localhost"
 							],
@@ -676,7 +975,13 @@
 								"api",
 								"manager",
 								"post",
-								"2"
+								"branchId"
+							],
+							"query": [
+								{
+									"key": "branchId",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -799,7 +1104,7 @@
 			]
 		},
 		{
-			"name": "customerExecutive",
+			"name": "executive",
 			"item": [
 				{
 					"name": "localhost:8080/api/ce/post/1",
@@ -823,7 +1128,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Meena\",\r\n    \"lastName\": \"Rao\",\r\n    \"email\": \"meena_ce@mavk.com\",\r\n    \"phoneNumber\": \"9876012345\",\r\n    \"address\": \"10, 3rd Street, Anna Nagar, Chennai - 600040\",\r\n    \"user\": {\r\n      \"username\": \"meena_ce@mavk.com\",\r\n      \"password\": \"Meena@1234\"\r\n    }\r\n  }",
+							"raw": "{\r\n    \"firstName\": \"Rahul\",\r\n    \"lastName\": \"Sinha\",\r\n    \"email\": \"rahul_ce@mavk.com\",\r\n    \"phoneNumber\": \"9876023456\",\r\n    \"address\": \"22, 5th Avenue, Anna Nagar, Chennai - 600040\",\r\n    \"branch\": { \"ifscCode\": \"MAVK0000001\" },\r\n    \"user\": {\r\n      \"username\": \"rahul_ce2@mavk.com\",\r\n      \"password\": \"rahul@1234\"\r\n    }\r\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -831,16 +1136,23 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/ce/post/1",
+							"raw": "localhost:8080/api/executive/post/2/?role=SALES_EXECUTIVE",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"api",
-								"ce",
+								"executive",
 								"post",
-								"1"
+								"2",
+								""
+							],
+							"query": [
+								{
+									"key": "role",
+									"value": "SALES_EXECUTIVE"
+								}
 							]
 						}
 					},
@@ -876,14 +1188,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/ce/put",
+							"raw": "localhost:8080/api/executive/put",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"api",
-								"ce",
+								"executive",
 								"put"
 							]
 						}
@@ -911,15 +1223,25 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/api/ce/get-all",
+							"raw": "localhost:8080/api/executive/get-all?page=0&size=3",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"api",
-								"ce",
+								"executive",
 								"get-all"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "3"
+								}
 							]
 						}
 					},
@@ -946,16 +1268,88 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/api/ce/get/1",
+							"raw": "localhost:8080/api/executive/get/1",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
 								"api",
-								"ce",
+								"executive",
 								"get",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/executive/get/2",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "m_bank@2004",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "m_bank@mavk.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/executive/get/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"executive",
+								"get",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/executive/get/roles",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "m_bank@2004",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "m_bank@mavk.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/executive/get/roles",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"executive",
+								"get",
+								"roles"
 							]
 						}
 					},
@@ -964,8 +1358,74 @@
 			]
 		},
 		{
-			"name": "New Folder",
-			"item": []
+			"name": "User",
+			"item": [
+				{
+					"name": "localhost:8080/api/user/token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJkYXZpZEBnbWFpbC5jb20iLCJpYXQiOjE3NDg2MDYwODQsImV4cCI6MTc0ODY0OTI4NH0.dw_Vh2YwOkWaZBqJtzhvFJAs0X_CkP9s-Yl9eDw_1BA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/user/token",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/user/details",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "meena@1234",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "meena_ce@mavk.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/user/details",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user",
+								"details"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

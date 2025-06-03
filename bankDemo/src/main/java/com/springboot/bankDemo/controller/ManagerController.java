@@ -25,12 +25,12 @@ public class ManagerController {
 	/*
 	 * AIM: manager inserted by GM
 	 * METHOD: POST 
-	 * PARAM: Manager -> RequestBody, branchId -> Pathvariable 
+	 * PARAM: Manager -> RequestBody, branchId -> RequestParam
 	 * RESPONSE: Manager 
-	 * PATH: /api/anager/post/{branchId}
+	 * PATH: /api/anager/post/branchId?branchId=1
 	 * ACCESS: GM
 	 */
-	@PostMapping("/post/{branchId}")
+	@PostMapping("/post/branchId")
 	public Manager postManager(@PathVariable int branchId, @RequestBody Manager manager) {
 		return managerService.postManager(branchId, manager);
 	}
