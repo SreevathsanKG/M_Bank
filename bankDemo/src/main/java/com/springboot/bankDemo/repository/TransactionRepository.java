@@ -1,8 +1,11 @@
 package com.springboot.bankDemo.repository;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -10,12 +13,22 @@ import com.springboot.bankDemo.model.Transaction;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Integer>{
 
+	@Query("select t from Transaction t where t.account.id=?1 and t.transactionDate between ?2 and ?3")
+	List<Transaction> getTxnBtwDateByAccId(int accountId, LocalDate fromDate, LocalDate tillDate, Pageable pageable);
+	
+	@Query("select t from Transaction t where t.account.id=?1 and t.transactionDate>=?2")
+	List<Transaction> getTxnFromDateByAccId(int accountId, LocalDate fromDate, Pageable pageable);
+	
+	@Query("select t from Transaction t where t.account.id=?1")
+	List<Transaction> getLast10TxnByAccId(int accountId, PageRequest limit);
+	
+	
+	
+	
 	@Query("select t from Transaction t where t.transactionDate between ?1 and ?2")
 	List<Transaction> getTransactionBetweenDate(Date fromDate, Date tillDate);
-
+	
 	@Query("select t from Transaction t where t.transactionDate>=?1")
 	List<Transaction> getTransactionFromDate(Date fromDate);
 
-	@Query("select t from Transaction t where t.transactionDate<=?1")
-	List<Transaction> getTransactionTillDate(Date tillDate);
 }

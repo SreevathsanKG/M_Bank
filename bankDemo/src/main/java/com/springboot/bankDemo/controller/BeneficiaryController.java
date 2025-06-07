@@ -1,8 +1,12 @@
 package com.springboot.bankDemo.controller;
 
+import java.security.Principal;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,15 +27,16 @@ public class BeneficiaryController {
 	private BeneficiaryService beneficiaryService;
 	
 	/*
-	 * AIM: to insert values into beneficiary
+	 * AIM: to insert values into beneficiary by user log cred
 	 * METHOD: POST
-	 * PARAM: Beneficiary -> RequestBody, CustomerId -> PathVariable
+	 * PARAM: Beneficiary -> RequestBody, Principal
 	 * RESPONSE: Beneficiary
-	 * PATH: /api/beneficiary/post/{customerId}
+	 * PATH: /api/beneficiary/post
 	 * */
-	@PostMapping("/post/{customerId}")
-	public ResponseEntity<?> postBeneficiary(@PathVariable int customerId, @RequestBody Beneficiary beneficiary) {
-		return ResponseEntity.status(HttpStatus.OK).body(beneficiaryService.postBeneficiary(customerId, beneficiary));
+	@PostMapping("/post")
+	public ResponseEntity<?> postBeneficiary(Principal principal, @RequestBody Beneficiary beneficiary) {
+		String username = principal.getName();
+		return ResponseEntity.status(HttpStatus.OK).body(beneficiaryService.postBeneficiary(username, beneficiary));
 	}
 	
 	/*
@@ -48,14 +53,38 @@ public class BeneficiaryController {
 	}
 	
 	/*
-	 * AIM: fetch beneficiary by customerId
-	 * METHOD: POST
-	 * PARAM: Beneficiary -> RequestBody, CustomerId -> PathVariable
-	 * RESPONSE: Beneficiary
-	 * PATH: /api/beneficiary/get/{customerId}
+	 * AIM: fetch beneficiary by customer log cred
+	 * METHOD: GET
+	 * PARAM: Principal
+	 * RESPONSE: List<Beneficiary>
+	 * PATH: /api/beneficiary/get
 	 * */
-	@GetMapping("/get/{customerId}")
-	public Beneficiary getByCustomerId(@PathVariable int customerId) throws ResourceNotFoundException {
-		return beneficiaryService.getByCustomerId(customerId);
+	@GetMapping("/get")
+	public List<Beneficiary> getByCustomerUsername(Principal principal) throws ResourceNotFoundException {
+		String username = principal.getName();
+		return beneficiaryService.getByCustomerUsername(username);
+	}
+	
+	/*
+	 * AIM: fetch beneficiary by id
+	 * METHOD: GET
+	 * PARAM: Id -> PathVariable
+	 * RESPONSE: Beneficiary
+	 * PATH: /api/beneficiary/get-one/{id}
+	 * */
+	@GetMapping("/get-one/{id}")
+	public Beneficiary getById(@PathVariable int id) {
+		return beneficiaryService.getById(id);
+	}
+	
+	/*
+	 * AIM: delete beneficiary by id
+	 * METHOD: DELETE
+	 * PARAM: PathVaraible -> ID
+	 * PATH: /api/beneficiary/delete/{id}
+	 */
+	@DeleteMapping("/delete/{id}")
+	public void deleteById(@PathVariable int id) {
+		beneficiaryService.deleteById(id);
 	}
 }

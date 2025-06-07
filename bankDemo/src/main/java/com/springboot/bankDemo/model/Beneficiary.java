@@ -20,7 +20,7 @@ public class Beneficiary {
 	@Column(nullable = false)
 	private String name;
 	@Column(name = "account_number", nullable = false)
-	private String accountNumber;
+	private int accountNumber;
 	@Column(name = "ifsc_code", nullable = false)
 	private String ifscCode;
 	@Column(name = "branch_name", nullable = false)
@@ -35,8 +35,8 @@ public class Beneficiary {
 	public void setId(int id) { this.id = id; }
 	public String getName() { return name; }
 	public void setName(String name) { this.name = name; }
-	public String getAccountNumber() { return accountNumber; }
-	public void setAccountNumber(String accountNumber) { this.accountNumber = accountNumber; }
+	public int getAccountNumber() { return accountNumber; }
+	public void setAccountNumber(int accountNumber) { this.accountNumber = accountNumber; }
 	public String getIfscCode() { return ifscCode; }
 	public void setIfscCode(String ifscCode) { this.ifscCode = ifscCode; }
 	public String getBranchName() { return branchName; }

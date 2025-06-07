@@ -20,7 +20,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Ravi\",\r\n    \"lastName\": \"Kumar\",\r\n    \"email\": \"ravi@example.com\",\r\n    \"phoneNumber\": \"9876512345\",\r\n    \"address\": \"45, 3rd Cross Street, Anna Nagar West, Chennai - 600040\",\r\n    \"registrationDate\": \"2025-05-28\",\r\n    \"user\":{\r\n        \"username\":\"ravi@example.com\",\r\n        \"password\":\"ravi@123\"\r\n    }\r\n  }",
+							"raw": "{\r\n    \"firstName\": \"Arun\",\r\n    \"lastName\": \"Prasad\",\r\n    \"email\": \"arun@example.com\",\r\n    \"phoneNumber\": \"9988776655\",\r\n    \"address\": \"No. 20, Railway Colony, Tambaram Sanatorium, Chennai - 600047\",\r\n    \"registrationDate\": \"2025-05-28\",\r\n    \"user\":{\r\n        \"username\":\"arun@example.com\",\r\n        \"password\":\"arun@123\"\r\n    }\r\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -47,11 +47,16 @@
 					"name": "localhost:8080/api/customer/get-one",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
+							"type": "basic",
+							"basic": [
 								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzdXJlc2hAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDg3OTA0MDcsImV4cCI6MTc0ODgzMzYwN30.a-2lohzSP4GXsbDwd8bVI8Ep2v9vWpR795q8di8Lycg",
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
 									"type": "string"
 								}
 							]
@@ -59,7 +64,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/api/customer/get-one",
+							"raw": "localhost:8080/api/customer/get",
 							"host": [
 								"localhost"
 							],
@@ -67,7 +72,7 @@
 							"path": [
 								"api",
 								"customer",
-								"get-one"
+								"get"
 							]
 						}
 					},
@@ -77,7 +82,19 @@
 					"name": "localhost:8080/api/customer/get-all",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "m_bank@2004",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "m_bank@mavk.com",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -135,6 +152,42 @@
 								"api",
 								"customer",
 								"put"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/customer/get-one/1",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/customer/get-one/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"customer",
+								"get-one",
+								"1"
 							]
 						}
 					},
@@ -265,6 +318,51 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "localhost:8080/api/branch/put/1",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/branch/put/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"branch",
+								"put",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -293,7 +391,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"type\": \"BUSINESS\",\r\n    \"initialDeposit\": 25000.00\r\n  }",
+							"raw": "{\r\n    \"type\": \"STUDENT\",\r\n    \"initialDeposit\": 1000.00\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -452,7 +550,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"panNumber\": \"FGHIJ5678K\",\r\n    \"aadharNumber\": \"234567890123\"\r\n}",
+							"raw": "{\r\n    \"panNumber\": \"ABCDE1234F\",\r\n    \"aadharNumber\": \"123456789012\"\r\n  }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -460,7 +558,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/account/post/2/?ifscCode=MAVK0000002&type=CURRENT",
+							"raw": "localhost:8080/api/account/post/2/?ifscCode=MAVK0000002&type=SAVINGS",
 							"host": [
 								"localhost"
 							],
@@ -479,31 +577,8 @@
 								},
 								{
 									"key": "type",
-									"value": "CURRENT"
+									"value": "SAVINGS"
 								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "localhost:8080/api/account/get-all",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8080/api/account/get-all",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"account",
-								"get-all"
 							]
 						}
 					},
@@ -531,7 +606,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"panNumber\": \"FGHIJ5678K\",\r\n    \"aadharNumber\": \"234567890123\"\r\n}",
+							"raw": "{\r\n    \"panNumber\": \"ABCDE1234F\",\r\n    \"aadharNumber\": \"123456789012\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -539,7 +614,7 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/api/account/post/?ifscCode=MAVK0000002&type=CURRENT",
+							"raw": "localhost:8080/api/account/post/?ifscCode=MAVK0000001&type=SAVINGS",
 							"host": [
 								"localhost"
 							],
@@ -553,11 +628,11 @@
 							"query": [
 								{
 									"key": "ifscCode",
-									"value": "MAVK0000002"
+									"value": "MAVK0000001"
 								},
 								{
 									"key": "type",
-									"value": "CURRENT"
+									"value": "SAVINGS"
 								}
 							]
 						}
@@ -568,7 +643,19 @@
 					"name": "localhost:8080/api/account/put/status/{accountId}/?status=ACTIVE",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "m_bank@2004",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "m_bank@mavk.com",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
@@ -761,7 +848,19 @@
 					"name": "localhost:8080/api/account/get-all",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "m_bank@2004",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "m_bank@mavk.com",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -793,12 +892,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "ravi@123",
+									"value": "arun@123",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "ravi@example.com",
+									"value": "arun@example.com",
 									"type": "string"
 								}
 							]
@@ -807,7 +906,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"panDocLink\":\"demoLinkPanCustomer2\",\r\n    \"aadharDocLink\":\"demoLinkAadharCustomer2\"\r\n}",
+							"raw": "{\r\n    \"panDocLink\":\"demoLinkPanCustomerArun\",\r\n    \"aadharDocLink\":\"demoLinkAadharCustomerArun\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -830,7 +929,7 @@
 					"response": []
 				},
 				{
-					"name": "localhost:8080/api/document/get/customerId?customerId=1",
+					"name": "localhost:8080/api/document/get",
 					"request": {
 						"auth": {
 							"type": "basic",
@@ -850,7 +949,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/api/document/get-one",
+							"raw": "localhost:8080/api/document/get",
 							"host": [
 								"localhost"
 							],
@@ -858,7 +957,7 @@
 							"path": [
 								"api",
 								"document",
-								"get-one"
+								"get"
 							]
 						}
 					},
@@ -926,6 +1025,42 @@
 								"api",
 								"document",
 								"put"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/document/get-one/1",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/document/get-one/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"document",
+								"get-one",
+								"1"
 							]
 						}
 					},
@@ -1420,6 +1555,356 @@
 								"api",
 								"user",
 								"details"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "beneficiary",
+			"item": [
+				{
+					"name": "localhost:8080/api/beneficiary/post",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ravi@123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ravi@example.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"\",\r\n    \"accountNumber\":4,\r\n    \"ifscCode\":\"\",\r\n    \"branchName\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/beneficiary/post",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"beneficiary",
+								"post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/beneficiary/put",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/beneficiary/put",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"beneficiary",
+								"put"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/beneficiary/delete/1",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/beneficiary/delete/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"beneficiary",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "loalhost:8080/api/beneficiary/get",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "loalhost:8080/api/beneficiary/get",
+							"host": [
+								"loalhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"beneficiary",
+								"get"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/beneficiary/get-one/1",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/beneficiary/get-one/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"beneficiary",
+								"get-one",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "transaction",
+			"item": [
+				{
+					"name": "localhost:8080/api/transaction/post/deposit/1",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "m_bank@2004",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "m_bank@mavk.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\":5000,\r\n    \"description\":\"5k Deposite by Customer Ravi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/transaction/post/deposit/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transaction",
+								"post",
+								"deposit",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/transaction/post/transfer/1/1?transferType=NEFT",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ravi@123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ravi@example.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\":4000,\r\n    \"description\":\"transfer from ravi to arun\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/transaction/post/transfer/1/1?transferType=NEFT",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transaction",
+								"post",
+								"transfer",
+								"1",
+								"1"
+							],
+							"query": [
+								{
+									"key": "transferType",
+									"value": "NEFT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "localhost:8080/api/transaction/post/withdraw/1",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "ravi@123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "ravi@example.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\":3000,\r\n    \"description\":\"withdraw ravi by 3k\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/transaction/post/withdraw/1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transaction",
+								"post",
+								"withdraw",
+								"1"
 							]
 						}
 					},

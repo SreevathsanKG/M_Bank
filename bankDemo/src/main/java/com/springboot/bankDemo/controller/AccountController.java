@@ -29,7 +29,7 @@ public class AccountController {
 	 * METHOD: POST
 	 * PARAM: account -> RequestBody, PathVariable <- branch-ifscCode, accountType-type , Principal -> Username
 	 * RESPONSE: Account 
-	 * PATH: /api/account/post/ifsc=MAVK001&type=SAVINGS
+	 * PATH: /api/account/post/?ifsc=MAVK001&type=SAVINGS
 	 */
 	@PostMapping("/post/")
 	public Account postAccountByUsername(Principal principal, @RequestParam String ifscCode, 

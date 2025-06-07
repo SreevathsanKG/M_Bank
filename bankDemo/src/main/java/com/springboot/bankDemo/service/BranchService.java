@@ -38,4 +38,16 @@ public class BranchService {
 	public Branch getById(int id) {
 		return branchRepository.findById(id).orElseThrow(() -> new RuntimeException("Id is Invalid"));
 	}
+
+	// update branch
+	public Branch putBranch(int id, Branch branch) {
+		Branch dbBranch = branchRepository.findById(id).orElseThrow(() ->  new RuntimeException("ID is Invalid"));
+		if(branch.getAddress()!=null)
+			dbBranch.setAddress(branch.getAddress());
+		if(branch.getEmail()!=null)
+			dbBranch.setEmail(branch.getEmail());
+		if(branch.getPhoneNumber()!=null)
+			dbBranch.setPhoneNumber(branch.getPhoneNumber());
+		return branchRepository.save(dbBranch);
+	}
 }

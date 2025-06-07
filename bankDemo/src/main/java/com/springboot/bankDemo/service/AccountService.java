@@ -44,7 +44,7 @@ public class AccountService {
 
 	// insert values into account - create account
 	public Account postAccount(int customerId, String ifscCode, String type, Account account) {
-		Customer customer = customerService.getCustomerByID(customerId);
+		Customer customer = customerService.getCustomerById(customerId);
 		account.setCustomer(customer);
 		Branch branch = branchService.getByIfscCode(ifscCode);
 		account.setBranch(branch);
@@ -79,23 +79,23 @@ public class AccountService {
 	
 	// fetch account by customer id
 	public List<Account> getByCustomerId(int customerId) {
-		return accountRepository.getByCustomerId(customerId);
+		return accountRepository.getByCustomerId(customerId).orElseThrow(() -> new RuntimeException("Customer ID is Invalid"));
 	}
 	
 	// fetch account by branch id or ifscCode
 	public List<Account> getByIfscCode(String ifscCode) {
-		return accountRepository.getByIfscCode(ifscCode);
+		return accountRepository.getByIfscCode(ifscCode).orElseThrow(() -> new RuntimeException("Ifsc Code is Invalid"));
 	}
 	
 	// fetch account by username
 	public List<Account> getByUsername(String username) {
 		Customer customer = customerService.getCustomerByUsername(username);
-		return accountRepository.getByCustomerId(customer.getId());
+		return accountRepository.getByCustomerId(customer.getId()).orElseThrow(() -> new RuntimeException("Username is Invalid"));
 	}
 	
 	// fetch by status 
 	public List<Account> getByStatus(String status) {
-		return accountRepository.getByStatus(status);
+		return accountRepository.getByStatus(status).orElseThrow(() -> new RuntimeException("Status is Invalid"));
 	}
 	
 	// fetch all account

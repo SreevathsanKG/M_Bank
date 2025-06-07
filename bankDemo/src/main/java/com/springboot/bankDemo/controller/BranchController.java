@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,6 +33,18 @@ public class BranchController {
 	@PostMapping("/post")
 	public Branch postBranch(@RequestBody Branch branch) {
 		return branchService.postBranch(branch);
+	}
+	
+	/*
+	 * AIM: update branch details
+	 * METHOD: PUT
+	 * PARAM: PathVariable -> Id, RequestBody -> Branch
+	 * RESPONSE: Branch
+	 * PATH: /api/branch/put/{id}
+	 * */
+	@PutMapping("/put/{id}")
+	public Branch putBranch(@PathVariable int id, @RequestBody Branch branch) {
+		return branchService.putBranch(id, branch);
 	}
 	
 	/*

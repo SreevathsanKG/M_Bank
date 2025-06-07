@@ -30,7 +30,7 @@ public class CustomerService {
 	}
 
 	// fetch customer by id
-	public Customer getCustomerByID(int id) {
+	public Customer getCustomerById(int id) {
 		return customerRepository.findById(id).orElseThrow(() -> new RuntimeException("ID is Invalid"));
 	}
 
@@ -55,7 +55,9 @@ public class CustomerService {
 		return customerRepository.save(dbCustomer);
 	}
 
+	// fetch customer by log Cred
 	public Customer getCustomerByUsername(String username) {
 		return customerRepository.getCustomerByUsername(username);
 	}
+	
 }

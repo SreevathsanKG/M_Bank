@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,14 +37,26 @@ public class CustomerController {
 	/*
 	 * AIM: fetch customer by loggedIn credentials
 	 * METHOD: GET 
-	 * PARAM: Customer -> PathVariable
+	 * PARAM: Principal
 	 * RESPONSE: Customer 
-	 * PATH: /api/customer/get-one
+	 * PATH: /api/customer/get
 	 */
-	@GetMapping("/get-one")
+	@GetMapping("/get")
 	public Customer getCustomerByUsername(Principal principal) {
 		String username = principal.getName();
 		return customerService.getCustomerByUsername(username);
+	}
+	
+	/*
+	 * AIM: fetch customer by id
+	 * METHOD: GET 
+	 * PARAM: CustomerID -> PathVariable
+	 * RESPONSE: Customer 
+	 * PATH: /api/customer/get-one/{id}
+	 */
+	@GetMapping("/get-one/{id}")
+	public Customer getCustomerById(@PathVariable int id) {
+		return customerService.getCustomerById(id);
 	}
 
 	/*
