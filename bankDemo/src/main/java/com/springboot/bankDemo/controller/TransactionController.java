@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.bankDemo.dto.AccountStatementDto;
 import com.springboot.bankDemo.dto.TransactionDto;
 import com.springboot.bankDemo.dto.TransactionListDto;
 import com.springboot.bankDemo.service.TransactionService;
@@ -98,8 +99,8 @@ public class TransactionController {
 	}
 	
 	/*
-	 * AIM: get transaction by accountId between given dates
-	 * PARAM: PathVariable -> accountId | RequestParam -> fromDate, tillDate, page, size
+	 * AIM: get transaction by accountId for last N month
+	 * PARAM: PathVariable -> accountId | RequestParam -> nMonth, page, size
 	 * METHOD: GET
 	 * RESPONSE: List<TransactionListDto>
 	 * PATH: /api/transaction/get-nMonth/{accountId}?nMonth=1&page=0&size=10
@@ -108,5 +109,17 @@ public class TransactionController {
 	public List<TransactionListDto> getTxnLastNMonthByAccId(@PathVariable int accountId,@RequestParam int nMonth,
 			@RequestParam(required = false, defaultValue = "0") int page,@RequestParam(required = false, defaultValue = "10000") int size) {
 		return transactionService.getTxnLastNMonthByAccId(accountId, nMonth, page, size);
+	}
+	
+	/*
+	 * AIM: get ACCOUNT STATEMENT
+	 * PARAM: PathVariable -> accountId | RequestParam -> fromDate, tillDate
+	 * METHOD: GET
+	 * RESPONSE: List<AccountStatement>
+	 * PATH: /api/transaction/get/statement/{accountId}?nfromDate=2025-06-07&tillDate=2025-06-09
+	 * */
+	@GetMapping("/get/statement/{accountId}")
+	public AccountStatementDto getAccStmtBtwDateByAccId(@PathVariable int accountId, @RequestParam LocalDate fromDate, @RequestParam LocalDate tillDate) {
+		return transactionService.getAccStmtBtwDatebyAccId(accountId, fromDate, tillDate);
 	}
 }
