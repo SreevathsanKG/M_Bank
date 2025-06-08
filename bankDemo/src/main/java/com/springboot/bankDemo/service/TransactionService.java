@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.springboot.bankDemo.dto.AccountStatementDto;
+import com.springboot.bankDemo.dto.StatementListDto;
 import com.springboot.bankDemo.dto.TransactionDto;
 import com.springboot.bankDemo.dto.TransactionListDto;
 import com.springboot.bankDemo.enums.EntryType;
@@ -46,16 +48,8 @@ public class TransactionService {
 			throw new RuntimeException("Amount cannot be less than or equal to Zero");
 		account.setBalance(account.getBalance().add(amount));
 		accountRepository.save(account);
-		transaction = new Transaction();
-		transaction.setTransactionType("DEPOSIT");
-		transaction.setTransactionDate(LocalDate.now());
-		transaction.setAmount(amount);
-		transaction.setTransferAccountId(account.getId());
-		transaction.setEntryType(EntryType.CREDIT);
-		if (transactionDto.getDescription() != null)
-			transaction.setDescription(transactionDto.getDescription());
-		transaction.setBalanceAfterTxn(account.getBalance());
-		transaction.setAccount(account);
+		transaction = returnSetTransaction("DEPOSIT", amount, account, EntryType.CREDIT,
+				transactionDto.getDescription(), account);
 		transactionRepository.save(transaction);
 	}
 
@@ -70,16 +64,8 @@ public class TransactionService {
 			throw new RuntimeException("Insufficient balance in the account");
 		account.setBalance(account.getBalance().subtract(amount));
 		accountRepository.save(account);
-		transaction = new Transaction();
-		transaction.setTransactionType("WITHDRAW");
-		transaction.setTransactionDate(LocalDate.now());
-		transaction.setAmount(amount);
-		transaction.setTransferAccountId(account.getId());
-		transaction.setEntryType(EntryType.DEBIT);
-		if (transactionDto.getDescription() != null)
-			transaction.setDescription(transactionDto.getDescription());
-		transaction.setBalanceAfterTxn(account.getBalance());
-		transaction.setAccount(account);
+		transaction = returnSetTransaction("WITHDRAW", amount, account, EntryType.DEBIT,
+				transactionDto.getDescription(), account);
 		transactionRepository.save(transaction);
 	}
 
@@ -103,100 +89,56 @@ public class TransactionService {
 		fromAccount.setBalance(fromAccount.getBalance().subtract( // subtract amount+charge in fromAccount
 				totalDebit));
 		accountRepository.save(fromAccount); // save fromAccount
-		Transaction fromTransaction = new Transaction();
-		fromTransaction.setTransactionType(type.name()); // set transaction
-		fromTransaction.setTransactionDate(LocalDate.now());
-		fromTransaction.setAmount(totalDebit);
-		fromTransaction.setTransferAccountId(toAccount.getId());
-		fromTransaction.setEntryType(EntryType.DEBIT);
-		if (transactionDto.getDescription() != null)
-			fromTransaction.setDescription(transactionDto.getDescription());
-		fromTransaction.setBalanceAfterTxn(fromAccount.getBalance());
-		fromTransaction.setAccount(fromAccount);
+		Transaction fromTransaction = returnSetTransaction(transferType, totalDebit, toAccount, EntryType.DEBIT,
+				transactionDto.getDescription(), fromAccount);
 		transactionRepository.save(fromTransaction);
 		// to-account and to-transaction setup
 		toAccount.setBalance(toAccount.getBalance().add(amount)); // add amount in toAccount
 		accountRepository.save(toAccount); // save toAccount
-		Transaction toTransaction = new Transaction();
-		toTransaction.setTransactionType(type.name()); // set transaction
-		toTransaction.setTransactionDate(LocalDate.now());
-		toTransaction.setAmount(amount);
-		toTransaction.setTransferAccountId(fromAccount.getId());
-		toTransaction.setEntryType(EntryType.CREDIT);
-		if (transactionDto.getDescription() != null)
-			toTransaction.setDescription(transactionDto.getDescription());
-		toTransaction.setBalanceAfterTxn(toAccount.getBalance());
-		toTransaction.setAccount(toAccount);
+		Transaction toTransaction = returnSetTransaction(transferType, amount, fromAccount, EntryType.CREDIT,
+				transactionDto.getDescription(), toAccount);
 		transactionRepository.save(toTransaction);
 	}
 
 	// fetch transaction by accountId between given date
-	public List<TransactionListDto> getTxnBtwDateByAccId(int accountId, LocalDate fromDate, LocalDate tillDate, int page,
-			int size) {
+	public List<TransactionListDto> getTxnBtwDateByAccId(int accountId, LocalDate fromDate, LocalDate tillDate,
+			int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		List<Transaction> list = transactionRepository.getTxnBtwDateByAccId(accountId, fromDate, tillDate, pageable);
-		return list.stream().map(t -> {
-			TransactionListDto dto = new TransactionListDto();
-			dto.setTransactionType(t.getTransactionType());
-			dto.setTransactionDate(t.getTransactionDate());
-			dto.setAmount(t.getAmount());
-			dto.setEntryType(t.getEntryType());
-			dto.setTransferAccountId(t.getTransferAccountId());
-			dto.setDescription(t.getDescription());
-			dto.setBalanceAfterTxn(t.getBalanceAfterTxn());
-			return dto;
-		}).toList();
+		return returnTransactionListDto(list);
 	}
 
 	// fetch transaction by accountId from given date
 	public List<TransactionListDto> getTxnFromDateByAccId(int accountId, LocalDate fromDate, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		List<Transaction> list = transactionRepository.getTxnFromDateByAccId(accountId, fromDate, pageable);
-		return list.stream().map(t -> {
-			TransactionListDto dto = new TransactionListDto();
-			dto.setTransactionType(t.getTransactionType());
-			dto.setTransactionDate(t.getTransactionDate());
-			dto.setAmount(t.getAmount());
-			dto.setEntryType(t.getEntryType());
-			dto.setTransferAccountId(t.getTransferAccountId());
-			dto.setDescription(t.getDescription());
-			dto.setBalanceAfterTxn(t.getBalanceAfterTxn());
-			return dto;
-		}).toList();
+		return returnTransactionListDto(list);
 	}
 
 	// fetch last 10 transaction
 	public List<TransactionListDto> getLast10TxnByAccId(int accountId) {
 		List<Transaction> list = transactionRepository.getLast10TxnByAccId(accountId, PageRequest.of(0, 10));
-		return list.stream().map(t -> {
-			TransactionListDto dto = new TransactionListDto();
-			dto.setTransactionType(t.getTransactionType());
-			dto.setTransactionDate(t.getTransactionDate());
-			dto.setAmount(t.getAmount());
-			dto.setEntryType(t.getEntryType());
-			dto.setTransferAccountId(t.getTransferAccountId());
-			dto.setDescription(t.getDescription());
-			dto.setBalanceAfterTxn(t.getBalanceAfterTxn());
-			return dto;
-		}).toList();
+		return returnTransactionListDto(list);
 	}
 
-	// fetch transaction by given last month
+	// fetch transaction by given N month
 	public List<TransactionListDto> getTxnLastNMonthByAccId(int acountId, int nMonth, int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		LocalDate fromDate = LocalDate.now().minusMonths(nMonth);
 		List<Transaction> list = transactionRepository.getTxnFromDateByAccId(acountId, fromDate, pageable);
-		return list.stream().map(t -> {
-			TransactionListDto dto = new TransactionListDto();
-			dto.setTransactionType(t.getTransactionType());
-			dto.setTransactionDate(t.getTransactionDate());
-			dto.setAmount(t.getAmount());
-			dto.setEntryType(t.getEntryType());
-			dto.setTransferAccountId(t.getTransferAccountId());
-			dto.setDescription(t.getDescription());
-			dto.setBalanceAfterTxn(t.getBalanceAfterTxn());
-			return dto;
-		}).toList();
+		return returnTransactionListDto(list);
+	}
+
+	// fetch account statement
+	public AccountStatementDto getAccStmtBtwDatebyAccId(int accountId, LocalDate fromDate, LocalDate toDate) {
+		Account account = accountRepository.findById(accountId)
+				.orElseThrow(() -> new RuntimeException("ID is Invalid"));
+		List<Transaction> list = transactionRepository.getTxnBtwDateByAccId(accountId, fromDate, toDate);
+		List<StatementListDto> stmtList = returnStatementListDto(list);
+		BigDecimal openingBalance = list.isEmpty() ? BigDecimal.ZERO : list.get(0).getBalanceAfterTxn();
+		BigDecimal closingBalance = list.isEmpty() ? BigDecimal.ZERO : list.get(list.size() - 1).getBalanceAfterTxn();
+		return new AccountStatementDto(account.getId(), account.getCustomer().getFirstName(), fromDate, toDate,
+				openingBalance, closingBalance, stmtList);
 	}
 
 	// fetch transaction between given date
@@ -218,5 +160,50 @@ public class TransactionService {
 	public List<String> getTransferType() {
 		List<String> transferType = Arrays.stream(TransferType.values()).map(t -> t.name()).toList();
 		return transferType;
+	}
+
+	// return setTransaction
+	public Transaction returnSetTransaction(String txnType, BigDecimal amount, Account transferAccount, EntryType type,
+			String description, Account account) {
+		transaction = new Transaction();
+		transaction.setTransactionType(txnType);
+		transaction.setTransactionDate(LocalDate.now());
+		transaction.setAmount(amount);
+		transaction.setTransferAccountId(transferAccount.getId());
+		transaction.setEntryType(type);
+		if (description != null)
+			transaction.setDescription(description);
+		transaction.setBalanceAfterTxn(account.getBalance());
+		transaction.setAccount(account);
+		return transaction;
+	}
+
+	// return for TransactionListDto
+	public List<TransactionListDto> returnTransactionListDto(List<Transaction> list) {
+		return list.stream().map(t -> {
+			TransactionListDto dto = new TransactionListDto();
+			dto.setTransactionType(t.getTransactionType());
+			dto.setTransactionDate(t.getTransactionDate());
+			dto.setAmount(t.getAmount());
+			dto.setEntryType(t.getEntryType());
+			dto.setTransferAccountId(t.getTransferAccountId());
+			dto.setDescription(t.getDescription());
+			dto.setBalanceAfterTxn(t.getBalanceAfterTxn());
+			return dto;
+		}).toList();
+	}
+
+	// return for AccountStatementDto
+	public List<StatementListDto> returnStatementListDto(List<Transaction> list) {
+		return list.stream().map(t -> {
+			StatementListDto dto = new StatementListDto();
+			dto.setTransactionType(t.getTransactionType());
+			dto.setTransactionDate(t.getTransactionDate());
+			dto.setAmount(t.getAmount());
+			dto.setEntryType(t.getEntryType());
+			dto.setDescription(t.getDescription());
+			dto.setBalanceAfterTxn(t.getBalanceAfterTxn());
+			return dto;
+		}).toList();
 	}
 }
