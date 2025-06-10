@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.springboot.bankDemo.enums.LoanStatus;
+import com.springboot.bankDemo.enums.LoanType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,19 +25,22 @@ public class Loan {
 	private int id;
 	@Column(name = "principal_amount", nullable = false)
 	private BigDecimal principalAmount;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "loan_type", nullable = false)
+	private LoanType loanType;
+	@Column(name = "interest_rate", nullable = false)
+	private BigDecimal interestRate;
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private LoanStatus status;
+	@Column(name = "term_in_month", nullable = false)
+	private int termInMonth;
 	@Column(name = "total_repayable_amount", nullable = false)
 	private BigDecimal totalRepayableAmount;
 	@Column(name = "emi_amount", nullable = false)
 	private BigDecimal emiAmount;
-	@ManyToOne(optional = false)
-	private LoanType loanType;
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
-	private LoanStatus status;
 	@Column(name = "balance_amount", nullable = false)
 	private BigDecimal balanceAmount;
-	@Column(name = "term_in_month", nullable = false)
-	private int termInMonth;
 	@Column(name = "start_date", nullable = false)
 	private LocalDate startDate;
 	@Column(name = "end_date", nullable = false)
@@ -56,6 +60,30 @@ public class Loan {
 	public void setPrincipalAmount(BigDecimal principalAmount) {
 		this.principalAmount = principalAmount;
 	}
+	public LoanType getLoanType() {
+		return loanType;
+	}
+	public void setLoanType(LoanType loanType) {
+		this.loanType = loanType;
+	}
+	public BigDecimal getInterestRate() {
+		return interestRate;
+	}
+	public void setInterestRate(BigDecimal interestRate) {
+		this.interestRate = interestRate;
+	}
+	public LoanStatus getStatus() {
+		return status;
+	}
+	public void setStatus(LoanStatus status) {
+		this.status = status;
+	}
+	public int getTermInMonth() {
+		return termInMonth;
+	}
+	public void setTermInMonth(int termInMonth) {
+		this.termInMonth = termInMonth;
+	}
 	public BigDecimal getTotalRepayableAmount() {
 		return totalRepayableAmount;
 	}
@@ -68,29 +96,11 @@ public class Loan {
 	public void setEmiAmount(BigDecimal emiAmount) {
 		this.emiAmount = emiAmount;
 	}
-	public LoanType getLoanType() {
-		return loanType;
-	}
-	public void setLoanType(LoanType loanType) {
-		this.loanType = loanType;
-	}
-	public LoanStatus getStatus() {
-		return status;
-	}
-	public void setStatus(LoanStatus status) {
-		this.status = status;
-	}
 	public BigDecimal getBalanceAmount() {
 		return balanceAmount;
 	}
 	public void setBalanceAmount(BigDecimal balanceAmount) {
 		this.balanceAmount = balanceAmount;
-	}
-	public int getTermInMonth() {
-		return termInMonth;
-	}
-	public void setTermInMonth(int termInMonth) {
-		this.termInMonth = termInMonth;
 	}
 	public LocalDate getStartDate() {
 		return startDate;

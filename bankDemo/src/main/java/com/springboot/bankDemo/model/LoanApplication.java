@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.springboot.bankDemo.enums.LoanApplicationStatus;
+import com.springboot.bankDemo.enums.LoanType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,7 +25,8 @@ public class LoanApplication {
 	private int id;
 	@Column(name = "required_loan_amount", nullable = false)
 	private BigDecimal requiredLoanAmount;
-	@ManyToOne(optional = false)
+	@Enumerated(EnumType.STRING)
+	@Column(name = "loan_type", nullable = false)
 	private LoanType loanType;
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
@@ -38,21 +40,53 @@ public class LoanApplication {
 	@ManyToOne(optional = false)
 	private Account account;
 	
-	public int getId() { return id; }
-	public void setId(int id) { this.id = id; }
-	public BigDecimal getRequiredLoanAmount() { return requiredLoanAmount; }
-	public void setRequiredLoanAmount(BigDecimal requiredLoanAmount) { this.requiredLoanAmount = requiredLoanAmount; }
-	public LoanType getLoanType() { return loanType; }
-	public void setLoanType(LoanType loanType) { this.loanType = loanType; }
-	public LoanApplicationStatus getStatus() { return status; }
-	public void setStatus(LoanApplicationStatus status) { this.status = status; }
-	public String getRemark() { return remark; }
-	public void setRemark(String remark) { this.remark = remark; }
-	public String getDocument() { return document; }
-	public void setDocument(String document) { this.document = document; }
-	public LocalDate getApplicationDate() { return applicationDate; }
-	public void setApplicationDate(LocalDate applicationDate) { this.applicationDate = applicationDate; }
-	public Account getAccount() { return account; }
-	public void setAccount(Account account) { this.account = account; }
-	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public BigDecimal getRequiredLoanAmount() {
+		return requiredLoanAmount;
+	}
+	public void setRequiredLoanAmount(BigDecimal requiredLoanAmount) {
+		this.requiredLoanAmount = requiredLoanAmount;
+	}
+	public LoanType getLoanType() {
+		return loanType;
+	}
+	public void setLoanType(LoanType loanType) {
+		this.loanType = loanType;
+	}
+	public LoanApplicationStatus getStatus() {
+		return status;
+	}
+	public void setStatus(LoanApplicationStatus status) {
+		this.status = status;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	public String getDocument() {
+		return document;
+	}
+	public void setDocument(String document) {
+		this.document = document;
+	}
+	public LocalDate getApplicationDate() {
+		return applicationDate;
+	}
+	public void setApplicationDate(LocalDate applicationDate) {
+		this.applicationDate = applicationDate;
+	}
+	public Account getAccount() {
+		return account;
+	}
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+		
 }
