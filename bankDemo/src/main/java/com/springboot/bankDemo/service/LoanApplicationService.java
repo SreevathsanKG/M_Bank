@@ -42,8 +42,25 @@ public class LoanApplicationService {
 		return loanApplicationRepository.save(loanApplication);
 	}
 	
-	// 
+	// fetch loan application by status by user login-cred
+	public List<LoanApplication> getByStatusAndUsername(String username, String status) {
+		return loanApplicationRepository.getByStatusAndUsername(username, status);
+	}
 	
+	// fetch all loan application by status
+	public List<LoanApplication> getByStatus(String status) {
+		return loanApplicationRepository.getByStatus(status);
+	}
+	
+	// fetch loan application by branchId
+	public List<LoanApplication> getByBranchId(String branchId) {
+		return loanApplicationRepository.getByBranchId(branchId);
+	}
+	
+	// fetch all loan application
+	public List<LoanApplication> getAll() {
+		return loanApplicationRepository.findAll();
+	}
 	
 	// fetch loan application status
 	public List<String> getLoanApplicationStatus() {

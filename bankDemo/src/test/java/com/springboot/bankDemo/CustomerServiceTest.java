@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.AfterEach;
@@ -31,19 +32,19 @@ public class CustomerServiceTest {
 	private CustomerRepository customerRepository;
 	@Mock
 	private UserService userService;
-	
+
 	private User user;
 	private Customer customer;
-	
+
 	@BeforeEach
 	public void init() {
-		
+
 		user = new User();
 		user.setId(1);
 		user.setUsername("david@gmail.com");
 		user.setPassword("david@123");
 		user.setRole("CUSTOMER");
-		
+
 		customer = new Customer();
 		customer.setId(1);
 		customer.setFirstName("David");
@@ -54,25 +55,40 @@ public class CustomerServiceTest {
 		customer.setRegistrationDate(LocalDate.now());
 		customer.setUser(user);
 	}
-	
+
 	@Test
 	public void postCustomerTest() {
-		
+
 		when(customerRepository.save(any(Customer.class))).thenReturn(customer);
-		
+
 		assertEquals(customer, customerService.postCustomer(customer));
 	}
-	
+
 	@Test
 	public void getCustomerByIdTest() {
 		when(customerRepository.findById(1)).thenReturn(Optional.of(customer));
-		
+
 		assertEquals(customer, customerService.getCustomerById(1));
-		
+
 		RuntimeException e = assertThrows(RuntimeException.class, () -> customerService.getCustomerById(2));
 		assertEquals("ID is Invalid".toLowerCase(), e.getMessage().toLowerCase());
 	}
-	
+
+	@Test
+	public void getCustomerByUsernameTest() {
+		when(customerRepository.getCustomerByUsername("david@gmail.com")).thenReturn(customer);
+
+		assertEquals(customer, customerService.getCustomerByUsername("david@gmail.com"));
+	}
+
+	@Test
+	public void getAllTest() {
+		List<Customer> list = List.of(customer);
+		when(customerRepository.findAll()).thenReturn(list);
+
+		assertEquals(list, customerService.getAll());
+	}
+
 	@AfterEach
 	public void afterTest() {
 		user = null;
