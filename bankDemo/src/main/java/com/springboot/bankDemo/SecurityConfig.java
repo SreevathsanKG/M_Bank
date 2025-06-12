@@ -64,13 +64,18 @@ public class SecurityConfig {
 					.requestMatchers("/api/document/get").hasAuthority("CUSTOMER")
 					.requestMatchers("/api/document/get").hasAuthority("CUSTOMER_EXECUTIVE")
 					.requestMatchers("/api/document/get-all").hasAuthority("GM")
+					// Enums
+					.requestMatchers("/api/enum/executive/roles/get/").permitAll()
+					.requestMatchers("/api/enum/loanApply/status/get/").permitAll()
+					.requestMatchers("/api/enum/loan/status/get/").permitAll()
+					.requestMatchers("/api/enum/loan/type/get/").permitAll()
+					.requestMatchers("/api/enum/transfer/type/get/").permitAll()
 					// Executive
 					.requestMatchers("/api/executive/post/{branchId}/").hasAnyAuthority("MANAGER","GM")
 					.requestMatchers("/api/executive/put").hasAnyAuthority("CUSTOMER_EXECUTIVE","LOAN_EXECUTIVE","FINANCE_EXECUTIVE")
 					.requestMatchers("/api/executive/get-one").hasAnyAuthority("CUSTOMER_EXECUTIVE","LOAN_EXECUTIVE","FINANCE_EXECUTIVE")
 					.requestMatchers("/api/executive/get/{branchId}").hasAnyAuthority("MANAGER","GM")
 					.requestMatchers("/api/executive/get-all").hasAuthority("GM")
-					.requestMatchers("/api/executive/get/roles").permitAll()
 					// Loan
 					.requestMatchers("/api/loan/post/{loanApplicationId}").hasAnyAuthority("FINANCE_EXECUTIVE","MANAGER")
 					.requestMatchers("/api/loan/put/status/{id}").hasAnyAuthority("FINANCE_EXECUTIVE","MANAGER")
