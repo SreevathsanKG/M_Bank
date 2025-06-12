@@ -71,6 +71,23 @@ public class SecurityConfig {
 					.requestMatchers("/api/executive/get/{branchId}").hasAnyAuthority("MANAGER","GM")
 					.requestMatchers("/api/executive/get-all").hasAuthority("GM")
 					.requestMatchers("/api/executive/get/roles").permitAll()
+					// Loan
+					.requestMatchers("/api/loan/post/{loanApplicationId}").hasAnyAuthority("FINANCE_EXECUTIVE","MANAGER")
+					.requestMatchers("/api/loan/put/status/{id}").hasAnyAuthority("FINANCE_EXECUTIVE","MANAGER")
+					.requestMatchers("/api/loan/get-by/branchId/{branchId}").hasAnyAuthority("FINANCE_EXECUTIVE","MANAGER")
+					.requestMatchers("/api/loan/get-by/id/{id}").hasAnyAuthority("FINANCE_EXECUTIVE","MANAGER")
+					.requestMatchers("/api/loan/get-all").hasAuthority("GM")
+					// Loan Application
+					.requestMatchers("/api/loanApply/post").hasAuthority("CUSTOMER")
+					.requestMatchers("/api/loanApply/put/status/cancelled/{id}").hasAuthority("CUSTOMER")
+					.requestMatchers("/api/loanApply/put/status/{id}").hasAnyRole("FINANCE_EXECUTIVE","MANAGER")
+					.requestMatchers("/api/loanApply/get-one/status?status=APPROVED").hasAuthority("CUSTOMER")
+					.requestMatchers("/api/loanApply/get-by/status").hasAnyAuthority("FINANCE_EXECUTIVE","MANAGER")
+					.requestMatchers("/api/loanApply/get-by/branchId/{branchId}").hasAnyAuthority("FINANCE_EXECUTIVE","MANAGER")
+					.requestMatchers("/api/loanApply/get-all").hasAnyAuthority("GM")
+					// Loan Repayment
+					.requestMatchers("/api/loanRepay/poat/{laonId}").hasAuthority("CUSTOMER")
+					.requestMatchers("/api/loanRepay/get-by/loanId/{laonId}").authenticated()
 					// Manager 
 					.requestMatchers("/api/manager/post/branchId").hasAuthority("GM")
 					.requestMatchers("/api/manager/put").hasAuthority("MANAGER")

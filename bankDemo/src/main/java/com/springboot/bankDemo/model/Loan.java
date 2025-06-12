@@ -25,6 +25,8 @@ public class Loan {
 	private int id;
 	@Column(name = "principal_amount", nullable = false)
 	private BigDecimal principalAmount;
+	@Column(name = "total_repayable_amount", nullable = false)
+	private BigDecimal totalRepayableAmount;
 	@Enumerated(EnumType.STRING)
 	@Column(name = "loan_type", nullable = false)
 	private LoanType loanType;
@@ -35,8 +37,6 @@ public class Loan {
 	private LoanStatus status;
 	@Column(name = "term_in_month", nullable = false)
 	private int termInMonth;
-	@Column(name = "total_repayable_amount", nullable = false)
-	private BigDecimal totalRepayableAmount;
 	@Column(name = "emi_amount", nullable = false)
 	private BigDecimal emiAmount;
 	@Column(name = "balance_amount", nullable = false)

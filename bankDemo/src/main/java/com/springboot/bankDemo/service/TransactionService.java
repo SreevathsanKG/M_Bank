@@ -2,7 +2,6 @@ package com.springboot.bankDemo.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -65,6 +64,22 @@ public class TransactionService {
 		account.setBalance(account.getBalance().subtract(amount));
 		accountRepository.save(account);
 		transaction = returnSetTransaction("WITHDRAW", amount, account, EntryType.DEBIT,
+				transactionDto.getDescription(), account);
+		transactionRepository.save(transaction);
+	}
+	
+	// loan withdraw
+	public void postLoanWithdraw(int accountId, TransactionDto transactionDto) {
+		Account account = accountRepository.findById(accountId)
+				.orElseThrow(() -> new RuntimeException("ID is Invalid"));
+		BigDecimal amount = transactionDto.getAmount();
+		if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0)
+			throw new RuntimeException("Amount cannot be less than or equal to Zero");
+		if (account.getBalance().compareTo(amount) < 0)
+			throw new RuntimeException("Insufficient balance in the account");
+		account.setBalance(account.getBalance().subtract(amount));
+		accountRepository.save(account);
+		transaction = returnSetTransaction("LOAN", amount, account, EntryType.DEBIT,
 				transactionDto.getDescription(), account);
 		transactionRepository.save(transaction);
 	}
@@ -156,12 +171,6 @@ public class TransactionService {
 		return transactionRepository.findAll();
 	}
 
-	// fetch transfer type from enum
-	public List<String> getTransferType() {
-		List<String> transferType = Arrays.stream(TransferType.values()).map(t -> t.name()).toList();
-		return transferType;
-	}
-
 	// return setTransaction
 	public Transaction returnSetTransaction(String txnType, BigDecimal amount, Account transferAccount, EntryType type,
 			String description, Account account) {
@@ -182,7 +191,7 @@ public class TransactionService {
 	public List<TransactionListDto> returnTransactionListDto(List<Transaction> list) {
 		return list.stream().map(t -> {
 			TransactionListDto dto = new TransactionListDto();
-			dto.setTransactionType(t.getTransactionType());
+			dto.setTransactionType(t.getTransactionType() );
 			dto.setTransactionDate(t.getTransactionDate());
 			dto.setAmount(t.getAmount());
 			dto.setEntryType(t.getEntryType());

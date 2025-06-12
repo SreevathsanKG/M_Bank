@@ -22,6 +22,7 @@ public class Transaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@Column(name = "transaction_type", nullable = false)
 	private String transactionType;
 	@Column(name = "transaction_date", nullable = false)
 	private LocalDate transactionDate;

@@ -90,14 +90,4 @@ public class ExecutiveController {
 		return executiveService.getAll(page, size);
 	}
 	
-	/*
-	 * AIM: fetch all roles in enums
-	 * METHOD: GET
-	 * RESPONSE: List<String>  -> Roles
-	 * PATH: /api/executive/roles
-	 * */
-	@GetMapping("/get/roles")
-	public List<String> getRoles() {
-		return executiveService.getRoles();
-	}
 }

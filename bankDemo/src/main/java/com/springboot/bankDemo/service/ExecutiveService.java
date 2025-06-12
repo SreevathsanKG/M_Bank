@@ -1,6 +1,5 @@
 package com.springboot.bankDemo.service;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
@@ -70,9 +69,4 @@ public class ExecutiveService {
 		return executiveRepository.findAll(pageable).getContent();
 	}
 	
-	// fetch all roles in enum
-	public List<String> getRoles() {
-		List<String> roles = Arrays.stream(ExecutiveRole.values()).map(r -> r.name()).toList();
-		return roles;
-	}
 }
