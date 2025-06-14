@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.bankDemo.dto.ExecutiveCreateDto;
 import com.springboot.bankDemo.model.Executive;
 import com.springboot.bankDemo.service.ExecutiveService;
 
@@ -26,14 +27,14 @@ public class ExecutiveController {
 	/*
 	 * AIM: to insert executive by branch id
 	 * METHOD: POST 
-	 * PARAM: Executive -> RequestBody, Pathvariable branch id
+	 * PARAM: ExecutiveCreateDto -> RequestBody, Pathvariable branch id
 	 * RESPONSE: Executive 
 	 * PATH: /api/executive/post/{branachId}/?role=CUSTOMER_EXECUTIVE
 	 * ACCESS: MANAGER, GM
 	 */
 	@PostMapping("/post/{branchId}/")
-	public Executive postExecutive(@PathVariable int branchId,@RequestParam String role, @RequestBody Executive executive) {
-		return executiveService.postExecutive(branchId, role, executive);
+	public Executive postExecutive(@PathVariable int branchId,@RequestParam String role, @RequestBody ExecutiveCreateDto executiveCreateDto) {
+		return executiveService.postExecutive(branchId, role, executiveCreateDto);
 	}
 	
 	/*
@@ -80,14 +81,12 @@ public class ExecutiveController {
 	/*
 	 * AIM: fetch all executive
 	 * METHOD: GET
-	 * PARAM: RequestParam -> Page and Size
 	 * RESPONSE: List<Executive>
-	 * PATH: /api/executive/get-all?page=0&size=3
+	 * PATH: /api/executive/get-all
 	 * */
 	@GetMapping("get-all")
-	public List<Executive> getAll(@RequestParam(required = false, defaultValue = "0") Integer page,
-								  @RequestParam(required = false, defaultValue = "1000000") Integer size) {
-		return executiveService.getAll(page, size);
+	public List<Executive> getAll() {
+		return executiveService.getAll();
 	}
 	
 }

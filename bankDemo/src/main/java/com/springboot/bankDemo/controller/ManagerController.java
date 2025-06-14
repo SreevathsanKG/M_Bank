@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.bankDemo.dto.ManagerCreateDto;
 import com.springboot.bankDemo.model.Manager;
 import com.springboot.bankDemo.service.ManagerService;
 
@@ -25,14 +26,14 @@ public class ManagerController {
 	/*
 	 * AIM: manager inserted by GM
 	 * METHOD: POST 
-	 * PARAM: Manager -> RequestBody, branchId -> RequestParam
+	 * PARAM: ManagerCreateDto -> RequestBody, branchId -> RequestParam
 	 * RESPONSE: Manager 
-	 * PATH: /api/anager/post/branchId?branchId=1
+	 * PATH: /api/anager/post/{branchId}
 	 * ACCESS: GM
 	 */
-	@PostMapping("/post/branchId")
-	public Manager postManager(@PathVariable int branchId, @RequestBody Manager manager) {
-		return managerService.postManager(branchId, manager);
+	@PostMapping("/post/{branchId}")
+	public Manager postManager(@PathVariable int branchId, @RequestBody ManagerCreateDto managerCreateDto) {
+		return managerService.postManager(branchId, managerCreateDto);
 	}
 	
 	/*

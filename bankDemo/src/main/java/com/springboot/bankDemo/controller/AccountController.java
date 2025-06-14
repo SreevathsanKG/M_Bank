@@ -102,13 +102,13 @@ public class AccountController {
 	/*
 	 * AIM: fetch account by IfscCode
 	 * METHOD: GET
-	 * PARAM:  IfscCode -> @RequestParam
+	 * PARAM:  PathVariable ->  BranchId
 	 * RESPONSE: List<Account>
-	 * PATH: /api/account/get/ifsc?ifscCode=MAVK0001
+	 * PATH: /api/account/get/{branchId}
 	 */
-	@GetMapping("/get/ifsc")
-	public List<Account> getByIfscCode(@RequestParam String ifscCode) {
-		return accountService.getByIfscCode(ifscCode);
+	@GetMapping("/get/{branchId}")
+	public List<Account> getByIfscCode(@PathVariable int branchId) {
+		return accountService.getByBranchId(branchId);
 	}
 	
 	/*

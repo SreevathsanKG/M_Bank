@@ -2,7 +2,6 @@ package com.springboot.bankDemo.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
@@ -39,7 +38,7 @@ public class TransactionService {
 	}
 
 	// deposit
-	public void postDeposit(int accountId, TransactionDto transactionDto) {
+	public Transaction postDeposit(int accountId, TransactionDto transactionDto) {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new RuntimeException("ID is Invalid"));
 		BigDecimal amount = transactionDto.getAmount();
@@ -49,11 +48,11 @@ public class TransactionService {
 		accountRepository.save(account);
 		transaction = returnSetTransaction("DEPOSIT", amount, account, EntryType.CREDIT,
 				transactionDto.getDescription(), account);
-		transactionRepository.save(transaction);
+		return transactionRepository.save(transaction);
 	}
 
 	// withdraw
-	public void postWithdraw(int accountId, TransactionDto transactionDto) {
+	public Transaction postWithdraw(int accountId, TransactionDto transactionDto) {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new RuntimeException("ID is Invalid"));
 		BigDecimal amount = transactionDto.getAmount();
@@ -65,11 +64,11 @@ public class TransactionService {
 		accountRepository.save(account);
 		transaction = returnSetTransaction("WITHDRAW", amount, account, EntryType.DEBIT,
 				transactionDto.getDescription(), account);
-		transactionRepository.save(transaction);
+		return transactionRepository.save(transaction);
 	}
 	
 	// loan withdraw
-	public void postLoanWithdraw(int accountId, TransactionDto transactionDto) {
+	public Transaction postLoanWithdraw(int accountId, TransactionDto transactionDto) {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new RuntimeException("ID is Invalid"));
 		BigDecimal amount = transactionDto.getAmount();
@@ -81,11 +80,11 @@ public class TransactionService {
 		accountRepository.save(account);
 		transaction = returnSetTransaction("LOAN", amount, account, EntryType.DEBIT,
 				transactionDto.getDescription(), account);
-		transactionRepository.save(transaction);
+		return transactionRepository.save(transaction);
 	}
 
 	// transfer
-	public void postTransfer(int accountId, int beneficiaryId, String transferType, TransactionDto transactionDto) {
+	public Transaction postTransfer(int accountId, int beneficiaryId, String transferType, TransactionDto transactionDto) {
 		Account fromAccount = accountRepository.findById(accountId) // fetch fromAccount
 				.orElseThrow(() -> new RuntimeException("ID is Invalid"));
 		BigDecimal amount = transactionDto.getAmount();
@@ -112,7 +111,7 @@ public class TransactionService {
 		accountRepository.save(toAccount); // save toAccount
 		Transaction toTransaction = returnSetTransaction(transferType, amount, fromAccount, EntryType.CREDIT,
 				transactionDto.getDescription(), toAccount);
-		transactionRepository.save(toTransaction);
+		return transactionRepository.save(toTransaction);
 	}
 
 	// fetch transaction by accountId between given date
@@ -157,12 +156,12 @@ public class TransactionService {
 	}
 
 	// fetch transaction between given date
-	public List<Transaction> getTransactionBetweenDate(Date fromDate, Date tillDate) {
+	public List<Transaction> getTransactionBetweenDate(LocalDate fromDate, LocalDate tillDate) {
 		return transactionRepository.getTransactionBetweenDate(fromDate, tillDate);
 	}
 
 	// fetch transaction from a given date to till now
-	public List<Transaction> getTransactionsFromDate(Date fromDate) {
+	public List<Transaction> getTransactionsFromDate(LocalDate fromDate) {
 		return transactionRepository.getTransactionFromDate(fromDate);
 	}
 

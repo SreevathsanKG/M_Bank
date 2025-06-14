@@ -1,7 +1,6 @@
 package com.springboot.bankDemo.repository;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
@@ -30,9 +29,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 	
 	
 	@Query("select t from Transaction t where t.transactionDate between ?1 and ?2 order by t.transactionDate asc")
-	List<Transaction> getTransactionBetweenDate(Date fromDate, Date tillDate);
+	List<Transaction> getTransactionBetweenDate(LocalDate fromDate, LocalDate tillDate);
 	
 	@Query("select t from Transaction t where t.transactionDate>=?1 order by t.transactionDate desc")
-	List<Transaction> getTransactionFromDate(Date fromDate);
+	List<Transaction> getTransactionFromDate(LocalDate fromDate);
 
 }

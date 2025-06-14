@@ -31,14 +31,17 @@ public class AccountService {
 	// insert by username - customer login cred
 	public Account postAccountByUsername(String username, String ifscCode, String type, Account account) {
 		Customer customer = customerService.getCustomerByUsername(username);
-		account.setCustomer(customer);
 		Branch branch = branchService.getByIfscCode(ifscCode);
-		account.setBranch(branch);
 		AccountType accountType = accountTypeService.getByType(type);
+		boolean exists = accountRepository.getAccountExistsByCustomerandType(customer, accountType);
+		if(exists)
+			throw new RuntimeException("Customer already has an account of this type");
 		account.setAccountType(accountType);
 		account.setBalance(accountType.getInitialDeposit());
 		account.setOpenDate(LocalDate.now());
 		account.setStatus("PENDING_APPROVAL");
+		account.setBranch(branch);
+		account.setCustomer(customer);
 		return accountRepository.save(account);
 	}
 
@@ -82,10 +85,11 @@ public class AccountService {
 		return accountRepository.getByCustomerId(customerId).orElseThrow(() -> new RuntimeException("Customer ID is Invalid"));
 	}
 	
-	// fetch account by branch id or ifscCode
-	public List<Account> getByIfscCode(String ifscCode) {
-		return accountRepository.getByIfscCode(ifscCode).orElseThrow(() -> new RuntimeException("Ifsc Code is Invalid"));
+	// fetch account by branch id 
+	public List<Account> getByBranchId(int  branchId) {
+		return accountRepository.getByBranchId(branchId).orElseThrow(() -> new RuntimeException("Branch Id is Invalid"));
 	}
+	
 	
 	// fetch account by username
 	public List<Account> getByUsername(String username) {

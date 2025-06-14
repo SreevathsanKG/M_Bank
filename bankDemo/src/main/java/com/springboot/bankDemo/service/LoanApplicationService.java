@@ -1,13 +1,11 @@
 package com.springboot.bankDemo.service;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.springboot.bankDemo.enums.LoanApplicationStatus;
-import com.springboot.bankDemo.enums.LoanType;
 import com.springboot.bankDemo.model.LoanApplication;
 import com.springboot.bankDemo.repository.LoanApplicationRepository;
 
@@ -24,6 +22,9 @@ public class LoanApplicationService {
 	public LoanApplication postLoanApplication(LoanApplication loanApplication) {
 		loanApplication.setStatus(LoanApplicationStatus.PENDING);
 		loanApplication.setApplicationDate(LocalDate.now());
+		boolean exists = loanApplicationRepository.getLoanAppExistsByCustomerAndType(loanApplication.getAccount().getCustomer(), loanApplication.getLoanType());
+		if(exists)
+			throw new RuntimeException("Customer has already applied or has the Loan of this type");
 		return loanApplicationRepository.save(loanApplication);
 	}
 	
@@ -60,17 +61,5 @@ public class LoanApplicationService {
 	// fetch all loan application
 	public List<LoanApplication> getAll() {
 		return loanApplicationRepository.findAll();
-	}
-	
-	// fetch loan application status
-	public List<String> getLoanApplicationStatus() {
-		List<String> list = Arrays.stream(LoanApplicationStatus.values()).map(l -> l.name()).toList();
-		return list;
-	}
-	
-	// fetch loan type 
-	public List<String> getLoanType() {
-		List<String> list = Arrays.stream(LoanType.values()).map(l -> l.name()).toList();
-		return list;
 	}
 }

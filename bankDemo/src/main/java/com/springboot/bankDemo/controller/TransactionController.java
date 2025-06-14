@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.springboot.bankDemo.dto.AccountStatementDto;
 import com.springboot.bankDemo.dto.TransactionDto;
 import com.springboot.bankDemo.dto.TransactionListDto;
+import com.springboot.bankDemo.model.Transaction;
 import com.springboot.bankDemo.service.TransactionService;
 
 @RestController
@@ -32,8 +33,8 @@ public class TransactionController {
 	 * PATH: /api/transaction/post/deposit/{accountId}
 	 * */
 	@PostMapping("/post/deposit/{accountId}")
-	public void postDeposite(@PathVariable int accountId, @RequestBody TransactionDto transactionDto) {
-		transactionService.postDeposit(accountId, transactionDto);
+	public Transaction postDeposite(@PathVariable int accountId, @RequestBody TransactionDto transactionDto) {
+		return transactionService.postDeposit(accountId, transactionDto);
 	}
 	
 	/*
@@ -44,8 +45,8 @@ public class TransactionController {
 	 * PATH: /api/transaction/post/withdraw/{accountId}
 	 * */
 	@PostMapping("/post/withdraw/{accountId}")
-	public void postWithdraw(@PathVariable int accountId, @RequestBody TransactionDto transactionDto) {
-		transactionService.postWithdraw(accountId, transactionDto);
+	public Transaction postWithdraw(@PathVariable int accountId, @RequestBody TransactionDto transactionDto) {
+		return transactionService.postWithdraw(accountId, transactionDto);
 	}
 	
 	/*
@@ -56,8 +57,8 @@ public class TransactionController {
 	 * PATH: /api/transaction/post/transfer/{accountId}/{beneficiaryId}?transferType=NEFT
 	 * */
 	@PostMapping("/post/transfer/{accountId}/{beneficiaryId}")
-	public void postTransfer(@PathVariable int accountId, @PathVariable int beneficiaryId, @RequestParam String transferType, @RequestBody TransactionDto transactionDto) {
-		transactionService.postTransfer(accountId, beneficiaryId, transferType, transactionDto);
+	public Transaction postTransfer(@PathVariable int accountId, @PathVariable int beneficiaryId, @RequestParam String transferType, @RequestBody TransactionDto transactionDto) {
+		return transactionService.postTransfer(accountId, beneficiaryId, transferType, transactionDto);
 	}
 	
 	/*

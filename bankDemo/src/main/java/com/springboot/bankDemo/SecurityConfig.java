@@ -32,7 +32,7 @@ public class SecurityConfig {
 					.requestMatchers("/api/account/get-one").hasAuthority("CUSTOMER")
 					.requestMatchers("/api/account/get/id/{accountId}").hasAnyAuthority("CUSTOMER_EXECUTIVE","MANAGER")
 					.requestMatchers("/api/account/get/customerId/{customerId}").hasAnyAuthority("CUSTOMR_EXECUTIVE","MANAGER")
-					.requestMatchers("/api/account/get/ifsc").hasAnyAuthority("CUSTOMER_EXECUTIVE","MANAGER")
+					.requestMatchers("/api/account/get/{branchId}").hasAnyAuthority("CUSTOMER_EXECUTIVE","MANAGER")
 					.requestMatchers("/api/account/get/status").hasAnyAuthority("CUSTOMER_EXECUTIVE","MANAGER")
 					// AccountType
 					.requestMatchers("/api/accountType/post").hasAnyAuthority("MANAGER","GM")
@@ -94,7 +94,7 @@ public class SecurityConfig {
 					.requestMatchers("/api/loanRepay/poat/{laonId}").hasAuthority("CUSTOMER")
 					.requestMatchers("/api/loanRepay/get-by/loanId/{laonId}").authenticated()
 					// Manager 
-					.requestMatchers("/api/manager/post/branchId").hasAuthority("GM")
+					.requestMatchers("/api/manager/post/{branchId}").hasAuthority("GM")
 					.requestMatchers("/api/manager/put").hasAuthority("MANAGER")
 					.requestMatchers("/api/manager/get-one").hasAuthority("MANAGER")
 					.requestMatchers("/api/manager/get-all").hasAuthority("GM")

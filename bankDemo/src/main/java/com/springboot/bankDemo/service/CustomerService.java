@@ -1,9 +1,11 @@
 package com.springboot.bankDemo.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.springboot.bankDemo.dto.CustomerRegisterDto;
 import com.springboot.bankDemo.model.Customer;
 import com.springboot.bankDemo.model.User;
 import com.springboot.bankDemo.repository.CustomerRepository;
@@ -21,10 +23,19 @@ public class CustomerService {
 	}
 
 	// insert values into customer
-	public Customer postCustomer(Customer customer) {
-		User user = customer.getUser();
+	public Customer postCustomer(CustomerRegisterDto customerRegisterDto) {
+		User user = new User();
+		user.setUsername(customerRegisterDto.getUsername());
+		user.setPassword(customerRegisterDto.getPassword());
 		user.setRole("CUSTOMER");
 		user = userService.signUp(user);
+		Customer customer = new Customer();
+		customer.setFirstName(customerRegisterDto.getFirstName());
+		customer.setLastName(customerRegisterDto.getLastName());
+		customer.setEmail(customerRegisterDto.getEmail());
+		customer.setPhoneNumber(customerRegisterDto.getPhoneNumber());
+		customer.setAddress(customerRegisterDto.getAddress());
+		customer.setRegistrationDate(LocalDate.now());
 		customer.setUser(user);
 		return customerRepository.save(customer);
 	}

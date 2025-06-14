@@ -80,6 +80,7 @@ public class BeneficiaryService {
 
 	// delete beneficiary by id
 	public void deleteById(int id) {
+		beneficiaryRepository.findById(id).orElseThrow(() -> new RuntimeException("ID is Invalid"));
 		beneficiaryRepository.deleteById(id);;
 	}
 }

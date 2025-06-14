@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.springboot.bankDemo.dto.ManagerCreateDto;
 import com.springboot.bankDemo.model.Branch;
 import com.springboot.bankDemo.model.Manager;
 import com.springboot.bankDemo.model.User;
@@ -23,12 +24,20 @@ public class ManagerService {
 	}
 
 	// add manager
-	public Manager postManager(int branchId, Manager manager) {
+	public Manager postManager(int branchId, ManagerCreateDto managerCreateDto) {
 		Branch branch = branchService.getById(branchId);
-		manager.setBranch(branch);
-		User user = manager.getUser();
+		User user = new User();
+		user.setUsername(managerCreateDto.getUsername());
+		user.setPassword(managerCreateDto.getPassword());
 		user.setRole("MANAGER");
 		user = userService.signUp(user);
+		Manager manager = new Manager();
+		manager.setFirstName(managerCreateDto.getFirstName());
+		manager.setLastName(managerCreateDto.getLastName());
+		manager.setEmail(managerCreateDto.getEmail());
+		manager.setAddress(managerCreateDto.getAddress());
+		manager.setPhoneNumber(managerCreateDto.getPhoneNumber());
+		manager.setBranch(branch);
 		manager.setUser(user);
 		return managerRepository.save(manager);
 	}

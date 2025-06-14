@@ -1,6 +1,7 @@
 package com.springboot.bankDemo.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -35,12 +36,12 @@ public class LoanService {
 		loan.setInterestRate(loanPostDto.getInterestRate());
 		loan.setStatus(LoanStatus.ACTIVE);
 		loan.setTermInMonth(loanPostDto.getTermInMonth());
-		loan.setEmiAmount(amount.divide(BigDecimal.valueOf(loanPostDto.getTermInMonth())));
+		loan.setEmiAmount(amount.divide(BigDecimal.valueOf(loanPostDto.getTermInMonth()), 2, RoundingMode.HALF_UP));
 		loan.setBalanceAmount(amount);
 		loan.setStartDate(loanPostDto.getStartDate());
 		loan.setEndDate(loanPostDto.getStartDate().plusMonths(loanPostDto.getTermInMonth()));
 		loan.setLoanApplication(loanApplication);
-		return null;
+		return loanRepository.save(loan);
 	}
 	
 	// update loan balance

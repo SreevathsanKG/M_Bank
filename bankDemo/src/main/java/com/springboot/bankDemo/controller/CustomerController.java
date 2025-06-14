@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.bankDemo.dto.CustomerRegisterDto;
 import com.springboot.bankDemo.model.Customer;
 import com.springboot.bankDemo.service.CustomerService;
 
@@ -25,13 +26,13 @@ public class CustomerController {
 	/*
 	 * AIM: to insert values to customer with user info
 	 * METHOD: POST 
-	 * PARAM: Customer -> RequestBody
+	 * PARAM: CustomerRegisterDto -> RequestBody
 	 * RESPONSE: Customer 
 	 * PATH: /api/customer/post
 	 */
 	@PostMapping("/post")
-	public Customer postCustomer(@RequestBody Customer customer) {
-		return customerService.postCustomer(customer);
+	public Customer postCustomer(@RequestBody CustomerRegisterDto customerRegisterDto) {
+		return customerService.postCustomer(customerRegisterDto);
 	}
 
 	/*

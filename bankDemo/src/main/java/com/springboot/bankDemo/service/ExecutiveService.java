@@ -2,10 +2,9 @@ package com.springboot.bankDemo.service;
 
 import java.util.List;
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.springboot.bankDemo.dto.ExecutiveCreateDto;
 import com.springboot.bankDemo.enums.ExecutiveRole;
 import com.springboot.bankDemo.model.Branch;
 import com.springboot.bankDemo.model.Executive;
@@ -27,13 +26,21 @@ public class ExecutiveService {
 	}
 
 	// add customer-executive
-	public Executive postExecutive(int branchId, String role, Executive executive) {
+	public Executive postExecutive(int branchId, String role, ExecutiveCreateDto executiveCreateDto) {
 		ExecutiveRole.valueOf(role);
 		Branch branch = branchService.getById(branchId);
-		executive.setBranch(branch);
-		User user = executive.getUser();
+		User user = new User();
+		user.setUsername(executiveCreateDto.getUsername());
+		user.setPassword(executiveCreateDto.getPassword());
 		user.setRole(role);
 		user = userService.signUp(user);
+		Executive executive = new Executive();
+		executive.setFirstName(executiveCreateDto.getFirstName());
+		executive.setLastName(executiveCreateDto.getLastName());
+		executive.setEmail(executiveCreateDto.getEmail());
+		executive.setAddress(executiveCreateDto.getAddress());
+		executive.setPhoneNumber(executiveCreateDto.getPhoneNumber());
+		executive.setBranch(branch);
 		executive.setUser(user);
 		return executiveRepository.save(executive);
 	}
@@ -64,9 +71,8 @@ public class ExecutiveService {
 		return executiveRepository.getExecutiveByBranch(branchId);
 	}
 	// fetch all executives
-	public List<Executive> getAll(Integer page, Integer size) {
-		Pageable pageable = PageRequest.of(page, size);
-		return executiveRepository.findAll(pageable).getContent();
+	public List<Executive> getAll() {
+		return executiveRepository.findAll();
 	}
 	
 }

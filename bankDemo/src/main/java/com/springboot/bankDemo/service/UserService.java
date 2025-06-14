@@ -45,12 +45,10 @@ public class UserService {
 			Customer customer = customerRepository.getCustomerByUsername(username);
 			return customer;
 		case "CUSTOMER_EXECUTIVE":
+		case "FINANCE_EXECUTIVE":
+		case "LOAN_EXECUTIVE":
 			Executive executive = executiveRepository.getExecutiveByUsername(username);
 			return executive;
-		case "FINANCE_EXECUTIVE":
-			return null;
-		case "LOAN_EXECUTIVE":
-			return null;
 		case "MANAGER":
 			Manager manager = managerRepository.getManagerByUsername(username);
 			return manager;
