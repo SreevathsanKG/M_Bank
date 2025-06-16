@@ -1,11 +1,16 @@
 import { useState } from "react"
 import axios from "axios"
+import { Link } from "react-router-dom"
+import { Eye, EyeSlash } from 'react-bootstrap-icons'
+import './../css/login.css'
+
 
 function Login() {
 
     let [username, setUsername] = useState("")
     let [password, setPassword] = useState("")
     let [msg, setMsg] = useState("")
+    const [showPassword, setShowPassword] = useState(false);
 
     const processLogin = async () => {
         let encodedString = window.btoa(username+":"+password)
@@ -40,41 +45,65 @@ function Login() {
     }
 
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col-md-12">
-                    <br /><br /><br /><br />
+        <div className="container-fluid min-vh-100 d-flex  align-items-center" >
+            <div className="row w-100">
+
+                <div className="col-md-6 d-flex flex-column justify-content-center px-5">
+                    <h1 className="display-5 text-white fw-bold mb-3">Welcome to Maveric Bank</h1>
+                    <p className="lead text-white text-shadow-md">
+                        Manage your finances with ease. Secure, reliable, and accessible banking at your fingertips.
+                        Log in to check your account, transfer funds, apply for loans, and more!
+                    </p>
+                    <p className="text-white mt-3">
+                        Need help? Contact support@maverickbank.com
+                    </p>
                 </div>
-            </div>
-            <div className="row">
-                <div className="col-md-3"></div>
-                <div className="col-md-5">
-                    <div className="card">
-                        <div className="card-header">LOGIN</div>
+
+                <div className="col-md-6 d-flex justify-content-center">
+                    <div className="card shadow-sm w-75 p-4">
                         <div className="card-body">
+                            <div className="text-center mb-4">
+                                <img src=".\images\logo-transparent.png" className="login-logo" />
+                                <h3 className="card-title gradient-text">LOGIN</h3>
+                            </div>
                             {
                                 msg!=""?<div>
                                     <div className="alert alert-info">{msg}</div>
                                 </div>:""
                             }
-                            <div className="mb-2">
-                                <label>Enter Username: </label>
-                                <input type="text" onChange={($e) => setUsername($e.target.value)} className="form-control"/>
+                            <div class="form-floating mb-3">
+                                <input type="email" class="form-control" placeholder="name@example.com"
+                                    onChange={(e) => setUsername(e.target.value)} />
+                                <label>Email address</label>
                             </div>
-                            <div className="mb-2">
-                                <label>Enter Password: </label>
-                                <input type="text" onChange={($e) => setPassword($e.target.value)} className="form-control"/>
+                            <div class="form-floating">
+                                <input type={showPassword ? "text" : "password"} class="form-control" placeholder="Password"
+                                    onChange={(e) => setPassword(e.target.value)} />
+                                <label>Password</label>
+                                <span
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    style={{
+                                        position: "absolute",
+                                        right: "10px",
+                                        top: "50%",
+                                        transform: "translateY(-50%)",
+                                        cursor: "pointer",
+                                        zIndex: 2,
+                                    }}
+                                >
+                                    {showPassword ? <EyeSlash /> : <Eye />}
+                                </span>
                             </div>
-                            <div className="mb-2">
-                                <button className="btn btn-primary" onClick={() => processLogin()}>LOGIN</button>
+                            <div class="d-grid gap-2 mt-3">
+                                <button class="btn btn-primary rounded-pill" onClick={() => processLogin()}>LOGIN</button>
                             </div>
-                        </div>
-                        <div className="card-footer">
-                            Don't have an account? Sign Up here.
+                            <div className="text-center mt-3">
+                                Don't have an account?{" "}
+                                <Link to="/register">Sign Up</Link>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="col-md-3"></div>
             </div>
         </div>
     )
