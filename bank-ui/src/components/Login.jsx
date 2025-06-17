@@ -3,11 +3,14 @@ import axios from "axios"
 import { Link, useNavigate } from "react-router-dom"
 import { Eye, EyeSlash } from 'react-bootstrap-icons'
 import './../css/login.css'
+import { setUserDetails } from "../store/actions/UserAction"
+import { useDispatch } from "react-redux"
 
 
 function Login() {
 
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     let [username, setUsername] = useState("")
     let [password, setPassword] = useState("")
@@ -28,13 +31,31 @@ function Login() {
                 headers: {"Authorization":"Bearer "+token}
             })
             // console.log(details)
+            let user = {
+                'username': username,
+                'role': details.data.user.role
+            }
+            setUserDetails(dispatch)(user)
+
             let role = details.data.user.role
             switch (role) {
                 case "CUSTOMER":
-                    console.log("go to customer dashboard")
+                    navigate("/customer")
                     break;
                 case "CUSTOMER_EXECUTIVE":
                     console.log("go to customer_executive dashboard")
+                    break;
+                case "FINANCE_EXECUTIVE":
+                    console.log("go to finance_executive dashboard")
+                    break;
+                case "LOAN_EXECUTIVE":
+                    console.log("go to loan_executive dashboard")
+                    break;
+                case "MANAGER":
+                    console.log("go to manager dashboard")
+                    break;
+                case "GM":
+                    console.log("go to GM dashboard")
                     break;
                 default:
                     setMsg("Login Disabled!.. Contact admin at admin@example.com")
@@ -42,6 +63,7 @@ function Login() {
             }
             setMsg("Login Seccess!!")
         }catch(err){
+            console.log(err)
             setMsg("Invalid Credentials!!")
         }
     }
@@ -73,14 +95,15 @@ function Login() {
                                     <div className="alert alert-info">{msg}</div>
                                 </div>:""
                             }
-                            <div class="form-floating mb-3">
-                                <input type="email" class="form-control" placeholder="name@example.com"
-                                    onChange={(e) => setUsername(e.target.value)} />
+                            <form>
+                            <div className="form-floating mb-3">
+                                <input type="email" className="form-control" placeholder="name@example.com"
+                                    onChange={(e) => setUsername(e.target.value)} autoComplete="username"/>
                                 <label>Email address</label>
                             </div>
-                            <div class="form-floating">
-                                <input type={showPassword ? "text" : "password"} class="form-control" placeholder="Password"
-                                    onChange={(e) => setPassword(e.target.value)} />
+                            <div className="form-floating">
+                                <input type={showPassword ? "text" : "password"} className="form-control" placeholder="Password"
+                                    onChange={(e) => setPassword(e.target.value)} autoComplete="current-password"/>
                                 <label>Password</label>
                                 <span
                                     onClick={() => setShowPassword(!showPassword)}
@@ -96,8 +119,9 @@ function Login() {
                                     {showPassword ? <EyeSlash /> : <Eye />}
                                 </span>
                             </div>
-                            <div class="d-grid gap-2 mt-3">
-                                <button class="login-btn btn-primary rounded-pill" onClick={() => processLogin()}>LOGIN</button>
+                            </form>
+                            <div className="d-grid gap-2 mt-3">
+                                <button className="login-btn btn-primary rounded-pill" onClick={() => processLogin()}>LOGIN</button>
                             </div>
                             <div className="text-center mt-3">
                                 Don't have an account?{" "}
