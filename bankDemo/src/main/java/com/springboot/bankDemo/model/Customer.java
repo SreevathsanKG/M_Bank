@@ -25,6 +25,10 @@ public class Customer {
 	@Column(unique = true, nullable = false)
 	private String phoneNumber;
 	@Column(nullable = false)
+	private String gender;
+	@Column(name = "date_of_birth", nullable = false)
+	private LocalDate dateOfBirth;
+	@Column(nullable = false)
 	private String address;
 	@Column(nullable = false)
 	private LocalDate registrationDate;
@@ -43,6 +47,10 @@ public class Customer {
 	public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 	public String getAddress() { return address; }
 	public void setAddress(String address) { this.address = address; }
+	public String getGender() { return gender; }
+	public void setGender(String gender) { this.gender = gender; }
+	public LocalDate getDateOfBirth() { return dateOfBirth; }
+	public void setDateOfBirth(LocalDate dateOfBirth) { this.dateOfBirth = dateOfBirth; }
 	public LocalDate getRegistrationDate() { return registrationDate; } 
 	public void setRegistrationDate(LocalDate registrationDate) { this.registrationDate = registrationDate; }
 	public User getUser() { return user; }

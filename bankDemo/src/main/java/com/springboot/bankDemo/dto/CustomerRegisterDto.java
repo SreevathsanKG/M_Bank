@@ -1,5 +1,7 @@
 package com.springboot.bankDemo.dto;
 
+import java.time.LocalDate;
+
 public class CustomerRegisterDto {
 
 	private String firstName;
@@ -7,19 +9,23 @@ public class CustomerRegisterDto {
 	private String email;
 	private String phoneNumber;
 	private String address;
+	private String gender;
+	private LocalDate dateOfBirth;
 	private String username;
 	private String password;
 	
 	public CustomerRegisterDto() {	}
 
 	public CustomerRegisterDto(String firstName, String lastName, String email, String phoneNumber, String address,
-			String username, String password) {
+			String gender, LocalDate dateOfBirth, String username, String password) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
+		this.gender = gender;
+		this.dateOfBirth = dateOfBirth;
 		this.username = username;
 		this.password = password;
 	}
@@ -53,6 +59,18 @@ public class CustomerRegisterDto {
 	}
 	public void setAddress(String address) {
 		this.address = address;
+	}	
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public LocalDate getDateOfBirth() {
+		return dateOfBirth;
+	}
+	public void setDateOfBirth(LocalDate dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
 	}
 	public String getUsername() {
 		return username;

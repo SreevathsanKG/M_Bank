@@ -1,4 +1,4 @@
-body {
+.login-container-fluid {
     position: relative;
     overflow-x: hidden;
     background: linear-gradient(to right,
@@ -23,12 +23,12 @@ body,
 
 
 /* Text shadow for left column to improve readability on images */
-.text-shadow-md {
+.login-text-shadow-md {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 /* General button styling adjustments */
-.btn-primary {
+.login-btn {
     background: linear-gradient(to right,
             #df0060,
             #b10075,
@@ -40,7 +40,7 @@ body,
 
 
 /* login text color change */
-.card-title{
+.login-card-title{
     background: linear-gradient(
     to right,
     #df0060,
@@ -63,7 +63,7 @@ background-clip: text;
   width: auto;
 }
 
-.gradient-text {
+.login-gradient-text {
   background: linear-gradient(to right, #e7008a, #0000b8);
   -webkit-background-clip: text;
   background-clip: text;

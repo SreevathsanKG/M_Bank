@@ -1,11 +1,13 @@
 import { useState } from "react"
 import axios from "axios"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { Eye, EyeSlash } from 'react-bootstrap-icons'
 import './../css/login.css'
 
 
 function Login() {
+
+    const navigate = useNavigate()
 
     let [username, setUsername] = useState("")
     let [password, setPassword] = useState("")
@@ -45,12 +47,12 @@ function Login() {
     }
 
     return (
-        <div className="container-fluid min-vh-100 d-flex  align-items-center" >
+        <div className="login-container-fluid min-vh-100 d-flex  align-items-center " >
             <div className="row w-100">
 
                 <div className="col-md-6 d-flex flex-column justify-content-center px-5">
                     <h1 className="display-5 text-white fw-bold mb-3">Welcome to Maveric Bank</h1>
-                    <p className="lead text-white text-shadow-md">
+                    <p className="lead text-white login-text-shadow-md">
                         Manage your finances with ease. Secure, reliable, and accessible banking at your fingertips.
                         Log in to check your account, transfer funds, apply for loans, and more!
                     </p>
@@ -64,7 +66,7 @@ function Login() {
                         <div className="card-body">
                             <div className="text-center mb-4">
                                 <img src=".\images\logo-transparent.png" className="login-logo" />
-                                <h3 className="card-title gradient-text">LOGIN</h3>
+                                <h3 className="login-card-title login-gradient-text">LOGIN</h3>
                             </div>
                             {
                                 msg!=""?<div>
@@ -95,11 +97,11 @@ function Login() {
                                 </span>
                             </div>
                             <div class="d-grid gap-2 mt-3">
-                                <button class="btn btn-primary rounded-pill" onClick={() => processLogin()}>LOGIN</button>
+                                <button class="login-btn btn-primary rounded-pill" onClick={() => processLogin()}>LOGIN</button>
                             </div>
                             <div className="text-center mt-3">
                                 Don't have an account?{" "}
-                                <Link to="/register">Sign Up</Link>
+                                <Link onClick={() => navigate("/signup")} to="/signup">Sign Up</Link>
                             </div>
                         </div>
                     </div>

@@ -35,6 +35,8 @@ public class CustomerService {
 		customer.setEmail(customerRegisterDto.getEmail());
 		customer.setPhoneNumber(customerRegisterDto.getPhoneNumber());
 		customer.setAddress(customerRegisterDto.getAddress());
+		customer.setDateOfBirth(customerRegisterDto.getDateOfBirth());
+		customer.setGender(customerRegisterDto.getGender());
 		customer.setRegistrationDate(LocalDate.now());
 		customer.setUser(user);
 		return customerRepository.save(customer);
@@ -63,6 +65,10 @@ public class CustomerService {
 			dbCustomer.setPhoneNumber(updatedCustomer.getPhoneNumber());
 		if(updatedCustomer.getAddress() != null)
 			dbCustomer.setAddress(updatedCustomer.getAddress());
+		if(updatedCustomer.getDateOfBirth() != null)
+			dbCustomer.setDateOfBirth(updatedCustomer.getDateOfBirth());
+		if(updatedCustomer.getGender() != null)
+			dbCustomer.setGender(updatedCustomer.getGender());
 		return customerRepository.save(dbCustomer);
 	}
 

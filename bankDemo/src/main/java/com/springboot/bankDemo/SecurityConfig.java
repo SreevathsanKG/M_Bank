@@ -108,6 +108,7 @@ public class SecurityConfig {
 					.requestMatchers("/api/transaction/get-nMonth/{accountId}").hasAnyAuthority("CUSTOMER","FINANCE_EXECUTIVE","MANAGER","GM")
 					.requestMatchers("/api/transaction/get/statement/{accountId}").hasAnyAuthority("CUSTOMER","FINANCE_EXECUTIVE","MANAGER","GM")
 					// User
+//					.requestMatchers("/api/user/signup").permitAll()
 					.requestMatchers("/api/user/token").permitAll()
 					.requestMatchers("/api/user/details").permitAll()
 					.anyRequest().authenticated()
