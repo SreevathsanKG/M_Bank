@@ -45,7 +45,7 @@ public class ExecutiveServiceTest {
 		user.setId(1);
 		user.setUsername("john@gmail.com");
 		user.setPassword("john@123");
-		user.setRole("CUSTOMER_EXECUTIVE");
+		user.setRole("EXECUTIVE");
 
 		branch = new Branch();
 		branch.setId(1);
@@ -80,7 +80,7 @@ public class ExecutiveServiceTest {
 		when(branchService.getById(1)).thenReturn(branch);
 		when(userService.signUp(any(User.class))).thenReturn(user);
 		when(executiveRepository.save(any(Executive.class))).thenReturn(executive);
-		assertEquals(executive, executiveService.postExecutive(1, "CUSTOMER_EXECUTIVE", executiveCreateDto));
+		assertEquals(executive, executiveService.postExecutive(1, executiveCreateDto));
 	}
 
 	@Test

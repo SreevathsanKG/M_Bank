@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.springboot.bankDemo.dto.ExecutiveCreateDto;
-import com.springboot.bankDemo.enums.ExecutiveRole;
 import com.springboot.bankDemo.model.Branch;
 import com.springboot.bankDemo.model.Executive;
 import com.springboot.bankDemo.model.User;
@@ -26,13 +25,12 @@ public class ExecutiveService {
 	}
 
 	// add customer-executive
-	public Executive postExecutive(int branchId, String role, ExecutiveCreateDto executiveCreateDto) {
-		ExecutiveRole.valueOf(role);
+	public Executive postExecutive(int branchId, ExecutiveCreateDto executiveCreateDto) {
 		Branch branch = branchService.getById(branchId);
 		User user = new User();
 		user.setUsername(executiveCreateDto.getUsername());
 		user.setPassword(executiveCreateDto.getPassword());
-		user.setRole(role);
+		user.setRole("EXECUTIVE");
 		user = userService.signUp(user);
 		Executive executive = new Executive();
 		executive.setFirstName(executiveCreateDto.getFirstName());

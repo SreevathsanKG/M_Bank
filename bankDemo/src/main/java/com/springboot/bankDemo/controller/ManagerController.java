@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,16 +23,16 @@ public class ManagerController {
 	private ManagerService managerService;
 	
 	/*
-	 * AIM: manager inserted by GM
+	 * AIM: manager inserted by ADMIN
 	 * METHOD: POST 
-	 * PARAM: ManagerCreateDto -> RequestBody, branchId -> RequestParam
+	 * PARAM: ManagerCreateDto -> RequestBody
 	 * RESPONSE: Manager 
-	 * PATH: /api/anager/post/{branchId}
-	 * ACCESS: GM
+	 * PATH: /api/anager/post
+	 * ACCESS: ADMIN
 	 */
-	@PostMapping("/post/{branchId}")
-	public Manager postManager(@PathVariable int branchId, @RequestBody ManagerCreateDto managerCreateDto) {
-		return managerService.postManager(branchId, managerCreateDto);
+	@PostMapping("/post")
+	public Manager postManager(@RequestBody ManagerCreateDto managerCreateDto) {
+		return managerService.postManager(managerCreateDto);
 	}
 	
 	/*

@@ -3,6 +3,7 @@ package com.springboot.bankDemo.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.springboot.bankDemo.model.Admin;
 import com.springboot.bankDemo.model.Customer;
 import com.springboot.bankDemo.model.Executive;
 import com.springboot.bankDemo.model.Manager;
@@ -44,14 +45,17 @@ public class UserService {
 		case "CUSTOMER":
 			Customer customer = customerRepository.getCustomerByUsername(username);
 			return customer;
-		case "CUSTOMER_EXECUTIVE":
-		case "FINANCE_EXECUTIVE":
-		case "LOAN_EXECUTIVE":
+		case "EXECUTIVE":
 			Executive executive = executiveRepository.getExecutiveByUsername(username);
 			return executive;
 		case "MANAGER":
 			Manager manager = managerRepository.getManagerByUsername(username);
 			return manager;
+		case "ADMIN":
+			Admin admin = new Admin();
+			admin.setName("Admin");
+			admin.setUser(user);
+			return admin;
 		default:
 			return null;
 		}

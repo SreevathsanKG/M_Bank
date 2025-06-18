@@ -1,10 +1,8 @@
 package com.springboot.bankDemo.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.springboot.bankDemo.enums.LoanApplicationStatus;
-import com.springboot.bankDemo.enums.LoanType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,18 +21,11 @@ public class LoanApplication {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	@Column(name = "required_loan_amount", nullable = false)
-	private BigDecimal requiredLoanAmount;
-	@Enumerated(EnumType.STRING)
-	@Column(name = "loan_type", nullable = false)
-	private LoanType loanType;
+	@ManyToOne(optional = false)
+	private LoanDetails loanDetails;
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private LoanApplicationStatus status;
-	@Column
-	private String remark;
-	@Column(nullable = false)
-	private String document;
 	@Column(name = "application_date", nullable = false)
 	private LocalDate applicationDate;
 	@ManyToOne(optional = false)
@@ -46,35 +37,17 @@ public class LoanApplication {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public BigDecimal getRequiredLoanAmount() {
-		return requiredLoanAmount;
+	public LoanDetails getLoanDetails() {
+		return loanDetails;
 	}
-	public void setRequiredLoanAmount(BigDecimal requiredLoanAmount) {
-		this.requiredLoanAmount = requiredLoanAmount;
-	}
-	public LoanType getLoanType() {
-		return loanType;
-	}
-	public void setLoanType(LoanType loanType) {
-		this.loanType = loanType;
+	public void setLoanDetails(LoanDetails loanDetails) {
+		this.loanDetails = loanDetails;
 	}
 	public LoanApplicationStatus getStatus() {
 		return status;
 	}
 	public void setStatus(LoanApplicationStatus status) {
 		this.status = status;
-	}
-	public String getRemark() {
-		return remark;
-	}
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
-	public String getDocument() {
-		return document;
-	}
-	public void setDocument(String document) {
-		this.document = document;
 	}
 	public LocalDate getApplicationDate() {
 		return applicationDate;

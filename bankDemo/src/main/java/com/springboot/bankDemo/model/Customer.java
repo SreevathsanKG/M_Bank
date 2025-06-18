@@ -1,5 +1,6 @@
 package com.springboot.bankDemo.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,7 +33,7 @@ public class Customer {
 	private String address;
 	@Column(nullable = false)
 	private LocalDate registrationDate;
-	@OneToOne(optional = false)
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	private User user;
 	
 	public int getId() { return id; }

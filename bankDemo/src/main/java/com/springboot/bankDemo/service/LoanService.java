@@ -1,46 +1,40 @@
 package com.springboot.bankDemo.service;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.springboot.bankDemo.dto.LoanPostDto;
+import com.springboot.bankDemo.enums.LoanApplicationStatus;
 import com.springboot.bankDemo.enums.LoanStatus;
 import com.springboot.bankDemo.model.Loan;
 import com.springboot.bankDemo.model.LoanApplication;
-import com.springboot.bankDemo.repository.LoanApplicationRepository;
 import com.springboot.bankDemo.repository.LoanRepository;
 
 @Service
 public class LoanService {
 
 	private LoanRepository loanRepository;
-	private LoanApplicationRepository loanApplicationRepository;
+	private TransactionService transactionService;
 	
-	public LoanService(LoanRepository loanRepository, LoanApplicationRepository loanApplicationRepository) {
+	public LoanService(LoanRepository loanRepository, TransactionService transactionService) {
 		this.loanRepository = loanRepository;
-		this.loanApplicationRepository = loanApplicationRepository;
+		this.transactionService = transactionService;
 	}
 	
 	// post loan with loan application
-	public Loan postLoan(int loanApplicationId, LoanPostDto loanPostDto) {
+	public Loan postLoan(LoanApplication loanApplication) {
 		Loan loan = new Loan();
-		LoanApplication loanApplication = loanApplicationRepository.findById(loanApplicationId)
-				.orElseThrow(() -> new RuntimeException("ID is Invalid"));
-		BigDecimal amount = loanApplication.getRequiredLoanAmount();
-		loan.setPrincipalAmount(amount);
-		loan.setTotalRepayableAmount(amount.add(amount.multiply(loanPostDto.getInterestRate())));
-		loan.setLoanType(loanApplication.getLoanType());
-		loan.setInterestRate(loanPostDto.getInterestRate());
+		if(!loanApplication.getStatus().equals(LoanApplicationStatus.APPROVED))
+			throw new RuntimeException("LoanApplication is not Approved");
 		loan.setStatus(LoanStatus.ACTIVE);
-		loan.setTermInMonth(loanPostDto.getTermInMonth());
-		loan.setEmiAmount(amount.divide(BigDecimal.valueOf(loanPostDto.getTermInMonth()), 2, RoundingMode.HALF_UP));
-		loan.setBalanceAmount(amount);
-		loan.setStartDate(loanPostDto.getStartDate());
-		loan.setEndDate(loanPostDto.getStartDate().plusMonths(loanPostDto.getTermInMonth()));
+		loan.setBalanceAmount(loanApplication.getLoanDetails().getPrincipalAmount());
+		loan.setStartDate(LocalDate.now());
+		loan.setEndDate(LocalDate.now().plusMonths(loanApplication.getLoanDetails().getTermInMonth()));
 		loan.setLoanApplication(loanApplication);
+		transactionService.postLoanDeposite(loanApplication.getAccount().getId(), 
+									loanApplication.getLoanDetails().getPrincipalAmount());
 		return loanRepository.save(loan);
 	}
 	

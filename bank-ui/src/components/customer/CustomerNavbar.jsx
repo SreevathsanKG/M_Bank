@@ -1,44 +1,36 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import '../../../src/css/customer.css'
+import '../../css/CustomerDashboard.css';
 import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from "../../store/actions/UserAction";
 
-function Navbar() {
+function CustomerNavbar() {
     const [user,] = useState(useSelector(state => state.user));
-    console.log(user)
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const dispatch = useDispatch()
     const logout = () => {
         let u = {
-            'username': "",
-            'role': ""
+            "username": "",
+            "role": ""
         }
         setUserDetails(dispatch)(u)
         localStorage.clear();
         navigate("/")
     }
     return (
-        <div className="navbar navbar-expand-lg px-4 py-2 d-flex justify-content-between align-items-center mb-0 border-0 shadow-none">
-            {/* Logo */}
-            <div className="navbar-brand fw-bold">
-                {/* <img src=".\images\logo-transparent.png" className="nav-logo" /> */}
-                🏦 <label className="nav-title">Maverick Bank</label>
-            </div>
-
-            {/* Navigation Links */}
-            <div className="d-flex gap-4 nav-title">
-                <a className="nav-link" href="#home">Home</a>
-                <a className="nav-link" href="#account">Account</a>
-                <a className="nav-link" href="#transaction">Transaction</a>
-                <a className="nav-link" href="#loan">Loan</a>
-            </div>
-
-            {/* Profile + Welcome + Logout */}
-            <div className="d-flex align-items-center gap-3 profile">
+        <div >
+            <nav className="navbar justify-content-between"  >
+                <div className="d-flex align-items-center gap-4 "></div>
+                <div className="d-flex align-items-center gap-4 "></div>
+                <div className="d-flex align-items-center gap-4 profile">
+                {/* <div className="form-inline mt-2 mb-4 ">
+                    Welcome {name}
+                    &nbsp;&nbsp;&nbsp;
+                    <button class="btn btn-outline-success" onClick={() => logout()}>Logout</button>
+                </div> */}
+                <div></div>
                 <span className="">Welcome, <strong>{user.username}</strong></span>
-
-                <div className="dropdown">
+                <div className="dropdown me-2">
                     <img
                         src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
                         width="35"
@@ -54,9 +46,11 @@ function Navbar() {
                         <li><button className="dropdown-item" onClick={()=>logout()}>Logout</button></li>
                     </ul>
                 </div>
-            </div>
+                 </div>
+            </nav>
+
         </div>
     )
 }
 
-export default Navbar; 
+export default CustomerNavbar; 

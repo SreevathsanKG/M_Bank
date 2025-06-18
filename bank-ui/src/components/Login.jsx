@@ -5,6 +5,8 @@ import { Eye, EyeSlash } from 'react-bootstrap-icons'
 import './../css/login.css'
 import { setUserDetails } from "../store/actions/UserAction"
 import { useDispatch } from "react-redux"
+import { Password } from 'primereact/password';
+import { FloatLabel } from 'primereact/floatlabel';
 
 
 function Login() {
@@ -30,7 +32,7 @@ function Login() {
             let details = await axios.get("http://localhost:8080/api/user/details",{
                 headers: {"Authorization":"Bearer "+token}
             })
-            // console.log(details)
+            console.log(details)
             let user = {
                 'username': username,
                 'role': details.data.user.role
@@ -42,20 +44,14 @@ function Login() {
                 case "CUSTOMER":
                     navigate("/customer")
                     break;
-                case "CUSTOMER_EXECUTIVE":
-                    console.log("go to customer_executive dashboard")
-                    break;
-                case "FINANCE_EXECUTIVE":
-                    console.log("go to finance_executive dashboard")
-                    break;
-                case "LOAN_EXECUTIVE":
-                    console.log("go to loan_executive dashboard")
+                case "EXECUTIVE":
+                    console.log("go to executive dashboard")
                     break;
                 case "MANAGER":
                     console.log("go to manager dashboard")
                     break;
-                case "GM":
-                    console.log("go to GM dashboard")
+                case "ADMIN":
+                    navigate("/admin")
                     break;
                 default:
                     setMsg("Login Disabled!.. Contact admin at admin@example.com")

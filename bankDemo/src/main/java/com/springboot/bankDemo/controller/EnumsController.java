@@ -17,17 +17,6 @@ public class EnumsController {
 	private EnumsService enumsService;
 	
 	/*
-	 * AIM: fetch all executive role from enum
-	 * METHOD: GET
-	 * RESPONSE: List<String>
-	 * PATH: /api/enums/executive/roles/get
-	 * */
-	@GetMapping("/executive/roles/get")
-	public List<String> getEnumExecutiveRoles() {
-		return enumsService.getEnumExecutiveRoles();
-	}
-	
-	/*
 	 * AIM: fetch all loan application status from enum
 	* METHOD: GET
 	 * RESPONSE: List<String>

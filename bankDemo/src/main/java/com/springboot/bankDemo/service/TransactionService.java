@@ -67,19 +67,31 @@ public class TransactionService {
 		return transactionRepository.save(transaction);
 	}
 	
-	// loan withdraw
-	public Transaction postLoanWithdraw(int accountId, TransactionDto transactionDto) {
+	// loan deposite
+	public Transaction postLoanDeposite(int accountId, BigDecimal amount) {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new RuntimeException("ID is Invalid"));
-		BigDecimal amount = transactionDto.getAmount();
+		if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0)
+			throw new RuntimeException("Amount cannot be less than or equal to Zero");
+		account.setBalance(account.getBalance().add(amount));
+		accountRepository.save(account);
+		String description = "Loan Amount"; 
+		transaction = returnSetTransaction("LOAN", amount, account, EntryType.DEBIT, description, account);
+		return transactionRepository.save(transaction);
+	}
+	
+	// loan withdraw
+	public Transaction postLoanWithdraw(int accountId, BigDecimal amount) {
+		Account account = accountRepository.findById(accountId)
+				.orElseThrow(() -> new RuntimeException("ID is Invalid"));
 		if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0)
 			throw new RuntimeException("Amount cannot be less than or equal to Zero");
 		if (account.getBalance().compareTo(amount) < 0)
 			throw new RuntimeException("Insufficient balance in the account");
 		account.setBalance(account.getBalance().subtract(amount));
 		accountRepository.save(account);
-		transaction = returnSetTransaction("LOAN", amount, account, EntryType.DEBIT,
-				transactionDto.getDescription(), account);
+		String description = "Loan Repayment"; 
+		transaction = returnSetTransaction("LOAN", amount, account, EntryType.DEBIT, description, account);
 		return transactionRepository.save(transaction);
 	}
 

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.bankDemo.dto.ExecutiveCreateDto;
@@ -29,12 +28,12 @@ public class ExecutiveController {
 	 * METHOD: POST 
 	 * PARAM: ExecutiveCreateDto -> RequestBody, Pathvariable branch id
 	 * RESPONSE: Executive 
-	 * PATH: /api/executive/post/{branachId}/?role=CUSTOMER_EXECUTIVE
+	 * PATH: /api/executive/post/{branachId}
 	 * ACCESS: MANAGER, GM
 	 */
 	@PostMapping("/post/{branchId}/")
-	public Executive postExecutive(@PathVariable int branchId,@RequestParam String role, @RequestBody ExecutiveCreateDto executiveCreateDto) {
-		return executiveService.postExecutive(branchId, role, executiveCreateDto);
+	public Executive postExecutive(@PathVariable int branchId, @RequestBody ExecutiveCreateDto executiveCreateDto) {
+		return executiveService.postExecutive(branchId, executiveCreateDto);
 	}
 	
 	/*

@@ -7,22 +7,30 @@ import org.springframework.stereotype.Service;
 
 import com.springboot.bankDemo.enums.LoanApplicationStatus;
 import com.springboot.bankDemo.model.LoanApplication;
+import com.springboot.bankDemo.model.LoanDetails;
 import com.springboot.bankDemo.repository.LoanApplicationRepository;
+import com.springboot.bankDemo.repository.LoanDetailsRepository;
 
 @Service
 public class LoanApplicationService {
 
 	private LoanApplicationRepository loanApplicationRepository;
+	private LoanDetailsRepository loanDetailsRepository;
+	private LoanService loanService;
 
-	public LoanApplicationService(LoanApplicationRepository loanApplicationRepository) {
+	public LoanApplicationService(LoanApplicationRepository loanApplicationRepository, LoanDetailsRepository loanDetailsRepository, LoanService loanService) {
 		this.loanApplicationRepository = loanApplicationRepository;
+		this.loanDetailsRepository = loanDetailsRepository;
+		this.loanService = loanService;
 	}
 	
 	// post loan application
-	public LoanApplication postLoanApplication(LoanApplication loanApplication) {
+	public LoanApplication postLoanApplication(int loanDetailsId, int accountId) {
+		LoanDetails loanDetails = loanDetailsRepository.findById(loanDetailsId).orElseThrow(() -> new RuntimeException("ID is Invalid"));
+		LoanApplication loanApplication = new LoanApplication();
 		loanApplication.setStatus(LoanApplicationStatus.PENDING);
 		loanApplication.setApplicationDate(LocalDate.now());
-		boolean exists = loanApplicationRepository.getLoanAppExistsByCustomerAndType(loanApplication.getAccount().getCustomer(), loanApplication.getLoanType());
+		boolean exists = loanApplicationRepository.getLoanAppExistsByCustomerAndType(loanApplication.getAccount().getCustomer(), loanDetails.getLoanType());
 		if(exists)
 			throw new RuntimeException("Customer has already applied or has the Loan of this type");
 		return loanApplicationRepository.save(loanApplication);
@@ -36,10 +44,11 @@ public class LoanApplicationService {
 	}
 	
 	// change loan application status
-	public LoanApplication putLoanApplicationStatus(int id, String status, String remark) {
+	public LoanApplication putLoanApplicationStatus(int id, String status) {
 		LoanApplication loanApplication = loanApplicationRepository.findById(id).orElseThrow(() -> new RuntimeException("ID is Invalid"));
 		loanApplication.setStatus(LoanApplicationStatus.valueOf(status));
-		loanApplication.setRemark(remark);
+		if (status.equals("APPROVED"))
+			loanService.postLoan(loanApplication);
 		return loanApplicationRepository.save(loanApplication);
 	}
 	

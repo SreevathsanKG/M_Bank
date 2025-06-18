@@ -2,8 +2,10 @@ package com.springboot.bankDemo.dto;
 
 import java.math.BigDecimal;
 
-import jakarta.validation.constraints.NotBlank;
+import org.springframework.stereotype.Component;
 
+import jakarta.validation.constraints.NotBlank;
+@Component
 public class TransactionDto {
 
 	@NotBlank(message = "Amount cannot be blank")

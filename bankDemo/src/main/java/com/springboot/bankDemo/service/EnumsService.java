@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.springboot.bankDemo.enums.ExecutiveRole;
 import com.springboot.bankDemo.enums.LoanApplicationStatus;
 import com.springboot.bankDemo.enums.LoanStatus;
 import com.springboot.bankDemo.enums.LoanType;
@@ -13,12 +12,6 @@ import com.springboot.bankDemo.enums.TransferType;
 
 @Service
 public class EnumsService {
-
-	// fetch all executive roles in enum
-	public List<String> getEnumExecutiveRoles() {
-		List<String> roles = Arrays.stream(ExecutiveRole.values()).map(r -> r.name()).toList();
-		return roles;
-	}
 	
 	// fetch loan application status from enum
 	public List<String> getEnumLoanApplicationStatus() {

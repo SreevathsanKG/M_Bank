@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,13 +25,13 @@ public class LoanApplicationController {
 	/*
 	 * AIM: post loan application
 	 * METHOD: POST
-	 * PARAM: RequestBody -> LoanApplication
+	 * PARAM: PathVariable - > LoanDetailsId, AccountId
 	 * RESPONSE: LoanApplication
-	 * PATH: /api/loanApply/post
+	 * PATH: /api/loanApply/post/{loanDetailsId}
 	 * */
-	@PostMapping("/post")
-	public LoanApplication postLoanApplication(@RequestBody LoanApplication loanApplication) {
-		return loanApplicationService.postLoanApplication(loanApplication);
+	@PostMapping("/post/{loanDetailsId}")
+	public LoanApplication postLoanApplication(@PathVariable int loanDetailsId, @PathVariable int accountId) {
+		return loanApplicationService.postLoanApplication(loanDetailsId, accountId);
 	}
 	
 	/*
@@ -50,13 +49,13 @@ public class LoanApplicationController {
 	/*
 	 * AIM: update loan status
 	 * METHOD: PUT
-	 * PARAM: PathVariable -> ID | RequestParam -> status, remark
+	 * PARAM: PathVariable -> ID | RequestParam -> status
 	 * RESPONSE: LoanApplication
-	 * PATH: /api/loanApply/put/status/{id}?status=APPROVED&remark=Verified
+	 * PATH: /api/loanApply/put/status/{id}?status=APPROVED
 	 * */
 	@PutMapping("/put/status/{id}")
-	public LoanApplication putLoanApplicationStatus(@PathVariable int id, @RequestParam String status, @RequestParam String remark) {
-		return loanApplicationService.putLoanApplicationStatus(id, status, remark);
+	public LoanApplication putLoanApplicationStatus(@PathVariable int id, @RequestParam String status) {
+		return loanApplicationService.putLoanApplicationStatus(id, status);
 	}
 	
 	/*

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.springboot.bankDemo.dto.LoanPostDto;
 import com.springboot.bankDemo.model.Loan;
+import com.springboot.bankDemo.model.LoanApplication;
 import com.springboot.bankDemo.service.LoanService;
 
 @RestController
@@ -25,14 +25,14 @@ public class LoanController {
 	
 	/*
 	 * AIM: to post loan by loan application
-	 * PARAM: PathVariable -> LoanApplicationId | RequestBody -> LoanPostDto
+	 * PARAM: RequestBody -> LoanApplication
 	 * METHOD: POST
 	 * RESPONSE: Loan
 	 * PATH: /api/loan/post/{loanApplicationId}
 	 * */
-	@PostMapping("/post/{loanApplicationId}")
-	public Loan postLoan(@PathVariable int loanApplicationId, @RequestBody LoanPostDto loanPostDto) {
-		return loanService.postLoan(loanApplicationId, loanPostDto);
+	@PostMapping("/post")
+	public Loan postLoan(@RequestBody LoanApplication loanApplication) {
+		return loanService.postLoan(loanApplication);
 	}
 	
 	/*

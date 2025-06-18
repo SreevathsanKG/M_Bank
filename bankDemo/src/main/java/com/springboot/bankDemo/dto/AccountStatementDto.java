@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class AccountStatementDto {
 
 	private int accountId;

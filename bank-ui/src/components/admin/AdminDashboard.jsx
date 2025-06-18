@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import '../../css/CustomerDashboard.css';
-import CustomerSidebar from './CustomerSidebar';
+import '../../css/AdminDashboard.css';
+import AdminSidebar from './AdminSidebar';
 import { Outlet } from 'react-router-dom';
-import CustomerNavbar from './CustomerNavbar';
+import AdminNavbar from './AdminNavbar';
 
-function CustomerDashboard() {
+function AdminDashboard() {
 
     useEffect(() => {
             let token = localStorage.getItem('token');
@@ -45,13 +45,13 @@ function CustomerDashboard() {
     return (
         <div className='col-lg-12'>
             <div id="wrapper" ref={wrapperRef}>
-                <CustomerNavbar />
+                <AdminNavbar />
                 <div
                     className="overlay"
                     ref={overlayRef}
                     style={{ display: isClosed ? 'none' : 'block' }}
                 ></div>
-                <CustomerSidebar
+                <AdminSidebar
                     setIsClosed={setIsClosed}
                     overlayRef={overlayRef}
                     wrapperRef={wrapperRef}
@@ -71,7 +71,7 @@ function CustomerDashboard() {
                     </button>
                     <div className="container">
                         <div className="row">
-                            <Outlet />
+                            <Outlet/>
                         </div>
                     </div>
                 </div>
@@ -80,4 +80,4 @@ function CustomerDashboard() {
     )
 }
 
-export default CustomerDashboard
+export default AdminDashboard

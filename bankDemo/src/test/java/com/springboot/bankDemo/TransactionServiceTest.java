@@ -140,7 +140,7 @@ public class TransactionServiceTest {
 		transaction.setTransactionType("LOAN");
 		transaction.setEntryType(EntryType.DEBIT);
 		transaction.setBalanceAfterTxn(account.getBalance().subtract(transactionDto.getAmount()));
-		Transaction result = transactionService.postLoanWithdraw(1, transactionDto);
+		Transaction result = transactionService.postLoanWithdraw(1, BigDecimal.valueOf(100000));
 		assertEquals("LOAN", result.getTransactionType());
 	}
 

@@ -43,13 +43,13 @@ public class LoanRepaymentServiceTest {
 	public void setup() {
 		loan = new Loan();
 		loan.setId(1);
-		loan.setPrincipalAmount(new BigDecimal("100000"));
+//		loan.setPrincipalAmount(new BigDecimal("100000"));
 		loan.setBalanceAmount(new BigDecimal("100000"));
-		loan.setLoanType(LoanType.HOME);
+//		loan.setLoanType(LoanType.HOME);
 		loan.setStatus(LoanStatus.ACTIVE);
-		loan.setInterestRate(new BigDecimal("0.10"));
-		loan.setTermInMonth(12);
-		loan.setEmiAmount(new BigDecimal("8333.33"));
+//		loan.setInterestRate(new BigDecimal("0.10"));
+//		loan.setTermInMonth(12);
+//		loan.setEmiAmount(new BigDecimal("8333.33"));
 		loan.setStartDate(LocalDate.of(2025, 1, 1));
 		loan.setEndDate(LocalDate.of(2026, 1, 1));
 

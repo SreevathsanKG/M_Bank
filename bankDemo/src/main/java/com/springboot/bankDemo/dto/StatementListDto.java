@@ -3,8 +3,11 @@ package com.springboot.bankDemo.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+
 import com.springboot.bankDemo.enums.EntryType;
 
+@Component
 public class StatementListDto {
 
 	private String transactionType;

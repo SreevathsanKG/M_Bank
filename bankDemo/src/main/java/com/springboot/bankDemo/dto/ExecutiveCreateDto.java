@@ -1,5 +1,8 @@
 package com.springboot.bankDemo.dto;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ExecutiveCreateDto {
 
 	private String firstName;

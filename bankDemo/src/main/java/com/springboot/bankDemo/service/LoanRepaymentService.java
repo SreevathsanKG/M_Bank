@@ -17,11 +17,14 @@ public class LoanRepaymentService {
 	private  LoanRepaymentRepository loanRepaymentRepository;
 	private LoanService loanService;
 	private LoanRepository loanRepository;
+	private TransactionService transactionService;
 	
-	public LoanRepaymentService(LoanRepaymentRepository loanRepaymentRepository, LoanService loanService, LoanRepository loanRepository) {
+	public LoanRepaymentService(LoanRepaymentRepository loanRepaymentRepository, LoanService loanService, 
+			LoanRepository loanRepository, TransactionService transactionService) {
 		this.loanRepaymentRepository = loanRepaymentRepository;
 		this.loanService = loanService;
 		this.loanRepository = loanRepository;
+		this.transactionService = transactionService;
 	}
 	
 	// post loan repayment
@@ -32,6 +35,7 @@ public class LoanRepaymentService {
 		loanRepayment.setRepaymentAmount(amount);
 		loanRepayment.setRepaymentDate(LocalDate.now());
 		loanRepayment.setLoan(loan);
+		transactionService.postLoanWithdraw(loan.getLoanApplication().getAccount().getId(), amount);
 		return loanRepaymentRepository.save(loanRepayment);
 	}
 	

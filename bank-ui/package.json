@@ -12,6 +12,8 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2",
     "axios": "^1.9.0",
+    "bootstrap-icons": "^1.13.1",
+    "primereact": "^10.9.6",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.10",
     "react-bootstrap-icons": "^1.11.6",

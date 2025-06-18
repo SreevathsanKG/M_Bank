@@ -2,6 +2,9 @@ package com.springboot.bankDemo.dto;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class CustomerRegisterDto {
 
 	private String firstName;
