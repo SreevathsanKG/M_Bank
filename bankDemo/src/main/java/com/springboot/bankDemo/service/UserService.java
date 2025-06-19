@@ -1,8 +1,11 @@
 package com.springboot.bankDemo.service;
 
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.springboot.bankDemo.enums.UserStatus;
 import com.springboot.bankDemo.model.Admin;
 import com.springboot.bankDemo.model.Customer;
 import com.springboot.bankDemo.model.Executive;
@@ -33,14 +36,29 @@ public class UserService {
 	}
 
 	public User signUp(User user) {
+		if (userRepository.existsByUsername(user.getUsername()))
+			throw new RuntimeException("Username already exists!");
 		String plainPassoword = user.getPassword();							// plain password
 		String encodedPassword = passwordEncoder.encode(plainPassoword);	// encodes the plain password
 		user.setPassword(encodedPassword);									// encrypted password set to user password 
+		user.setUserStatus(UserStatus.ACTIVE);
 		return userRepository.save(user);
+	}
+	
+	public User putUserStatus(int id, String status) {
+		User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("ID is Invalid"));
+		user.setUserStatus(UserStatus.valueOf(status));
+		return userRepository.save(user);
+	}
+	
+	public List<User> getAll() {
+		return userRepository.findAll();
 	}
 	
 	public Object getUserInfo(String username) {
 		User user = userRepository.getByUsername(username);
+		if(user.getUserStatus()!=UserStatus.ACTIVE)
+			return null;
 		switch(user.getRole()) {
 		case "CUSTOMER":
 			Customer customer = customerRepository.getCustomerByUsername(username);

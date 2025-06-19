@@ -7,12 +7,154 @@ body {
 body,
 html {
     height: 100%;
+    overflow: hidden;
+}
+
+html, body, #root {
+    height: 100%;
+    min-height: 100vh; /* Ensures it covers the full viewport height */
+    background: linear-gradient(
+    to right,
+    #df0060,
+    #b10075,
+    #5e0289,
+    #1b008e,
+    #00006b
+); /* A light grey color, replace with your desired hex, rgb, or named color */
+    margin: 0; /* Remove default browser margins */
+    padding: 0; /* Remove default browser padding */
+    font-family: 'Inter', sans-serif; /* Keep your preferred font */
 }
 
 .nav .open>a,
 .nav .open>a:hover,
 .nav .open>a:focus {
     background-color: transparent;
+}
+
+/*------ManageUser------*/
+
+.title-manage{
+    background-image: linear-gradient(
+        to right,
+        #df0060,
+        #b10075,
+        #5e0289,
+        #1b008e,
+        #00006b
+    );
+    -webkit-background-clip: text; /* For WebKit browsers */
+    background-clip: text;
+    -webkit-text-fill-color: transparent; /* Makes the text transparent so the background shows through */
+    color: transparent;
+}
+/* Ensure these styles are strong enough to override PrimeReact defaults */
+.tiny-button {
+    font-size: 0.7rem !important; /* Slightly increased for better readability if too small */
+    padding: 0.25rem 0.5rem !important; /* Adjusted padding */
+    height: 1.8rem !important; /* Fixed height for consistency */
+    line-height: 1 !important; /* Adjust line height to center text vertically */
+    min-width: 80px !important; /* Add a min-width to prevent squishing text too much */
+    border-radius: 8px !important;
+    display: flex; /* Use flex to center content inside button */
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.p-button{
+    border-radius: 12px;
+    border: none;
+}
+
+.card.fixed-height {
+    max-height: calc(100vh - 150px); /* Adjust as needed for top+bottom padding */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    /* Adjust max-width to control card size */
+    max-width: 900px; /* Example: adjust as needed */
+    width: 100%; /* Ensure it takes full width up to max-width */
+    height: 80vh; /* Set a fixed height relative to viewport for the card */
+    border-radius: 16px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensure card-body takes full height of its parent card */
+}
+
+.table-container {
+    flex-grow: 1; /* Allows this container to take up available space */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Hide scrollbar if content is shorter than container */
+}
+
+.p-datatable-wrapper {
+    flex-grow: 1; /* Allows the table wrapper to grow */
+    overflow-y: auto; /* This is where the scroll will be for the table body */
+}
+
+/* Ensure PrimeReact's DataTable's actual table body scrolls */
+.p-datatable-scrollable .p-datatable-tbody {
+    overflow-y: auto;
+}
+
+.table-scroll-area {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.table-paginator {
+    padding-top: 10px;
+}
+
+/* Soft corners and gradient for Add User button */
+.soft-button {
+    border-radius: 12px;
+    background: linear-gradient(90deg, #e91e63, #3f51b5);
+    color: #fff;
+    font-weight: 600;
+    border: none;
+}
+
+.soft-button:hover {
+    filter: brightness(1.1);
+}
+
+/* Card enhancement */
+.custom-card {
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+/* Ensure paginator pages are aligned horizontally */
+.custom-table .p-paginator .p-paginator-pages {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap;
+    gap: 4px;
+}
+
+/* Table pagination spacing */
+.custom-table .p-paginator .p-paginator-pages .p-paginator-page {
+    margin: 0 4px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Pagination active page */
+.custom-table .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background-color: #dff9fb;
+    color: #000;
 }
 
 /*-------------------------------*/
@@ -24,7 +166,7 @@ html {
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
+    transition: all 0.2s ease;
 }
 
 #wrapper.toggled {
@@ -43,7 +185,7 @@ html {
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
+    transition: all 0.2s ease;
 }
 
 #sidebar-wrapper::-webkit-scrollbar {
@@ -56,12 +198,15 @@ html {
 
 #page-content-wrapper {
     width: 100%;
-    padding-top: 70px;
+    padding-top: 68px; /* Adjust based on navbar height */
+    flex-grow: 1; /* Allow content to grow and fill space */
+    overflow: hidden; /* Prevent inner scroll unless explicitly defined */
+    display: flex;
 }
 
 #wrapper.toggled #page-content-wrapper {
-    position: absolute;
-    margin-right: -220px;
+    position: static;
+    margin-right: 0;
 }
 
 /*-------------------------------*/
@@ -72,7 +217,10 @@ html {
 }
 
 .navbar {
-     height: 68px; /* Increased height */
+     height: 68px;
+    position: fixed;
+    width: 100%;
+
 }
 
 .sidebar-nav {

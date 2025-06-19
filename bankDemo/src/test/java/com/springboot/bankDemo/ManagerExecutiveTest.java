@@ -65,7 +65,7 @@ public class ManagerExecutiveTest {
 		manager.setEmail("manager@gmail.com");
 		manager.setPhoneNumber("8888888888");
 		manager.setAddress("Hyderabad");
-		manager.setBranch(branch);
+//		manager.setBranch(branch);
 		manager.setUser(user);
 
 		managerCreateDto = new ManagerCreateDto();

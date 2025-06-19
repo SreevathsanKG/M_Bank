@@ -71,7 +71,7 @@ public class SecurityConfig {
 					.requestMatchers("/api/enum/loan/type/get/").permitAll()
 					.requestMatchers("/api/enum/transfer/type/get/").permitAll()
 					// Executive
-					.requestMatchers("/api/executive/post/{branchId}/").hasAnyAuthority("MANAGER","ADMIN")
+					.requestMatchers("/api/executive/post/{branchId}").hasAnyAuthority("MANAGER","ADMIN")
 					.requestMatchers("/api/executive/put").hasAuthority("EXECUTIVE")
 					.requestMatchers("/api/executive/get-one").hasAuthority("EXECUTIVE")
 					.requestMatchers("/api/executive/get/{branchId}").hasAuthority("MANAGER")
@@ -109,6 +109,8 @@ public class SecurityConfig {
 					.requestMatchers("/api/transaction/get/statement/{accountId}").hasAnyAuthority("CUSTOMER","EXECUTIVE","MANAGER")
 					// User
 					.requestMatchers("/api/user/signup").permitAll()
+					.requestMatchers("/api/user/put/status/{id}").permitAll()
+					.requestMatchers("/api/user/get/all").permitAll()
 					.requestMatchers("/api/user/token").permitAll()
 					.requestMatchers("/api/user/details").permitAll()
 					.anyRequest().authenticated()

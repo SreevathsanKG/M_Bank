@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { CheckCircle, Circle, Dot } from 'react-bootstrap-icons';
-import '../../../src/css/customer.css'
+// import '../../../src/css/customer.css'
 
 function LoanStepper({ currentStep }) {
   const steps = [

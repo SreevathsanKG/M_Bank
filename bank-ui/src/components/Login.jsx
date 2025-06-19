@@ -28,16 +28,18 @@ function Login() {
             // console.log(response.data.token)
             let token = response.data.token
             localStorage.setItem("token", token)
-
+            
             let details = await axios.get("http://localhost:8080/api/user/details",{
                 headers: {"Authorization":"Bearer "+token}
             })
-            console.log(details)
+            // console.log(details)
             let user = {
                 'username': username,
                 'role': details.data.user.role
             }
+            localStorage.setItem("user", JSON.stringify(user));
             setUserDetails(dispatch)(user)
+            
 
             let role = details.data.user.role
             switch (role) {
@@ -83,7 +85,7 @@ function Login() {
                     <div className="card shadow-sm w-75 p-4">
                         <div className="card-body">
                             <div className="text-center mb-4">
-                                <img src=".\images\logo-transparent.png" className="login-logo" />
+                                <img src="./images/logo-transparent.png" className="login-logo" />
                                 <h3 className="login-card-title login-gradient-text">LOGIN</h3>
                             </div>
                             {

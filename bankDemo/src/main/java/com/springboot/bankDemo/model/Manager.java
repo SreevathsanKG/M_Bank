@@ -26,8 +26,6 @@ public class Manager {
 	@Column(nullable = false)
 	private String address;
 	@OneToOne(optional = false)
-	private Branch branch;
-	@OneToOne(optional = false)
 	private User user;
 	
 	public int getId() { return id; }
@@ -42,8 +40,6 @@ public class Manager {
 	public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
 	public String getAddress() { return address; }
 	public void setAddress(String address) { this.address = address; }
-	public Branch getBranch() { return branch; }
-	public void setBranch(Branch branch) { this.branch = branch; }
 	public User getUser() { return user; }
 	public void setUser(User user) { this.user = user; }
 	

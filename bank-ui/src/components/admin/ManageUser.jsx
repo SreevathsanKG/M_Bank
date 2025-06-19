@@ -1,80 +1,108 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { Button } from "primereact/button";
+import "primereact/resources/themes/lara-light-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+import '../../css/AdminDashboard.css';
+import axios from "axios";
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function ManageUser() {
-
+    const userInfo = useSelector((state) => state.userInfo.userInfo);
     const [searchTerm, setSearchTerm] = useState("");
+    const [first, setFirst] = useState(0); // State for pagination: first row index
+    const [rows, setRows] = useState(5); // State for pagination: rows per page
 
-    const users = [
-        { id: 1, first: "Mark", last: "Otto", handle: "@mdo" },
-        { id: 2, first: "Jacob", last: "Thornton", handle: "@fat" },
-        { id: 3, first: "John", last: "Doe", handle: "@social" },
-    ];
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    const filteredUsers = users.filter(user =>
-        `${user.first} ${user.last} ${user.handle}`
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase())
-    );
+    const filteredUserInfo = userInfo.filter((user) => user.role !== "ADMIN")
+            .filter((user) =>
+                `${user.username} ${user.role} ${user.id} ${user.userStatus}`.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+    const onPageChange = (event) => {
+        setFirst(event.first);
+        setRows(event.rows);
+    };
 
     return (
-        <div className="container mt-5">
-            <div className="row">
-                <div className="col-md-12 text-center">
-                    <h1>Manage User</h1>
-                </div>
-                <div className="col-md-12">
-                    <div className="card mb-3 p-3 d-flex flex-row justify-content-between align-items-center">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dropdown button
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                            </ul>
+       <div className="container-fluid py-4">
+            <div className="row justify-content-center">
+                <div className="col-12 col-lg-10">
+                    <div className="card custom-card">
+                        <div className="card-body">
+                            <div className="text-center mb-2 title-manage">
+                                <h1>User Management</h1>
+                                <div>Add, Edit and Manage User</div>
+                            </div>
+
+                            <div className="card mb-3 p-1">
+                                <div className="d-flex gap-3 align-items-center" style={{ width: '100%' }}>
+                                    <div className="w-50">
+                                        <Button
+                                            type="button"
+                                            icon="pi pi-user-plus"
+                                            label="Add New User"
+                                            className="w-100 soft-button"
+                                            onClick={() => navigate('/admin/addUser')}
+                                        />
+                                    </div>
+                                    <div className="w-50">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            placeholder="Search users..."
+                                            value={searchTerm}
+                                            onChange={(e) => setSearchTerm(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* This div is crucial for flex growth and containing the DataTable */}
+                            <div className="table-data-wrapper">
+                                <DataTable
+                                    value={filteredUserInfo}
+                                    showGridlines
+                                    stripedRows
+                                    tableStyle={{ minWidth: "30rem" }}
+                                    className="custom-table"
+                                    scrollable // Enable scrolling for the table body
+                                    scrollHeight="flex" // Make the table body fill available height and scroll
+                                    paginator // Enable paginator
+                                    rows={rows} // Number of rows per page
+                                    first={first} // Index of the first row
+                                    onPage={onPageChange} // Pagination event handler
+                                    paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
+                                >
+                                    <Column field="id" header="User ID" style={{ width: "20%" }} />
+                                    <Column field="username" header="Username" style={{ width: "30%" }} />
+                                    <Column field="role" header="Role" style={{ width: "20%" }} />
+                                    <Column field="userStatus" header="Status" style={{ width: "20%" }} />
+                                    <Column
+                                        header="Action"
+                                        style={{ width: "10%", textAlign: 'center' }}
+                                        body={(s) => (
+                                            <Button
+                                                icon="pi pi-pencil"
+                                                className="p-button-sm p-button-text p-button-rounded"
+                                                title={`Click to ${s.userStatus === "ACTIVE" ? "deactivate" : "activate"} user`}
+                                                onClick={() => navigate(`/admin/putUserStatus/${s.id}/${s.userStatus}`)}
+                                            />
+                                        )}
+                                    />
+                                </DataTable>
+                            </div>
                         </div>
-                        <div>
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Search users..."
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                            />
-                        </div>
-                    </div>
-                    <div className="card">
-                        <table className="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {filteredUsers.map(user => (
-                                    <tr key={user.id}>
-                                        <th scope="row">{user.id}</th>
-                                        <td>{user.first}</td>
-                                        <td>{user.last}</td>
-                                        <td>{user.handle}</td>
-                                    </tr>
-                                ))}
-                                {filteredUsers.length === 0 && (
-                                    <tr>
-                                        <td colSpan="4" className="text-center">No users found</td>
-                                    </tr>
-                                )}
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default ManageUser

@@ -29,9 +29,9 @@ public class ExecutiveController {
 	 * PARAM: ExecutiveCreateDto -> RequestBody, Pathvariable branch id
 	 * RESPONSE: Executive 
 	 * PATH: /api/executive/post/{branachId}
-	 * ACCESS: MANAGER, GM
+	 * ACCESS: MANAGER, ADMIN
 	 */
-	@PostMapping("/post/{branchId}/")
+	@PostMapping("/post/{branchId}")
 	public Executive postExecutive(@PathVariable int branchId, @RequestBody ExecutiveCreateDto executiveCreateDto) {
 		return executiveService.postExecutive(branchId, executiveCreateDto);
 	}

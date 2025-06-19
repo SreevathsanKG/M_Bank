@@ -2,6 +2,7 @@ package com.springboot.bankDemo.controller;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.springboot.bankDemo.model.User;
@@ -38,6 +42,29 @@ public class UserController {
 	@PostMapping("/signup")
 	public User signUp(@RequestBody User user) {
 		return userService.signUp(user);
+	}
+	
+	/*
+	 * AIM: update user status
+	 * METHOD: PUT
+	 * PARAM: User -> RequestParam, ID -> PathVariable
+	 * RESPONSE: User
+	 * PATH: /api/user/put/status/{id}?status=ACTIVE
+	 * */
+	@PutMapping("/put/status/{id}")
+	public User putUserStatus(@PathVariable int id, @RequestParam String status) {
+		return userService.putUserStatus(id, status);
+	}
+	
+	/*
+	 * AIM: get all user
+	 * METHOD: GET
+	 * RESPONSE: List<User>
+	 * PATH: /api/user/get/all
+	 * */
+	@GetMapping("/get/all")
+	public List<User> getAll() {
+		return userService.getAll();
 	}
 	
 	/*

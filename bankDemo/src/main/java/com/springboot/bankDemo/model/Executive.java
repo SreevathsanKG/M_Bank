@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -25,7 +26,7 @@ public class Executive {
 	private String phoneNumber;
 	@Column(nullable = false)
 	private String address;
-	@OneToOne(optional = false)
+	@ManyToOne(optional = false)
 	private Branch branch;
 	@OneToOne(optional = false)
 	private User user;

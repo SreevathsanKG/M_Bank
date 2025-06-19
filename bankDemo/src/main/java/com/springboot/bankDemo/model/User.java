@@ -1,7 +1,11 @@
 package com.springboot.bankDemo.model;
 
+import com.springboot.bankDemo.enums.UserStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,6 +24,9 @@ public class User {
 	private String password;
 	@Column(nullable = false)
 	private String role;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "user_status", nullable = false)
+	private UserStatus userStatus;
 	
 	public int getId() {
 		return id;
@@ -45,5 +52,12 @@ public class User {
 	public void setRole(String role) {
 		this.role = role;
 	}
+	public UserStatus getUserStatus() {
+		return userStatus;
+	}
+	public void setUserStatus(UserStatus userStatus) {
+		this.userStatus = userStatus;
+	}
+	
 	
 }

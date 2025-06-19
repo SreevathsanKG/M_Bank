@@ -1,15 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
 import '../../css/AdminDashboard.css';
+import '../../css/general.css';
 import AdminSidebar from './AdminSidebar';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import AdminNavbar from './AdminNavbar';
+import { useDispatch } from 'react-redux';
+import { fetchUserInfo } from '../../store/actions/UserInfoAction';
+import { setUserDetails } from '../../store/actions/UserAction';
 
 function AdminDashboard() {
 
+    let navigate = useNavigate()
+    let dispatch = useDispatch()
     useEffect(() => {
             let token = localStorage.getItem('token');
-            if (token == null || token == undefined || token == "")
-                navigate("/")
+        if (token == null || token == undefined || token == "")
+            navigate("/")
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user) {
+            setUserDetails(dispatch)(user);
+        }
+        fetchUserInfo(dispatch)()
         }, []);
 
     // State to track if the sidebar/overlay is "closed" (meaning the overlay is hidden and sidebar is collapsed)
@@ -69,7 +80,7 @@ function AdminDashboard() {
                         <span className="hamb-middle"></span>
                         <span className="hamb-bottom"></span>
                     </button>
-                    <div className="container">
+                    <div className="container" >
                         <div className="row">
                             <Outlet/>
                         </div>

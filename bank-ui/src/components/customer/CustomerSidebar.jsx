@@ -20,31 +20,31 @@ function CustomerSidebar({ setIsClosed, overlayRef, wrapperRef }) {
                         </div>
                     </div>
                     <li>
-                        <Link to="/#" onClick={handleLinkClick}>
+                        <Link to="/customer" onClick={handleLinkClick}>
                             <i className="bi bi-safe" style={{ marginRight: "10px" }}></i>
                             My Account
                         </Link>
                     </li>
                     <li>
-                        <Link to="/#" onClick={handleLinkClick}>
+                        <Link to="/customer/transfer" onClick={handleLinkClick}>
                             <i className="bi bi-currency-exchange" style={{ marginRight: "10px" }}/>
                             Transfer
                         </Link>
                     </li>
                     <li>
-                        <Link to="/#" onClick={handleLinkClick}>
+                        <Link to="/customer/loan" onClick={handleLinkClick}>
                             <i className="bi bi-cash-stack" style={{ marginRight: "10px" }}/>
                             Loan
                         </Link>
                     </li>
                     <li>
-                        <Link to="/#" onClick={handleLinkClick}>
+                        <Link to="/customer/report" onClick={handleLinkClick}>
                             <i className="bi bi-file-earmark-text" style={{ marginRight: "10px" }}/>
                             Report
                         </Link>
                     </li>
                     <li>
-                        <Link to="/#" onClick={handleLinkClick}>
+                        <Link to="/customer/profile" onClick={handleLinkClick}>
                             <i className="bi bi-person" style={{ marginRight: "10px" }}/>
                             Profile
                         </Link>

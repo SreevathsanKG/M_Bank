@@ -1,15 +1,27 @@
 import { useEffect, useRef, useState } from 'react';
 import '../../css/CustomerDashboard.css';
+import '../../css/general.css';
 import CustomerSidebar from './CustomerSidebar';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import CustomerNavbar from './CustomerNavbar';
+import { useDispatch } from 'react-redux';
+import { fetchUserInfo } from '../../store/actions/UserInfoAction';
+import { setUserDetails } from '../../store/actions/UserAction';
 
 function CustomerDashboard() {
+
+    let navigate = useNavigate()
+    let dispatch = useDispatch()
 
     useEffect(() => {
             let token = localStorage.getItem('token');
             if (token == null || token == undefined || token == "")
-                navigate("/")
+            navigate("/")
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user) {
+            setUserDetails(dispatch)(user);
+        }
+        fetchUserInfo(dispatch)()
         }, []);
 
     // State to track if the sidebar/overlay is "closed" (meaning the overlay is hidden and sidebar is collapsed)
