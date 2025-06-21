@@ -33,7 +33,7 @@ public class LoanService {
 		loan.setStartDate(LocalDate.now());
 		loan.setEndDate(LocalDate.now().plusMonths(loanApplication.getLoanDetails().getTermInMonth()));
 		loan.setLoanApplication(loanApplication);
-		transactionService.postLoanDeposite(loanApplication.getAccount().getId(), 
+		transactionService.postLoanDeposit(loanApplication.getAccount().getId(), 
 									loanApplication.getLoanDetails().getPrincipalAmount());
 		return loanRepository.save(loan);
 	}

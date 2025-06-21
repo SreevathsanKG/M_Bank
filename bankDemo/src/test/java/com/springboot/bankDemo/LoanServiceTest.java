@@ -2,6 +2,7 @@ package com.springboot.bankDemo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
@@ -16,18 +17,22 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.springboot.bankDemo.enums.AccountStatus;
 import com.springboot.bankDemo.enums.LoanApplicationStatus;
 import com.springboot.bankDemo.enums.LoanStatus;
+import com.springboot.bankDemo.enums.LoanType;
 import com.springboot.bankDemo.model.Account;
 import com.springboot.bankDemo.model.AccountType;
 import com.springboot.bankDemo.model.Branch;
 import com.springboot.bankDemo.model.Customer;
 import com.springboot.bankDemo.model.Loan;
 import com.springboot.bankDemo.model.LoanApplication;
+import com.springboot.bankDemo.model.LoanDetails;
+import com.springboot.bankDemo.model.Transaction;
 import com.springboot.bankDemo.model.User;
-import com.springboot.bankDemo.repository.LoanApplicationRepository;
 import com.springboot.bankDemo.repository.LoanRepository;
 import com.springboot.bankDemo.service.LoanService;
+import com.springboot.bankDemo.service.TransactionService;
 
 @SpringBootTest
 public class LoanServiceTest {
@@ -37,16 +42,17 @@ public class LoanServiceTest {
 	@Mock
 	private LoanRepository loanRepository;
 	@Mock
-	private LoanApplicationRepository loanApplicationRepository;
+    private TransactionService transactionService;
 
 	private User user;
-	private Customer customer;
-	private Branch branch;
-	private AccountType accountType;
-	private Account account;
-	private LoanApplication loanApplication;
-	private Loan loan;
-//	private LoanPostDto loanPostDto;
+    private Customer customer;
+    private Branch branch;
+    private AccountType accountType;
+    private Account account;
+    private LoanApplication loanApplication;
+    private Loan loan;
+    private LoanDetails loanDetails;
+    private Transaction transaction;
 
 	@BeforeEach
 	public void init() {
@@ -86,43 +92,42 @@ public class LoanServiceTest {
 		account.setAccountType(accountType);
 		account.setBalance(accountType.getInitialDeposit());
 		account.setOpenDate(LocalDate.now());
-		account.setStatus("PENDING_APPROVAL");
+		account.setStatus(AccountStatus.PENDING_APPROVAL);
 		account.setPanNumber("ABCDE1234F");
 		account.setAadharNumber("123456789012");
 
-		loanApplication = new LoanApplication();
-		loanApplication.setId(1);
-//		loanApplication.setRequiredLoanAmount(new BigDecimal("100000"));
-//		loanApplication.setLoanType(LoanType.HOME);
-		loanApplication.setStatus(LoanApplicationStatus.APPROVED);
-//		loanApplication.setDocument("doc.pdf");
-		loanApplication.setApplicationDate(LocalDate.now());
-		loanApplication.setAccount(account);
+		loanDetails = new LoanDetails();
+        loanDetails.setId(1);
+        loanDetails.setLoanType(LoanType.HOME);
+        loanDetails.setPrincipalAmount(new BigDecimal("100000"));
+        loanDetails.setInterestRate(new BigDecimal("0.1"));
+        loanDetails.setTermInMonth(12);
+        loanDetails.setTotalRepayableAmount(new BigDecimal("110000"));
+        loanDetails.setEmiAmount(new BigDecimal("9166.67"));
+		
+        loanApplication = new LoanApplication();
+        loanApplication.setId(1);
+        loanApplication.setStatus(LoanApplicationStatus.APPROVED);
+        loanApplication.setApplicationDate(LocalDate.now());
+        loanApplication.setAccount(account);
+        loanApplication.setLoanDetails(loanDetails);
 
-		loan = new Loan();
-		loan.setId(1);
-//		loan.setPrincipalAmount(new BigDecimal("100000"));
-//		loan.setLoanType(LoanType.HOME);
-		loan.setStatus(LoanStatus.ACTIVE);
-//		loan.setInterestRate(new BigDecimal("0.10"));
-//		loan.setTermInMonth(12);
-		loan.setBalanceAmount(new BigDecimal("100000"));
-//		loan.setEmiAmount(new BigDecimal("8333.33"));
-		loan.setStartDate(LocalDate.of(2025, 1, 1));
-		loan.setEndDate(LocalDate.of(2026, 1, 1));
-		loan.setLoanApplication(loanApplication);
-
-//		loanPostDto = new LoanPostDto();
-//		loanPostDto.setInterestRate(new BigDecimal("0.10"));
-//		loanPostDto.setTermInMonth(12);
-//		loanPostDto.setStartDate(LocalDate.of(2025, 1, 1));
+        loan = new Loan();
+        loan.setId(1);
+        loan.setStatus(LoanStatus.ACTIVE);
+        loan.setBalanceAmount(new BigDecimal("100000"));
+        loan.setStartDate(LocalDate.now());
+        loan.setEndDate(LocalDate.now().plusMonths(12));
+        loan.setLoanApplication(loanApplication);
+        
+        transaction = new Transaction();
 	}
 
 	@Test
 	public void postLoanTest() {
-		when(loanApplicationRepository.findById(1)).thenReturn(Optional.of(loanApplication));
+		when(transactionService.postLoanDeposit(anyInt(), any(BigDecimal.class))).thenReturn(transaction);
 		when(loanRepository.save(any(Loan.class))).thenReturn(loan);
-//		assertEquals(loan, loanService.postLoan(1, loanPostDto));
+		assertEquals(loan, loanService.postLoan(loanApplication));
 	}
 
 	@Test
@@ -167,6 +172,6 @@ public class LoanServiceTest {
 		account = null;
 		loanApplication = null;
 		loan = null;
-//		loanPostDto = null;
+		loanDetails = null;
 	}
 }

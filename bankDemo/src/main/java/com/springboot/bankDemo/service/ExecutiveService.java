@@ -36,6 +36,8 @@ public class ExecutiveService {
 		executive.setFirstName(executiveCreateDto.getFirstName());
 		executive.setLastName(executiveCreateDto.getLastName());
 		executive.setEmail(executiveCreateDto.getEmail());
+		executive.setDateOfBirth(executiveCreateDto.getDateOfBirth());
+		executive.setGender(executiveCreateDto.getGender());
 		executive.setAddress(executiveCreateDto.getAddress());
 		executive.setPhoneNumber(executiveCreateDto.getPhoneNumber());
 		executive.setBranch(branch);
@@ -52,6 +54,10 @@ public class ExecutiveService {
 			dbExecutive.setLastName(executive.getLastName());
 		if (executive.getEmail() != null)
 			dbExecutive.setEmail(executive.getEmail());
+		if (executive.getDateOfBirth() != null)
+			dbExecutive.setDateOfBirth(executive.getDateOfBirth());
+		if (executive.getGender() != null)
+			dbExecutive.setGender(executive.getGender());
 		if (executive.getPhoneNumber() != null)
 			dbExecutive.setPhoneNumber(executive.getPhoneNumber());
 		if (executive.getAddress() != null)

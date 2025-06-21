@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.springboot.bankDemo.dto.AccountStatementDto;
 import com.springboot.bankDemo.dto.TransactionDto;
 import com.springboot.bankDemo.dto.TransactionListDto;
+import com.springboot.bankDemo.enums.AccountStatus;
 import com.springboot.bankDemo.enums.EntryType;
 import com.springboot.bankDemo.model.Account;
 import com.springboot.bankDemo.model.AccountType;
@@ -93,7 +94,7 @@ public class TransactionServiceTest {
 		account.setAccountType(accountType);
 		account.setBalance(accountType.getInitialDeposit());
 		account.setOpenDate(LocalDate.now());
-		account.setStatus("PENDING_APPROVAL");
+		account.setStatus(AccountStatus.PENDING_APPROVAL);
 		account.setPanNumber("ABCDE1234F");
 		account.setAadharNumber("123456789012");
 
@@ -131,12 +132,26 @@ public class TransactionServiceTest {
 		Transaction result = transactionService.postWithdraw(1, transactionDto);
 		assertEquals(transaction.getTransactionType(), result.getTransactionType());
 	}
+	
+	@Test
+	public void postLoanDepositTest() {
+	    when(accountRepository.findById(1)).thenReturn(Optional.of(account));
+	    when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
+	    account.setBalance(new BigDecimal("5000.00"));
+	    transaction.setTransactionType("LOAN DEPOSIT");
+	    transaction.setEntryType(EntryType.CREDIT);
+	    transaction.setBalanceAfterTxn(account.getBalance().add(BigDecimal.valueOf(100000)));
+	    Transaction result = transactionService.postLoanDeposit(1, BigDecimal.valueOf(100000));
+	    assertEquals("LOAN DEPOSIT", result.getTransactionType());
+	    assertEquals(EntryType.CREDIT, result.getEntryType());
+	    assertEquals(account.getId(), result.getAccount().getId());
+	}
 
 	@Test
 	public void postLoanWithdrawTest() {
 		when(accountRepository.findById(1)).thenReturn(Optional.of(account));
 		when(transactionRepository.save(any(Transaction.class))).thenReturn(transaction);
-		account.setBalance(new BigDecimal("5000.00"));
+		account.setBalance(new BigDecimal("150000.00"));
 		transaction.setTransactionType("LOAN");
 		transaction.setEntryType(EntryType.DEBIT);
 		transaction.setBalanceAfterTxn(account.getBalance().subtract(transactionDto.getAmount()));
@@ -173,7 +188,7 @@ public class TransactionServiceTest {
 		List<Transaction> txnList = List.of(transaction);
 		when(transactionRepository.getTxnBtwDateByAccId(eq(1), any(), any(), any())).thenReturn(txnList);
 		List<TransactionListDto> result = transactionService.getTxnBtwDateByAccId(1, LocalDate.now().minusDays(5),
-				LocalDate.now(), 0, 10);
+				LocalDate.now());
 		assertEquals(1, result.size());
 	}
 
@@ -181,8 +196,7 @@ public class TransactionServiceTest {
 	public void getTxnFromDateByAccIdTest() {
 		List<Transaction> txnList = List.of(transaction);
 		when(transactionRepository.getTxnFromDateByAccId(eq(1), any(), any())).thenReturn(txnList);
-		List<TransactionListDto> result = transactionService.getTxnFromDateByAccId(1, LocalDate.now().minusDays(3), 0,
-				5);
+		List<TransactionListDto> result = transactionService.getTxnFromDateByAccId(1, LocalDate.now().minusDays(3));
 		assertFalse(result.isEmpty());
 	}
 

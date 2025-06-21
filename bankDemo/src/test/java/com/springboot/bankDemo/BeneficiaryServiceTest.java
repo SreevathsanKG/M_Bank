@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +18,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.springboot.bankDemo.enums.AccountStatus;
 import com.springboot.bankDemo.model.Account;
+import com.springboot.bankDemo.model.AccountType;
 import com.springboot.bankDemo.model.Beneficiary;
 import com.springboot.bankDemo.model.Branch;
 import com.springboot.bankDemo.model.Customer;
@@ -50,6 +53,8 @@ public class BeneficiaryServiceTest {
 	private Beneficiary beneficiary;
 	private Branch branch;
 	private User user;
+	private AccountType accountType;
+	private Account account;
 	
 	@BeforeEach
 	public void init() {
@@ -81,16 +86,32 @@ public class BeneficiaryServiceTest {
 		beneficiary = new Beneficiary();
 		beneficiary.setId(1);
 		beneficiary.setName("Alice");
-		beneficiary.setAccountNumber(123456);
+		beneficiary.setAccountNumber(1);
 		beneficiary.setIfscCode("IFSC0003");
 		beneficiary.setBranchName("Coimbatore");
 		beneficiary.setDescription("Friend");
+		
+		accountType = new AccountType();
+		accountType.setId(1);
+		accountType.setType("SAVINGS");
+		accountType.setInitialDeposit(new BigDecimal("5000.00"));
+
+		account = new Account();
+		account.setId(1);
+		account.setCustomer(customer);
+		account.setBranch(branch);
+		account.setAccountType(accountType);
+		account.setBalance(accountType.getInitialDeposit());
+		account.setOpenDate(LocalDate.now());
+		account.setStatus(AccountStatus.ACTIVE);
+		account.setPanNumber("ABCDE1234F");
+		account.setAadharNumber("123456789012");
 	}
 
 	@Test
 	public void postBeneficiaryTest() {
 		when(customerRepository.getCustomerByUsername("david@gmail.com")).thenReturn(customer);
-		when(accountRepository.findById(123456)).thenReturn(Optional.of(new Account()));
+		when(accountRepository.findById(1)).thenReturn(Optional.of(account));
 		when(branchRepository.getByIfscCode("IFSC0003")).thenReturn(Optional.of(branch));
 		when(branchRepository.getBranchByNameIfsc("IFSC0003", "Coimbatore")).thenReturn(Optional.of(branch));
 		when(beneficiaryRepository.save(any(Beneficiary.class))).thenReturn(beneficiary);

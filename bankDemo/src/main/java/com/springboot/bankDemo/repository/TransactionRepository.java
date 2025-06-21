@@ -22,7 +22,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 	@Query("select t from Transaction t where t.account.id=?1 and t.transactionDate>=?2 order by t.transactionDate asc")
 	List<Transaction> getTxnFromDateByAccId(int accountId, LocalDate fromDate);												// without pageable
 	
-	@Query("select t from Transaction t where t.account.id=?1 order by t.transactionDate desc")
+	@Query("select t from Transaction t where t.account.id=?1 order by t.id desc")
 	List<Transaction> getLast10TxnByAccId(int accountId, PageRequest limit);
 	
 	

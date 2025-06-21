@@ -68,7 +68,7 @@ public class TransactionService {
 	}
 	
 	// loan deposite
-	public Transaction postLoanDeposite(int accountId, BigDecimal amount) {
+	public Transaction postLoanDeposit(int accountId, BigDecimal amount) {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new RuntimeException("ID is Invalid"));
 		if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0)
@@ -127,17 +127,14 @@ public class TransactionService {
 	}
 
 	// fetch transaction by accountId between given date
-	public List<TransactionListDto> getTxnBtwDateByAccId(int accountId, LocalDate fromDate, LocalDate tillDate,
-			int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
-		List<Transaction> list = transactionRepository.getTxnBtwDateByAccId(accountId, fromDate, tillDate, pageable);
+	public List<TransactionListDto> getTxnBtwDateByAccId(int accountId, LocalDate fromDate, LocalDate tillDate) {
+		List<Transaction> list = transactionRepository.getTxnBtwDateByAccId(accountId, fromDate, tillDate);
 		return returnTransactionListDto(list);
 	}
 
 	// fetch transaction by accountId from given date
-	public List<TransactionListDto> getTxnFromDateByAccId(int accountId, LocalDate fromDate, int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
-		List<Transaction> list = transactionRepository.getTxnFromDateByAccId(accountId, fromDate, pageable);
+	public List<TransactionListDto> getTxnFromDateByAccId(int accountId, LocalDate fromDate) {
+		List<Transaction> list = transactionRepository.getTxnFromDateByAccId(accountId, fromDate);
 		return returnTransactionListDto(list);
 	}
 

@@ -1,137 +1,162 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BreadCrumb } from "primereact/breadcrumb";
 import { Button } from "primereact/button";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { InputText } from "primereact/inputtext";
+import { RadioButton } from "primereact/radiobutton";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 
 function CustomerProfile() {
     const navigate = useNavigate();
-    const profile = useSelector(state => state.user); // Adjust based on how you store user
-
-    const [userData, setUserData] = useState({
-        username: profile.username || "",
-        email: profile.email || "",
-        phone: profile.phone || "",
-        address: profile.address || ""
-    });
-
-    const [msg, setMsg] = useState("");
 
     const breadcrumbItems = [
         { label: "Profile", command: () => navigate("/customer/profile") }
     ];
     const home = { icon: "pi pi-home", command: () => navigate("/customer") };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setUserData((prev) => ({
-            ...prev,
-            [name]: value
-        }));
+    const [userData, setUserData] = useState({
+        firstName: "",
+        lastName: "",
+        birthday: "",
+        gender: "",
+        email: "",
+        phoneNumber: "",
+        address: ""
+    });
+    useEffect(() => {
+        const fetchUserDetails = async () => {
+            try {
+                const res = await axios.get("http://localhost:8080/api/customer/get", {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("token")
+                    }
+                });
+                setUserData(res.data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+        fetchUserDetails();
+    }, []);
+
+    const [editMode, setEditMode] = useState({});
+    const [isUpdated, setIsUpdated] = useState(false);
+    const [msg, setMsg] = useState("");
+
+    const handleFieldChange = (field, value) => {
+        setUserData((u) => ({ ...u, [field]: value }));
+        setIsUpdated(true);
     };
 
-    const handleUpdate = async (e) => {
-        e.preventDefault();
+    const toggleEdit = (field) => {
+        setEditMode((u) => ({ ...u, [field]: !u[field] }));
+    };
+
+    const putCustomer = async () => {
         try {
-            await axios.put("http://localhost:8080/api/user/update", {
-                ...Object.fromEntries(
-                    Object.entries(userData).map(([k, v]) => [k, v === "" ? null : v])
-                )
-            }, {
+            await axios.put("http://localhost:8080/api/customer/put", userData, {
                 headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    Authorization: "Bearer " + localStorage.getItem("token")
                 }
             });
             setMsg("Profile updated successfully.");
+            setIsUpdated(false);
+            setEditMode({});
         } catch (error) {
             console.error(error);
             setMsg("Failed to update profile.");
         }
     };
 
+    const renderField = (label, fieldName, type = "text") => (
+        <div className="col-md-6 mb-3">
+            <label className="form-label fw-bold">{label}</label>
+            <div className="d-flex align-items-center">
+                {editMode[fieldName] ? (
+                    <InputText
+                        type={type}
+                        className="form-control me-2"
+                        value={userData[fieldName] || ""}
+                        onChange={(e) => handleFieldChange(fieldName, e.target.value)}
+                    />
+                ) : (
+                    <span className="me-2">{userData[fieldName]}</span>
+                )}
+                <i
+                    className="pi pi-pencil text-primary"
+                    style={{ cursor: "pointer" }}
+                    onClick={() => toggleEdit(fieldName)}
+                ></i>
+            </div>
+        </div>
+    );
+
     return (
         <div className="container-fluid py-4">
-            {/* Breadcrumb */}
             <div className="row mb-3">
                 <div className="col-12 col-lg-10 offset-lg-1">
                     <BreadCrumb model={breadcrumbItems} home={home} />
                 </div>
             </div>
 
-            {/* Profile Card */}
             <div className="row justify-content-center">
                 <div className="col-12 col-lg-10">
                     <div className="card custom-card">
                         <div className="card-body">
-                            <div className="mb-4 text-center title-manage">
-                                <h2>Profile Management</h2>
-                                <p>View or update your profile details</p>
+                            <div className="text-center title-manage mb-4">
+                                <h2>Customer Profile</h2>
                             </div>
 
-                            {msg && (
-                                <div className="alert alert-info">{msg}</div>
-                            )}
+                            {msg && <div className="alert alert-info">{msg}</div>}
 
-                            <form onSubmit={handleUpdate}>
-                                <div className="form-group mb-3">
-                                    <label>Username</label>
-                                    <input
-                                        type="text"
-                                        name="username"
-                                        className="form-control"
-                                        value={userData.username}
-                                        onChange={handleChange}
-                                        placeholder="Enter username"
-                                        autoComplete="username"
-                                    />
+                            <form className="row g-3">
+                                {renderField("First Name", "firstName")}
+                                {renderField("Last Name", "lastName")}
+                                {renderField("Birthday", "dateOfBirth", "date")}
+                                <div className="col-md-6 mb-3">
+                                    <label className="form-label fw-bold">Gender</label>
+                                    {editMode["gender"] ? (
+                                        <div className="d-flex">
+                                            {["MALE", "FEMALE", "OTHER"].map((option) => (
+                                                <div key={option} className="form-check me-3">
+                                                    <RadioButton
+                                                        inputId={option}
+                                                        name="gender"
+                                                        value={option}
+                                                        onChange={(e) => handleFieldChange("gender", e.value)}
+                                                        checked={userData.gender === option}
+                                                    />
+                                                    <label htmlFor={option} className="ms-2">
+                                                        {option}
+                                                    </label>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="d-flex align-items-center">
+                                            <span className="me-2">{userData.gender}</span>
+                                            <i
+                                                className="pi pi-pencil text-primary"
+                                                style={{ cursor: "pointer" }}
+                                                onClick={() => toggleEdit("gender")}
+                                            ></i>
+                                        </div>
+                                    )}
                                 </div>
-                                <div className="form-group mb-3">
-                                    <label>Email</label>
-                                    <input
-                                        type="email"
-                                        name="email"
-                                        className="form-control"
-                                        value={userData.email}
-                                        onChange={handleChange}
-                                        placeholder="Enter email"
-                                        autoComplete="email"
-                                    />
-                                </div>
-                                <div className="form-group mb-3">
-                                    <label>Phone</label>
-                                    <input
-                                        type="text"
-                                        name="phone"
-                                        className="form-control"
-                                        value={userData.phone}
-                                        onChange={handleChange}
-                                        placeholder="Enter phone number"
-                                        autoComplete="tel"
-                                    />
-                                </div>
-                                <div className="form-group mb-4">
-                                    <label>Address</label>
-                                    <textarea
-                                        name="address"
-                                        className="form-control"
-                                        value={userData.address}
-                                        onChange={handleChange}
-                                        placeholder="Enter address"
-                                    />
-                                </div>
-                                <div className="d-flex justify-content-end">
-                                    <Button
-                                        label="Update Profile"
-                                        icon="pi pi-refresh"
-                                        className="p-button-primary"
-                                        type="submit"
-                                    />
-                                </div>
+                                {renderField("Email", "email", "email")}
+                                {renderField("Phone Number", "phoneNumber", "tel")}
+                                {renderField("Address", "address")}
                             </form>
+
+                            {isUpdated && (
+                                <div className="text-end mt-4">
+                                    <Button label="Update" icon="pi pi-check" onClick={putCustomer} />
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

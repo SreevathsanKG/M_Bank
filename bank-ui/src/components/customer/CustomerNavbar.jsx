@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import '../../css/CustomerDashboard.css';
 import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from "../../store/actions/UserAction";
+import Logo from '/images/logo-home-transparent.png'; 
 
 function CustomerNavbar() {
     const user = useSelector(state => state.user)
@@ -23,7 +24,7 @@ function CustomerNavbar() {
                 <div className="d-flex align-items-center ms-5">
                     {/* Logo */}
                     <img
-                        src="./images/logo-home-transparent.png"
+                        src={Logo}
                         alt="Logo"
                         height="60"
                         style={{ objectFit: 'contain' }}

@@ -3,8 +3,12 @@ package com.springboot.bankDemo.model;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.springboot.bankDemo.enums.AccountStatus;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,7 +29,8 @@ public class Account {
 	@Column(name = "open_date", nullable = false)
 	private LocalDate openDate;
 	@Column(nullable = false)
-	private String status;
+	@Enumerated(EnumType.STRING)
+	private AccountStatus status;
 	@Column(name = "pan_number", nullable = false)
 	private String panNumber;
 	@Column(name = "aadhar_number", nullable = false)
@@ -43,8 +48,8 @@ public class Account {
 	public void setBalance(BigDecimal balance) { this.balance = balance; }
 	public LocalDate getOpenDate() { return openDate; }
 	public void setOpenDate(LocalDate openDate) { this.openDate = openDate; }
-	public String getStatus() { return status; }
-	public void setStatus(String status) { this.status = status; }
+	public AccountStatus getStatus() { return status; }
+	public void setStatus(AccountStatus status) { this.status = status; }
 	public String getPanNumber() { return panNumber; }
 	public void setPanNumber(String panNumber) { this.panNumber = panNumber; }
 	public String getAadharNumber() { return aadharNumber; }

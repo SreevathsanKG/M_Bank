@@ -83,7 +83,8 @@ html, body, #root {
     font-size: 1.15rem; /* Slightly grow on hover */
 }
 
-.navbar-brand .nav-title{
+.navbar-brand .nav-title,
+.title-account{
     background-image: linear-gradient(
         to right,
         #df0060,

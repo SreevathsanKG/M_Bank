@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.springboot.bankDemo.enums.AccountStatus;
 import com.springboot.bankDemo.exception.ResourceNotFoundException;
+import com.springboot.bankDemo.model.Account;
 import com.springboot.bankDemo.model.Beneficiary;
 import com.springboot.bankDemo.model.Customer;
 import com.springboot.bankDemo.repository.AccountRepository;
@@ -32,7 +34,10 @@ public class BeneficiaryService {
 	// insert values into beneficiary
 	public Beneficiary postBeneficiary(String username, Beneficiary beneficiary) {
 		Customer customer = customerRepository.getCustomerByUsername(username);
-		accountRepository.findById(beneficiary.getAccountNumber()).orElseThrow(() -> new RuntimeException("Invalid Account ID"));
+		Account account = accountRepository.findById(beneficiary.getAccountNumber()).
+				orElseThrow(() -> new RuntimeException("Invalid Account ID"));
+		if (account.getStatus()!=AccountStatus.ACTIVE)
+			throw new RuntimeException("Account is not active");
 		branchRepository.getByIfscCode(beneficiary.getIfscCode()).orElseThrow(() -> new RuntimeException("Invalid IFSC Code"));
 		branchRepository.getBranchByNameIfsc(beneficiary.getIfscCode(), beneficiary.getBranchName())
 											.orElseThrow(() -> new RuntimeException("IFSC Code and Branch Name Mismatching"));

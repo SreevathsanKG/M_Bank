@@ -6,8 +6,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.springboot.bankDemo.enums.LoanApplicationStatus;
+import com.springboot.bankDemo.model.Account;
 import com.springboot.bankDemo.model.LoanApplication;
 import com.springboot.bankDemo.model.LoanDetails;
+import com.springboot.bankDemo.repository.AccountRepository;
 import com.springboot.bankDemo.repository.LoanApplicationRepository;
 import com.springboot.bankDemo.repository.LoanDetailsRepository;
 
@@ -17,19 +19,24 @@ public class LoanApplicationService {
 	private LoanApplicationRepository loanApplicationRepository;
 	private LoanDetailsRepository loanDetailsRepository;
 	private LoanService loanService;
+	private AccountRepository accountRepository;
 
-	public LoanApplicationService(LoanApplicationRepository loanApplicationRepository, LoanDetailsRepository loanDetailsRepository, LoanService loanService) {
+	public LoanApplicationService(LoanApplicationRepository loanApplicationRepository, AccountRepository accountRepository,
+			LoanDetailsRepository loanDetailsRepository, LoanService loanService) {
 		this.loanApplicationRepository = loanApplicationRepository;
 		this.loanDetailsRepository = loanDetailsRepository;
 		this.loanService = loanService;
+		this.accountRepository = accountRepository;
 	}
 	
 	// post loan application
 	public LoanApplication postLoanApplication(int loanDetailsId, int accountId) {
 		LoanDetails loanDetails = loanDetailsRepository.findById(loanDetailsId).orElseThrow(() -> new RuntimeException("ID is Invalid"));
+		Account account = accountRepository.findById(accountId).orElseThrow(() -> new RuntimeException("Account Id is Invalid"));
 		LoanApplication loanApplication = new LoanApplication();
 		loanApplication.setStatus(LoanApplicationStatus.PENDING);
 		loanApplication.setApplicationDate(LocalDate.now());
+		loanApplication.setAccount(account);
 		boolean exists = loanApplicationRepository.getLoanAppExistsByCustomerAndType(loanApplication.getAccount().getCustomer(), loanDetails.getLoanType());
 		if(exists)
 			throw new RuntimeException("Customer has already applied or has the Loan of this type");

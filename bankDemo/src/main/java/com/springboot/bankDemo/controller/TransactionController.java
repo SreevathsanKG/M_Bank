@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import com.springboot.bankDemo.service.TransactionService;
 
 @RestController
 @RequestMapping("/api/transaction")
+@CrossOrigin(origins = "http://localhost:5173")
 public class TransactionController {
 
 	@Autowired
@@ -66,12 +68,11 @@ public class TransactionController {
 	 * PARAM: PathVariable -> accountId | RequestParam -> fromDate, tillDate, page, size
 	 * METHOD: GET
 	 * RESPONSE: List<TransactionListDto>
-	 * PATH: /api/transaction/get-btw/{accountId}?fromDate=2025-06-03&tillDate=2025-06-06&page=0&size=10
+	 * PATH: /api/transaction/get-btw/{accountId}?fromDate=2025-06-03&tillDate=2025-06-06
 	 * */
 	@GetMapping("/get-btw/{accountId}")
-	public List<TransactionListDto> getTxnBtwDateByAccId(@PathVariable int accountId,@RequestParam LocalDate fromDate,@RequestParam LocalDate tillDate,
-			@RequestParam(required = false, defaultValue = "0") int page,@RequestParam(required = false, defaultValue = "10000") int size) {
-		return transactionService.getTxnBtwDateByAccId(accountId, fromDate, tillDate, page, size);
+	public List<TransactionListDto> getTxnBtwDateByAccId(@PathVariable int accountId,@RequestParam LocalDate fromDate,@RequestParam LocalDate tillDate) {
+		return transactionService.getTxnBtwDateByAccId(accountId, fromDate, tillDate);
 	}
 	
 	/*
@@ -79,12 +80,11 @@ public class TransactionController {
 	 * PARAM: PathVariable -> accountId | RequestParam -> fromDate, page, size
 	 * METHOD: GET
 	 * RESPONSE: List<TransactionListDto>
-	 * PATH: /api/transaction/get-from/{accountId}?fromDate=2025-06-03&page=0&size=10
+	 * PATH: /api/transaction/get-from/{accountId}?fromDate=2025-06-03
 	 * */
 	@GetMapping("/get-from/{accountId}")
-	public List<TransactionListDto> getTxnFromDateByAccId(@PathVariable int accountId,@RequestParam LocalDate fromDate,
-			@RequestParam(required = false, defaultValue = "0") int page,@RequestParam(required = false, defaultValue = "10000") int size) {
-		return transactionService.getTxnFromDateByAccId(accountId, fromDate, page, size);
+	public List<TransactionListDto> getTxnFromDateByAccId(@PathVariable int accountId,@RequestParam LocalDate fromDate) {
+		return transactionService.getTxnFromDateByAccId(accountId, fromDate);
 	}
 	
 	/*

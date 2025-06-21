@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.springboot.bankDemo.enums.AccountStatus;
 import com.springboot.bankDemo.model.Account;
 import com.springboot.bankDemo.model.AccountType;
 import com.springboot.bankDemo.model.Branch;
@@ -39,7 +40,7 @@ public class AccountService {
 		account.setAccountType(accountType);
 		account.setBalance(accountType.getInitialDeposit());
 		account.setOpenDate(LocalDate.now());
-		account.setStatus("PENDING_APPROVAL");
+		account.setStatus(AccountStatus.PENDING_APPROVAL);
 		account.setBranch(branch);
 		account.setCustomer(customer);
 		return accountRepository.save(account);
@@ -55,14 +56,13 @@ public class AccountService {
 		account.setAccountType(accountType);
 		account.setBalance(accountType.getInitialDeposit());
 		account.setOpenDate(LocalDate.now());
-		account.setStatus("PENDING_APPROVAL");
 		return accountRepository.save(account);
 	}
 	
 	// update account status
 	public Account putAccountStatus(int accountId, String status) {
 		Account account = accountRepository.findById(accountId).orElseThrow(() -> new RuntimeException("ID is Invalid"));
-		account.setStatus(status);
+		account.setStatus(AccountStatus.valueOf(status));
 		return accountRepository.save(account);
 	}
 	
@@ -82,7 +82,7 @@ public class AccountService {
 	
 	// fetch account by customer id
 	public List<Account> getByCustomerId(int customerId) {
-		return accountRepository.getByCustomerId(customerId).orElseThrow(() -> new RuntimeException("Customer ID is Invalid"));
+		return accountRepository.getByCustomerId(customerId).orElseThrow(() -> new RuntimeException("Customer has no Account"));
 	}
 	
 	// fetch account by branch id 

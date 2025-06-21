@@ -17,6 +17,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.springboot.bankDemo.enums.AccountStatus;
 import com.springboot.bankDemo.model.Account;
 import com.springboot.bankDemo.model.AccountType;
 import com.springboot.bankDemo.model.Branch;
@@ -88,7 +89,7 @@ public class AccountServiceTest {
 		account.setAccountType(accountType);
 		account.setBalance(accountType.getInitialDeposit());
 		account.setOpenDate(LocalDate.now());
-		account.setStatus("PENDING_APPROVAL");
+		account.setStatus(AccountStatus.PENDING_APPROVAL);
 		account.setPanNumber("ABCDE1234F");
 		account.setAadharNumber("123456789012");
 	}

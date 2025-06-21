@@ -85,7 +85,7 @@ function Login() {
                     <div className="card shadow-sm w-75 p-4">
                         <div className="card-body">
                             <div className="text-center mb-4">
-                                <img src="./images/logo-transparent.png" className="login-logo" />
+                                <img src="/images/logo-transparent.png" className="login-logo" />
                                 <h3 className="login-card-title login-gradient-text">LOGIN</h3>
                             </div>
                             {

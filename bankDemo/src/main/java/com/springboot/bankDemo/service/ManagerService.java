@@ -31,6 +31,8 @@ public class ManagerService {
 		manager.setFirstName(managerCreateDto.getFirstName());
 		manager.setLastName(managerCreateDto.getLastName());
 		manager.setEmail(managerCreateDto.getEmail());
+		manager.setDateOfBirth(managerCreateDto.getDateOfBirth());
+		manager.setGender(managerCreateDto.getGender());
 		manager.setAddress(managerCreateDto.getAddress());
 		manager.setPhoneNumber(managerCreateDto.getPhoneNumber());
 		manager.setUser(user);
@@ -46,6 +48,10 @@ public class ManagerService {
 			dbManager.setLastName(manager.getLastName());
 		if (manager.getEmail() != null)
 			dbManager.setEmail(manager.getEmail());
+		if (manager.getDateOfBirth() != null)
+			dbManager.setDateOfBirth(manager.getDateOfBirth());
+		if (manager.getGender() != null)
+			dbManager.setGender(manager.getGender());
 		if (manager.getPhoneNumber() != null)
 			dbManager.setPhoneNumber(manager.getPhoneNumber());
 		if (manager.getAddress() != null)

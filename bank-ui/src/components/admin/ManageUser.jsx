@@ -3,11 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
-import "primereact/resources/themes/lara-light-blue/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
 import '../../css/AdminDashboard.css';
-import axios from "axios";
 import { useNavigate, useLocation } from 'react-router-dom';
 
 function ManageUser() {
@@ -37,7 +33,6 @@ function ManageUser() {
                         <div className="card-body">
                             <div className="text-center mb-2 title-manage">
                                 <h1>User Management</h1>
-                                <div>Add, Edit and Manage User</div>
                             </div>
 
                             <div className="card mb-3 p-1">
@@ -63,13 +58,11 @@ function ManageUser() {
                                 </div>
                             </div>
 
-                            {/* This div is crucial for flex growth and containing the DataTable */}
                             <div className="table-data-wrapper">
                                 <DataTable
                                     value={filteredUserInfo}
                                     showGridlines
                                     stripedRows
-                                    tableStyle={{ minWidth: "30rem" }}
                                     className="custom-table"
                                     scrollable // Enable scrolling for the table body
                                     scrollHeight="flex" // Make the table body fill available height and scroll
@@ -77,7 +70,6 @@ function ManageUser() {
                                     rows={rows} // Number of rows per page
                                     first={first} // Index of the first row
                                     onPage={onPageChange} // Pagination event handler
-                                    paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
                                 >
                                     <Column field="id" header="User ID" style={{ width: "20%" }} />
                                     <Column field="username" header="Username" style={{ width: "30%" }} />

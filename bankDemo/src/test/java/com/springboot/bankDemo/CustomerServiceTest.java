@@ -52,6 +52,8 @@ public class CustomerServiceTest {
 		customer.setLastName("Miller");
 		customer.setEmail("david@gmail.com");
 		customer.setPhoneNumber("9876543210");
+		customer.setDateOfBirth(LocalDate.now());
+		customer.setGender("MALE");
 		customer.setAddress("Mumbai");
 		customer.setRegistrationDate(LocalDate.now());
 		customer.setUser(user);
@@ -61,6 +63,8 @@ public class CustomerServiceTest {
 		customerRegisterDto.setLastName("Miller");
 		customerRegisterDto.setEmail("david@gmail.com");
 		customerRegisterDto.setPhoneNumber("9876543210");
+		customerRegisterDto.setDateOfBirth(LocalDate.now());
+		customerRegisterDto.setGender("MALE");
 		customerRegisterDto.setAddress("Mumbai");
 		customerRegisterDto.setUsername("david@gmail.com");
 		customerRegisterDto.setPassword("david@123");

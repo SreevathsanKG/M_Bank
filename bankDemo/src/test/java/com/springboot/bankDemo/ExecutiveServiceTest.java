@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterEach;
@@ -61,6 +62,8 @@ public class ExecutiveServiceTest {
 		executive.setLastName("Doe");
 		executive.setEmail("john@gmail.com");
 		executive.setPhoneNumber("9876543210");
+		executive.setDateOfBirth(LocalDate.now());
+		executive.setGender("MALE");
 		executive.setAddress("Chennai");
 		executive.setBranch(branch);
 		executive.setUser(user);
@@ -70,6 +73,8 @@ public class ExecutiveServiceTest {
 		executiveCreateDto.setLastName("Doe");
 		executiveCreateDto.setEmail("john@gmail.com");
 		executiveCreateDto.setPhoneNumber("9876543210");
+		executiveCreateDto.setDateOfBirth(LocalDate.now());
+		executiveCreateDto.setGender("MALE");
 		executiveCreateDto.setAddress("Chennai");
 		executiveCreateDto.setUsername("john@gmail.com");
 		executiveCreateDto.setPassword("john@123");

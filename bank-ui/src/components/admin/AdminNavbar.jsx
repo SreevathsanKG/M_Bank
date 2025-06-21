@@ -23,7 +23,7 @@ function AdminNavbar() {
                 <div className="d-flex align-items-center ms-5">
                     {/* Logo */}
                     <img
-                        src="./images/logo-home-transparent.png"
+                        src="/images/logo-home-transparent.png"
                         alt="Logo"
                         height="60"
                         style={{ objectFit: 'contain' }}

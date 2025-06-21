@@ -26,9 +26,9 @@ function CustomerSidebar({ setIsClosed, overlayRef, wrapperRef }) {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/customer/transfer" onClick={handleLinkClick}>
+                        <Link to="/customer/transaction" onClick={handleLinkClick}>
                             <i className="bi bi-currency-exchange" style={{ marginRight: "10px" }}/>
-                            Transfer
+                            Transaction
                         </Link>
                     </li>
                     <li>
@@ -47,6 +47,12 @@ function CustomerSidebar({ setIsClosed, overlayRef, wrapperRef }) {
                         <Link to="/customer/profile" onClick={handleLinkClick}>
                             <i className="bi bi-person" style={{ marginRight: "10px" }}/>
                             Profile
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/customer/beneficiary" onClick={handleLinkClick}>
+                            <i className="bi bi-person" style={{ marginRight: "10px" }}/>
+                            Beneficiary
                         </Link>
                     </li>
                     <li>
