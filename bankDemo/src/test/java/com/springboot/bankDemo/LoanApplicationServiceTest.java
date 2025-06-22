@@ -160,10 +160,10 @@ public class LoanApplicationServiceTest {
 
     @Test
     public void testGetByStatusAndUsername() {
-        when(loanApplicationRepository.getByStatusAndUsername("david@gmail.com", "PENDING"))
+        when(loanApplicationRepository.getByUsername("david@gmail.com"))
                 .thenReturn(List.of(loanApplication));
 
-        List<LoanApplication> result = loanApplicationService.getByStatusAndUsername("david@gmail.com", "PENDING");
+        List<LoanApplication> result = loanApplicationService.getByUsername("david@gmail.com");
         assertEquals(1, result.size());
         assertEquals(LoanApplicationStatus.PENDING, result.get(0).getStatus());
     }

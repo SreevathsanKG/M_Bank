@@ -90,7 +90,7 @@ function Transaction() {
         <div className="container mt-2">
             <BreadCrumb model={breadcrumbItems} home={home} />
             <div className="card p-4 mt-2 shadow">
-                <h3 className="text-center mb-4 transaction-heading">Transaction</h3>
+                <h3 className="text-center fw-bold mb-4 transaction-heading">Transaction</h3>
 
                 <div className="d-flex justify-content-center gap-4 mb-4">
                     <Button label="Deposit" icon="pi pi-plus" onClick={() => setTransactionType("DEPOSIT")} />

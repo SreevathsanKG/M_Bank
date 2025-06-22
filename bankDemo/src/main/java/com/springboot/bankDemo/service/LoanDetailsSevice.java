@@ -20,8 +20,8 @@ public class LoanDetailsSevice {
 	
 	public LoanDetails postLoanDetails(LoanDetails loanDetails) {
 		BigDecimal amount = loanDetails.getPrincipalAmount();
-		loanDetails.setTotalRepayableAmount(amount.add(amount.multiply(loanDetails.getInterestRate())));
-		loanDetails.setEmiAmount(amount.divide(BigDecimal.valueOf(loanDetails.getTermInMonth()), 2, RoundingMode.HALF_UP));
+		loanDetails.setTotalRepayableAmount(amount.add(amount.multiply(loanDetails.getInterestRate().divide(BigDecimal.valueOf(100)))));
+		loanDetails.setEmiAmount(loanDetails.getTotalRepayableAmount().divide(BigDecimal.valueOf(loanDetails.getTermInMonth()), 2, RoundingMode.HALF_UP));
 		return loanDetailsRepository.save(loanDetails);
 	}
 	

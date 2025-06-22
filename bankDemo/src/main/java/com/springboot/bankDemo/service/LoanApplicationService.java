@@ -3,6 +3,8 @@ package com.springboot.bankDemo.service;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.springboot.bankDemo.enums.LoanApplicationStatus;
@@ -20,6 +22,7 @@ public class LoanApplicationService {
 	private LoanDetailsRepository loanDetailsRepository;
 	private LoanService loanService;
 	private AccountRepository accountRepository;
+	Logger logger = LoggerFactory.getLogger(LoanApplicationService.class);
 
 	public LoanApplicationService(LoanApplicationRepository loanApplicationRepository, AccountRepository accountRepository,
 			LoanDetailsRepository loanDetailsRepository, LoanService loanService) {
@@ -53,10 +56,16 @@ public class LoanApplicationService {
 	
 	// change loan application status
 	public LoanApplication putLoanApplicationStatus(int id, String status) {
+		logger.info("entered services");
 		LoanApplication loanApplication = loanApplicationRepository.findById(id).orElseThrow(() -> new RuntimeException("ID is Invalid"));
+		logger.info("fetched loan application");
 		loanApplication.setStatus(LoanApplicationStatus.valueOf(status));
-		if (status.equals("APPROVED"))
+		logger.info("status saved");
+		if (status.equals("APPROVED")) {
+			logger.info("entered to post loan");
 			loanService.postLoan(loanApplication);
+		}
+		logger.info("post loan done");
 		return loanApplicationRepository.save(loanApplication);
 	}
 	

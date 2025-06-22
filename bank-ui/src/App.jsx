@@ -18,6 +18,7 @@ import Beneficiary from './components/customer/Beneficiary'
 import LoanApply from './components/customer/LoanApply'
 import MyLoanApplications from './components/customer/MyLoanApplications'
 import Loan from './components/customer/Loan'
+import MyLoan from './components/customer/MyLoan'
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
           <Route path="loan" element={<Loan/>} />
           <Route path="loan/applications" element={<MyLoanApplications/>}/>
           <Route path="loan/apply" element={<LoanApply/>}/>
+          <Route path="loan/MyLoan" element={<MyLoan/>}/>
         </Route>
         <Route path="/admin" element={<AdminDashboard/>}>
           <Route index element={<ManageUser/>}/>

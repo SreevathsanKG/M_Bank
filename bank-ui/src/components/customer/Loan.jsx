@@ -21,7 +21,7 @@ function Loan() {
                     <div className="col-md-4">
                         <Card title="My Loan" className="text-center h-100">
                             <p>See all your active loans.</p>
-                            <Button label="Summary" className="p-button-sm p-button-primary" onClick={() => navigate('/loan/summary')} />
+                            <Button label="Summary" className="p-button-sm p-button-primary" onClick={() => navigate('/customer/loan/MyLoan')} />
                         </Card>
                     </div>
                     <div className="col-md-4">
