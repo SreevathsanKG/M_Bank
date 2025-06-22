@@ -66,4 +66,9 @@ public class LoanService {
 	public List<Loan> getAll() {
 		return loanRepository.findAll();
 	}
+
+	// fetch by customer 
+	public List<Loan> getByCustomer(String username) {
+		return loanRepository.getByCustomer(username);
+	}
 }

@@ -97,7 +97,7 @@ function CustomerProfile() {
 
     return (
         <div className="container-fluid py-4">
-            <div className="row mb-3">
+            <div className="row mb-2">
                 <div className="col-12 col-lg-10 offset-lg-1">
                     <BreadCrumb model={breadcrumbItems} home={home} />
                 </div>
@@ -107,7 +107,7 @@ function CustomerProfile() {
                 <div className="col-12 col-lg-10">
                     <div className="card custom-card">
                         <div className="card-body">
-                            <div className="text-center title-manage mb-4">
+                            <div className="text-center title-manage mb-1">
                                 <h2>Customer Profile</h2>
                             </div>
 
@@ -117,7 +117,7 @@ function CustomerProfile() {
                                 {renderField("First Name", "firstName")}
                                 {renderField("Last Name", "lastName")}
                                 {renderField("Birthday", "dateOfBirth", "date")}
-                                <div className="col-md-6 mb-3">
+                                <div className="col-md-6">
                                     <label className="form-label fw-bold">Gender</label>
                                     {editMode["gender"] ? (
                                         <div className="d-flex">
@@ -153,7 +153,7 @@ function CustomerProfile() {
                             </form>
 
                             {isUpdated && (
-                                <div className="text-end mt-4">
+                                <div className="text-end">
                                     <Button label="Update" icon="pi pi-check" onClick={putCustomer} />
                                 </div>
                             )}

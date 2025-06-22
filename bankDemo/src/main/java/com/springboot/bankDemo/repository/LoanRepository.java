@@ -12,4 +12,7 @@ public interface LoanRepository extends JpaRepository<Loan, Integer>{
 	@Query("select l from Loan l where l.loanApplication.account.branch.id=?1")
 	List<Loan> getByBranchId(int branchId);
 
+	@Query("select l from Loan l where l.loanApplication.account.customer.user.username=?1")
+	List<Loan> getByCustomer(String username);
+
 }

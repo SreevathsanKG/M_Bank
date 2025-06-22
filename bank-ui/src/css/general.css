@@ -84,7 +84,8 @@ html, body, #root {
 }
 
 .navbar-brand .nav-title,
-.title-account{
+.title-account,
+.transaction-heading{
     background-image: linear-gradient(
         to right,
         #df0060,
@@ -97,4 +98,84 @@ html, body, #root {
     background-clip: text;
     -webkit-text-fill-color: transparent; /* Makes the text transparent so the background shows through */
     color: transparent;
+}
+
+/*Loan*/
+.loan-scroll-container {
+    max-height: calc(100vh - 250px);
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.Apply-title,
+.Application-title,
+.Loan-title{
+    background-image: linear-gradient(
+        to right,
+        #df0060,
+        #b10075,
+        #5e0289,
+        #1b008e,
+        #00006b
+    );
+    -webkit-background-clip: text; /* For WebKit browsers */
+    background-clip: text;
+    -webkit-text-fill-color: transparent; /* Makes the text transparent so the background shows through */
+    color: transparent;
+}
+
+.loan-card {
+    position: relative;
+    padding: 16px;
+    border-radius: 8px;
+    background: white;
+    transition: box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.loan-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        #df0060,
+        #b10075,
+        #5e0289,
+        #1b008e,
+        #00006b
+    );
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+  
+.loan-card:hover {
+    box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
+}
+
+/* Center DataTable headers */
+.p-datatable .p-column-header-content {
+    justify-content: center !important;
+}
+
+/* ensure cell content is also centered */
+.p-datatable .p-cell-content {
+    justify-content: center !important;
+    display: flex;
+    align-items: center;
+}
+
+/* Add border around the entire PrimeReact table */
+.p-datatable {
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/*Add border to rows */
+.p-datatable .p-datatable-tbody > tr {
+    border-bottom: 1px solid #dee2e6;
 }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import '../../css/CustomerDashboard.css';
 import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from "../../store/actions/UserAction";
@@ -43,7 +43,7 @@ function CustomerNavbar() {
                             style={{ cursor: 'pointer' }}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
-                            <li><a className="dropdown-item" href="#profile">Profile Management</a></li>
+                            <li className="dropdown-item"><Link to="/customer/profile">Profile Management</Link></li>
                             <li><hr className="dropdown-divider" /></li>
                             <li><button className="dropdown-item" onClick={() => logout()}>Logout</button></li>
                         </ul>

@@ -81,15 +81,19 @@ public class SecurityConfig {
 					.requestMatchers("/api/loan/put/status/{id}").hasAnyAuthority("EXECUTIVE","MANAGER")
 					.requestMatchers("/api/loan/get-by/branchId/{branchId}").hasAnyAuthority("EXECUTIVE","MANAGER")
 					.requestMatchers("/api/loan/get-by/id/{id}").hasAnyAuthority("EXECUTIVE","MANAGER")
+					.requestMatchers("api/loan/get-one").permitAll()//.hasAuthority("CUSTOMER")
 					.requestMatchers("/api/loan/get-all").hasAuthority("MANAGER")
 					// Loan Application
-					.requestMatchers("/api/loanApply/post/{loanDetailsId}").hasAuthority("CUSTOMER")
-					.requestMatchers("/api/loanApply/put/status/cancelled/{id}").hasAuthority("CUSTOMER")
+					.requestMatchers("/api/loanApply/post/{loanDetailsId}/{accountId}").permitAll()//.hasAuthority("CUSTOMER")
+					.requestMatchers("/api/loanApply/put/status/cancelled/{id}").permitAll()//.hasAuthority("CUSTOMER")
 					.requestMatchers("/api/loanApply/put/status/{id}").hasAnyRole("EXECUTIVE","MANAGER")
-					.requestMatchers("/api/loanApply/get-one/status").hasAuthority("CUSTOMER")
+					.requestMatchers("/api/loanApply/get-one").permitAll()//.hasAuthority("CUSTOMER")
 					.requestMatchers("/api/loanApply/get-by/status").hasAnyAuthority("EXECUTIVE","MANAGER")
 					.requestMatchers("/api/loanApply/get-by/branchId/{branchId}").hasAnyAuthority("EXECUTIVE","MANAGER")
 					.requestMatchers("/api/loanApply/get-all").hasAuthority("MANAGER")
+					// Loan Details
+					.requestMatchers("/api/loanDetails/post").permitAll()
+					.requestMatchers("/api/loanDetails/get/all").permitAll()
 					// Loan Repayment
 					.requestMatchers("/api/loanRepay/poat/{laonId}").hasAuthority("CUSTOMER")
 					.requestMatchers("/api/loanRepay/get-by/loanId/{laonId}").authenticated()

@@ -1,8 +1,10 @@
 package com.springboot.bankDemo.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +20,7 @@ import com.springboot.bankDemo.service.LoanService;
 
 @RestController
 @RequestMapping("/api/loan")
+@CrossOrigin(origins = "http://localhost:5173")
 public class LoanController {
 
 	@Autowired
@@ -69,6 +72,18 @@ public class LoanController {
 	@GetMapping("/get-by/id/{id}")
 	public Loan getById(@PathVariable int id) {
 		return loanService.getById(id);
+	}
+	
+	/*
+	 * AIM: fetch by customer
+	 * PARAM: Principal
+	 * METHOD: GET
+	 * RESPONSE: List<Loan>
+	 * PATH: /api/loan/get-one
+	 * */
+	@GetMapping("/get-one")
+	public List<Loan> getByCustomer(Principal principal) {
+		return loanService.getByCustomer(principal.getName());
 	}
 	
 	/*

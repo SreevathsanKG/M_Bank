@@ -15,6 +15,9 @@ import Report from './components/customer/Report'
 import Dashboard from './components/manager/Dashboard'
 import Transaction from './components/customer/Transaction'
 import Beneficiary from './components/customer/Beneficiary'
+import LoanApply from './components/customer/LoanApply'
+import MyLoanApplications from './components/customer/MyLoanApplications'
+import Loan from './components/customer/Loan'
 
 function App() {
 
@@ -31,6 +34,9 @@ function App() {
           <Route path="transaction" element={<Transaction/>} />
           <Route path="report" element={<Report/>} />
           <Route path="beneficiary" element={<Beneficiary />} />
+          <Route path="loan" element={<Loan/>} />
+          <Route path="loan/applications" element={<MyLoanApplications/>}/>
+          <Route path="loan/apply" element={<LoanApply/>}/>
         </Route>
         <Route path="/admin" element={<AdminDashboard/>}>
           <Route index element={<ManageUser/>}/>
@@ -39,7 +45,6 @@ function App() {
           <Route path="complaints" element={<Complaints />} />
         </Route>
         {/* <Route path="/loan" element={<LoanApplicationForm/>}/> */}
-        {/* <Route path="/manager" element={<Dashboard/>}/> */}
       </Routes>
     </BrowserRouter>
   )

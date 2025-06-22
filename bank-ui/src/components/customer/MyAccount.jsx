@@ -94,7 +94,6 @@ function MyAccount() {
                                 <Column field="status" header="Status" />
                                 <Column header="Balance" body={(rowData) => `₹${rowData.balance.toFixed(2)}`} />
                                 
-                                {/* 🆕 Last 10 Txn Button */}
                                 <Column
                                     header="Last 10 Txns"
                                     body={(rowData) => (

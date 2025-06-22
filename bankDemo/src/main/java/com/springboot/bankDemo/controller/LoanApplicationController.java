@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.springboot.bankDemo.service.LoanApplicationService;
 
 @RestController
 @RequestMapping("/api/loanApply")
+@CrossOrigin(origins = "http://localhost:5173")
 public class LoanApplicationController {
 
 	@Autowired
@@ -27,9 +29,9 @@ public class LoanApplicationController {
 	 * METHOD: POST
 	 * PARAM: PathVariable - > LoanDetailsId, AccountId
 	 * RESPONSE: LoanApplication
-	 * PATH: /api/loanApply/post/{loanDetailsId}
+	 * PATH: /api/loanApply/post/{loanDetailsId}/{accountId}
 	 * */
-	@PostMapping("/post/{loanDetailsId}")
+	@PostMapping("/post/{loanDetailsId}/{accountId}")
 	public LoanApplication postLoanApplication(@PathVariable int loanDetailsId, @PathVariable int accountId) {
 		return loanApplicationService.postLoanApplication(loanDetailsId, accountId);
 	}
@@ -59,16 +61,16 @@ public class LoanApplicationController {
 	}
 	
 	/*
-	 * AIM: to fetch loan application by status with user login-cred
+	 * AIM: to fetch loan application with user login-cred
 	 * METHOD: GET
-	 * PARAM: Principal | RequestParam -> status
+	 * PARAM: Principal 
 	 * RESPONSE: List<LoanApplication>
-	 * PATH: /api/loanApply/get-one/status?status=APPROVED
+	 * PATH: /api/loanApply/get-one
 	 * */
-	@GetMapping("/get-one/status")
-	public List<LoanApplication> getByStatusAndUsername(Principal principal, @RequestParam String status) {
+	@GetMapping("/get-one")
+	public List<LoanApplication> getByUsername(Principal principal) {
 		String username = principal.getName();
-		return loanApplicationService.getByStatusAndUsername(username, status);
+		return loanApplicationService.getByUsername(username);
 	}
 	
 	/*

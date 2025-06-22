@@ -34,6 +34,7 @@ public class LoanApplicationService {
 		LoanDetails loanDetails = loanDetailsRepository.findById(loanDetailsId).orElseThrow(() -> new RuntimeException("ID is Invalid"));
 		Account account = accountRepository.findById(accountId).orElseThrow(() -> new RuntimeException("Account Id is Invalid"));
 		LoanApplication loanApplication = new LoanApplication();
+		loanApplication.setLoanDetails(loanDetails);
 		loanApplication.setStatus(LoanApplicationStatus.PENDING);
 		loanApplication.setApplicationDate(LocalDate.now());
 		loanApplication.setAccount(account);
@@ -59,9 +60,9 @@ public class LoanApplicationService {
 		return loanApplicationRepository.save(loanApplication);
 	}
 	
-	// fetch loan application by status by user login-cred
-	public List<LoanApplication> getByStatusAndUsername(String username, String status) {
-		return loanApplicationRepository.getByStatusAndUsername(username, status);
+	// fetch loan application by user login-cred
+	public List<LoanApplication> getByUsername(String username) {
+		return loanApplicationRepository.getByUsername(username);
 	}
 	
 	// fetch all loan application by status
