@@ -9,10 +9,9 @@ import AddNewUser from './components/admin/AddNewUser'
 import PutUserStatus from './components/admin/PutUserStatus'
 import MyAccount from './components/customer/MyAccount'
 import CustomerProfile from './components/customer/CustomerProfile'
-import CustomerProfileUpdate from './components/customer/CustomerProfileUpdate'
+// import CustomerProfileUpdate from './components/customer/CustomerProfileUpdate'
 import CreateAccount from './components/customer/CreateAccount'
 import Report from './components/customer/Report'
-import Dashboard from './components/manager/Dashboard'
 import Transaction from './components/customer/Transaction'
 import Beneficiary from './components/customer/Beneficiary'
 import LoanApply from './components/customer/LoanApply'
@@ -31,7 +30,7 @@ function App() {
           <Route index element={<MyAccount/>}/>
           <Route path="account/create" element={<CreateAccount/>}/>
           <Route path="profile" element={<CustomerProfile/>}/>
-          <Route path="update" element={<CustomerProfileUpdate/>}/>
+          {/* <Route path="update" element={<CustomerProfileUpdate/>}/> */}
           <Route path="transaction" element={<Transaction/>} />
           <Route path="report" element={<Report/>} />
           <Route path="beneficiary" element={<Beneficiary />} />

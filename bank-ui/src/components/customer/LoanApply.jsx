@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { BreadCrumb } from 'primereact/breadcrumb';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
@@ -7,6 +7,8 @@ import { Dropdown } from 'primereact/dropdown';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "../../css/general.css";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchAccByToken } from '../../store/actions/AccByTokenAction';
 
 function LoanApply() {
     const [loanList, setLoanList] = useState([]);
@@ -17,6 +19,8 @@ function LoanApply() {
     const [searchTerm, setSearchTerm] = useState("");
 
     const navigate = useNavigate();
+    const dispatch = useDispatch()
+    const account = useSelector(state => state.account.account)
 
     const breadcrumbItems = [
         { label: 'Loan', command: () => navigate('/customer/loan') },
@@ -40,12 +44,10 @@ function LoanApply() {
         }
     };
 
-    const fetchAccounts = async () => {
+    const fetchAccounts = () => {
         try {
-            const res = await axios.get("http://localhost:8080/api/account/get-one", {
-                headers: { Authorization: "Bearer " + localStorage.getItem("token") }
-            });
-            const activeAccounts = res.data.filter(acc => acc.status === "ACTIVE");
+            fetchAccByToken(dispatch)(localStorage.getItem("token"))
+            const activeAccounts = account.filter(acc => acc.status === "ACTIVE");
             setAccounts(activeAccounts);
         } catch (err) {
             console.error("Failed to fetch accounts", err);

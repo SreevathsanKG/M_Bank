@@ -9,6 +9,7 @@ import { RadioButton } from "primereact/radiobutton";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import { Dialog } from "primereact/dialog";
 
 function CustomerProfile() {
     const navigate = useNavigate();
@@ -43,57 +44,32 @@ function CustomerProfile() {
         fetchUserDetails();
     }, []);
 
-    const [editMode, setEditMode] = useState({});
-    const [isUpdated, setIsUpdated] = useState(false);
     const [msg, setMsg] = useState("");
-
-    const handleFieldChange = (field, value) => {
-        setUserData((u) => ({ ...u, [field]: value }));
-        setIsUpdated(true);
-    };
-
-    const toggleEdit = (field) => {
-        setEditMode((u) => ({ ...u, [field]: !u[field] }));
-    };
+    const [showDialog, setShowDialog] = useState(false);
+    const [tempData, setTempData] = useState({
+        firstName: "",
+        lastName: "",
+        dateOfBirth: "",
+        gender: "",
+        email: "",
+        phoneNumber: "",
+        address: ""
+    });
 
     const putCustomer = async () => {
         try {
-            await axios.put("http://localhost:8080/api/customer/put", userData, {
+            await axios.put("http://localhost:8080/api/customer/put", tempData, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("token")
                 }
             });
             setMsg("Profile updated successfully.");
-            setIsUpdated(false);
-            setEditMode({});
+            setShowDialog(false);
         } catch (error) {
             console.error(error);
             setMsg("Failed to update profile.");
         }
     };
-
-    const renderField = (label, fieldName, type = "text") => (
-        <div className="col-md-6 mb-3">
-            <label className="form-label fw-bold">{label}</label>
-            <div className="d-flex align-items-center">
-                {editMode[fieldName] ? (
-                    <InputText
-                        type={type}
-                        className="form-control me-2"
-                        value={userData[fieldName] || ""}
-                        onChange={(e) => handleFieldChange(fieldName, e.target.value)}
-                    />
-                ) : (
-                    <span className="me-2">{userData[fieldName]}</span>
-                )}
-                <i
-                    className="pi pi-pencil text-primary"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => toggleEdit(fieldName)}
-                ></i>
-            </div>
-        </div>
-    );
 
     return (
         <div className="container-fluid py-4">
@@ -107,60 +83,100 @@ function CustomerProfile() {
                 <div className="col-12 col-lg-10">
                     <div className="card custom-card">
                         <div className="card-body">
-                            <div className="text-center title-manage mb-1">
+                            <div className="text-center title-manage mb-3">
                                 <h2>Customer Profile</h2>
                             </div>
 
                             {msg && <div className="alert alert-info">{msg}</div>}
 
-                            <form className="row g-3">
-                                {renderField("First Name", "firstName")}
-                                {renderField("Last Name", "lastName")}
-                                {renderField("Birthday", "dateOfBirth", "date")}
+                            <div className="row g-3">
                                 <div className="col-md-6">
-                                    <label className="form-label fw-bold">Gender</label>
-                                    {editMode["gender"] ? (
-                                        <div className="d-flex">
-                                            {["MALE", "FEMALE", "OTHER"].map((option) => (
-                                                <div key={option} className="form-check me-3">
-                                                    <RadioButton
-                                                        inputId={option}
-                                                        name="gender"
-                                                        value={option}
-                                                        onChange={(e) => handleFieldChange("gender", e.value)}
-                                                        checked={userData.gender === option}
-                                                    />
-                                                    <label htmlFor={option} className="ms-2">
-                                                        {option}
-                                                    </label>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    ) : (
-                                        <div className="d-flex align-items-center">
-                                            <span className="me-2">{userData.gender}</span>
-                                            <i
-                                                className="pi pi-pencil text-primary"
-                                                style={{ cursor: "pointer" }}
-                                                onClick={() => toggleEdit("gender")}
-                                            ></i>
-                                        </div>
-                                    )}
+                                    <label className="fw-bold">First Name:</label>
+                                    <p>{userData.firstName}</p>
                                 </div>
-                                {renderField("Email", "email", "email")}
-                                {renderField("Phone Number", "phoneNumber", "tel")}
-                                {renderField("Address", "address")}
-                            </form>
+                                <div className="col-md-6">
+                                    <label className="fw-bold">Last Name:</label>
+                                    <p>{userData.lastName}</p>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="fw-bold">Date of Birth:</label>
+                                    <p>{userData.dateOfBirth}</p>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="fw-bold">Gender:</label>
+                                    <p>{userData.gender}</p>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="fw-bold">Email:</label>
+                                    <p>{userData.email}</p>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="fw-bold">Phone Number:</label>
+                                    <p>{userData.phoneNumber}</p>
+                                </div>
+                                <div className="col-md-12">
+                                    <label className="fw-bold">Address:</label>
+                                    <p>{userData.address}</p>
+                                </div>
+                            </div>
 
-                            {isUpdated && (
-                                <div className="text-end">
-                                    <Button label="Update" icon="pi pi-check" onClick={putCustomer} />
-                                </div>
-                            )}
+                            <div className="text-end mt-4">
+                                <Button label="Edit Profile" icon="pi pi-pencil" onClick={() => setShowDialog(true)} />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <Dialog
+                header="Update Profile"
+                visible={showDialog}
+                style={{ width: "40vw" }}
+                onHide={() => setShowDialog(false)}
+                onShow={() => setTempData(userData)}
+            >
+                <div className="p-fluid">
+                    <div className="p-field mb-3">
+                        <label>First Name</label>
+                        <InputText value={tempData.firstName} onChange={(e) => setTempData({ ...tempData, firstName: e.target.value })} />
+                    </div>
+                    <div className="p-field mb-3">
+                        <label>Last Name</label>
+                        <InputText value={tempData.lastName} onChange={(e) => setTempData({ ...tempData, lastName: e.target.value })} />
+                    </div>
+                    <div className="p-field mb-3">
+                        <label>Date of Birth</label>
+                        <InputText type="date" value={tempData.dateOfBirth} onChange={(e) => setTempData({ ...tempData, dateOfBirth: e.target.value })} />
+                    </div>
+                    <div className="p-field mb-3">
+                        <label>Gender</label>
+                        <div className="d-flex">
+                            {["MALE", "FEMALE", "OTHER"].map((g) => (
+                                <div className="form-check me-3" key={g}>
+                                    <RadioButton inputId={g} name="gender" value={g} onChange={(e) => setTempData({ ...tempData, gender: e.value })} checked={tempData.gender === g} />
+                                    <label className="ms-2">{g}</label>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="p-field mb-3">
+                        <label>Email</label>
+                        <InputText type="email" value={tempData.email} onChange={(e) => setTempData({ ...tempData, email: e.target.value })} />
+                    </div>
+                    <div className="p-field mb-3">
+                        <label>Phone Number</label>
+                        <InputText type="tel" value={tempData.phoneNumber} onChange={(e) => setTempData({ ...tempData, phoneNumber: e.target.value })} />
+                    </div>
+                    <div className="p-field mb-3">
+                        <label>Address</label>
+                        <InputText value={tempData.address} onChange={(e) => setTempData({ ...tempData, address: e.target.value })} />
+                    </div>
+
+                    <div className="text-end">
+                        <Button label="Update" icon="pi pi-check" onClick={putCustomer} />
+                    </div>
+                </div>
+            </Dialog>
         </div>
     );
 }

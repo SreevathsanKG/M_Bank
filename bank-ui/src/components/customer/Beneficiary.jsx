@@ -4,6 +4,8 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 function Beneficiary() {
     const navigate = useNavigate();
@@ -85,40 +87,29 @@ function Beneficiary() {
             <BreadCrumb model={breadcrumbItems} home={home} />
             <div className="card p-4 shadow mt-2">
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                    <h4 className="mb-0">My Beneficiaries</h4>
+                    <h4 className="fw-bold beneficiary-title">My Beneficiaries: </h4>
                     <Button label="Add Beneficiary" icon="pi pi-user-plus" onClick={openAddDialog} />
                 </div>
 
                 {beneficiaries.length === 0 ? (
                     <div className="alert alert-info">No beneficiaries added yet.</div>
                 ) : (
-                    <table className="table table-bordered table-hover">
-                        <thead className="table-light">
-                            <tr>
-                                <th>Name</th>
-                                <th>Account Number</th>
-                                <th>IFSC</th>
-                                <th>Branch</th>
-                                <th>Description</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {beneficiaries.map(b => (
-                                <tr key={b.id}>
-                                    <td>{b.name}</td>
-                                    <td>{b.accountNumber}</td>
-                                    <td>{b.ifscCode}</td>
-                                    <td>{b.branchName}</td>
-                                    <td>{b.description}</td>
-                                    <td>
-                                        <Button icon="pi pi-pencil" className="p-button-text p-button-sm me-2" onClick={() => openEditDialog(b)} />
-                                        <Button icon="pi pi-trash" className="p-button-text p-button-danger p-button-sm" onClick={() => handleDelete(b.id)} />
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    <DataTable value={beneficiaries} paginator rows={5} className="mt-3">
+                        <Column field="name" header="Name" style={{ textAlign: 'center' }} />
+                        <Column field="accountNumber" header="Account Number" style={{ textAlign: 'center' }} />
+                        <Column field="ifscCode" header="IFSC" style={{ textAlign: 'center' }} />
+                        <Column field="branchName" header="Branch" style={{ textAlign: 'center' }} />
+                        <Column field="description" header="Description" style={{ textAlign: 'center' }} />
+                        <Column
+                            header="Actions"
+                            body={(rowData) => (
+                                <>
+                                    <Button icon="pi pi-pencil" className="p-button-text p-button-sm me-2" onClick={() => openEditDialog(rowData)} />
+                                    <Button icon="pi pi-trash" className="p-button-text p-button-danger p-button-sm" onClick={() => handleDelete(rowData.id)} />
+                                </>
+                            )}
+                        />
+                    </DataTable>
                 )}
 
                 <Dialog header={isEdit ? "Edit Beneficiary" : "Add Beneficiary"} visible={showDialog} onHide={() => setShowDialog(false)} style={{ width: '30vw' }} modal>

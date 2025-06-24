@@ -5,6 +5,8 @@ import { Dropdown } from 'primereact/dropdown';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import "../../css/general.css"
+import { fetchAccByToken } from '../../store/actions/AccByTokenAction';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Transaction() {
     const [transactionType, setTransactionType] = useState("");
@@ -22,6 +24,9 @@ function Transaction() {
     const [selectedTransferType, setSelectedTransferType] = useState(null);
 
     const navigate = useNavigate();
+    const dispatch = useDispatch()
+
+    const account = useSelector(state => state.account.account)
 
     const breadcrumbItems = [{ label: 'Transaction' }];
     const home = { icon: 'pi pi-home', command: () => navigate("/") };
@@ -34,12 +39,10 @@ function Transaction() {
         }
     }, [transactionType]);
 
-    const fetchAccounts = async () => {
+    const fetchAccounts = () => {
         try {
-            const res = await axios.get("http://localhost:8080/api/account/get-one", {
-                headers: { Authorization: "Bearer " + localStorage.getItem("token") }
-            });
-            const activeAccounts = res.data.filter(acc => acc.status === "ACTIVE");
+            fetchAccByToken(dispatch)(localStorage.getItem("token"))
+            const activeAccounts = account.filter(acc => acc.status === "ACTIVE");
             setAccounts(activeAccounts);
         } catch (err) {
             console.error("Error fetching accounts", err);

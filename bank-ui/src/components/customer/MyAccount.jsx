@@ -87,12 +87,12 @@ function MyAccount() {
                     {account.length > 0 && (
                         <div>
                             <DataTable value={account} className="mt-4">
-                                <Column field="id" header="Account ID" />
-                                <Column field="type" header="Account Type" />
-                                <Column field="ifscCode" header="IFSC Code" />
-                                <Column field="branchName" header="Branch Name" />
-                                <Column field="status" header="Status" />
-                                <Column header="Balance" body={(rowData) => `₹${rowData.balance.toFixed(2)}`} />
+                                <Column field="id" header="Account ID" style={{ textAlign: 'center' }}/>
+                                <Column field="type" header="Account Type" style={{ textAlign: 'center' }}/>
+                                <Column field="ifscCode" header="IFSC Code" style={{ textAlign: 'center' }}/>
+                                <Column field="branchName" header="Branch Name" style={{ textAlign: 'center' }}/>
+                                <Column field="status" header="Status" style={{ textAlign: 'center' }}/>
+                                <Column header="Balance" body={(rowData) => `₹${rowData.balance.toFixed(2)}`} style={{ textAlign: 'center' }}/>
                                 
                                 <Column
                                     header="Last 10 Txns"
@@ -104,6 +104,7 @@ function MyAccount() {
                                             onClick={() => handleLast10Txn(rowData.id)}
                                         />
                                     )}
+                                    style={{ textAlign: 'center' }}
                                 />
                             </DataTable>
 
