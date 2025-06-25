@@ -4,8 +4,6 @@ import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import '../../css/CustomerDashboard.css';
-import '../../css/general.css';
 
 function CreateAccount() {
     const navigate = useNavigate();
@@ -67,7 +65,7 @@ function CreateAccount() {
             <BreadCrumb model={breadcrumbItems} home={home} />
             <div className="card mt-4 ">
                 <div className="card-body">
-                    <h2 className="mt-4 fw-bold text-center mb-4">Create Account</h2>
+                    <h2 className="mt-4 fw-bold text-center mb-4 createAcc-title">Create Account</h2>
 
                     {msg && <div className="alert alert-info">{msg}</div>}
 

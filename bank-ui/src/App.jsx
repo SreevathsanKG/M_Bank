@@ -9,15 +9,23 @@ import AddNewUser from './components/admin/AddNewUser'
 import PutUserStatus from './components/admin/PutUserStatus'
 import MyAccount from './components/customer/MyAccount'
 import CustomerProfile from './components/customer/CustomerProfile'
-// import CustomerProfileUpdate from './components/customer/CustomerProfileUpdate'
 import CreateAccount from './components/customer/CreateAccount'
 import Report from './components/customer/Report'
-import Transaction from './components/customer/Transaction'
 import Beneficiary from './components/customer/Beneficiary'
 import LoanApply from './components/customer/LoanApply'
 import MyLoanApplications from './components/customer/MyLoanApplications'
-import Loan from './components/customer/Loan'
 import MyLoan from './components/customer/MyLoan'
+import ExecutiveDashboard from './components/executive/ExecutiveDashboard'
+import ExecutiveAccount from './components/executive/ExecutiveAccount'
+import ExecutiveProfile from './components/executive/ExecutiveProfile'
+import MyBranch from './components/executive/MyBranch'
+import CustomerTransaction from './components/customer/CustomerTransaction'
+import ExecutiveTransaction from './components/executive/ExecutiveTransaction'
+import ExecutiveLoan from './components/executive/ExecutiveLoan'
+import CustomerLoan from './components/customer/CustomerLoan'
+import LoanDetails from './components/executive/LoanDetails'
+import LoanApplications from './components/executive/LoanApplications'
+import ApprovedLoans from './components/executive/ApprovedLoans'
 
 function App() {
 
@@ -30,14 +38,23 @@ function App() {
           <Route index element={<MyAccount/>}/>
           <Route path="account/create" element={<CreateAccount/>}/>
           <Route path="profile" element={<CustomerProfile/>}/>
-          {/* <Route path="update" element={<CustomerProfileUpdate/>}/> */}
-          <Route path="transaction" element={<Transaction/>} />
+          <Route path="transaction" element={<CustomerTransaction/>} />
           <Route path="report" element={<Report/>} />
           <Route path="beneficiary" element={<Beneficiary />} />
-          <Route path="loan" element={<Loan/>} />
+          <Route path="loan" element={<CustomerLoan/>} />
           <Route path="loan/applications" element={<MyLoanApplications/>}/>
           <Route path="loan/apply" element={<LoanApply/>}/>
           <Route path="loan/MyLoan" element={<MyLoan/>}/>
+        </Route>
+        <Route path="/executive" element={<ExecutiveDashboard/>}>
+          <Route index element={<MyBranch/>}/>
+          <Route path="accounts" element={<ExecutiveAccount/>}/>
+          <Route path="transactions" element={<ExecutiveTransaction/>}/>
+          <Route path="loans" element={<ExecutiveLoan/>}/>
+          <Route path="loans/loanDetails" element={<LoanDetails/>}/>
+          <Route path="loans/applications" element={<LoanApplications/>}/>
+          <Route path="loans/approvedLoans" element={<ApprovedLoans/>}/>
+          <Route path="profile" element={<ExecutiveProfile/>}/>
         </Route>
         <Route path="/admin" element={<AdminDashboard/>}>
           <Route index element={<ManageUser/>}/>

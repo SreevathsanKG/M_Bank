@@ -10,14 +10,14 @@ import axios from "axios";
 function MyAccount() {
     const navigate = useNavigate();
     const [account, setAccount] = useState([]);
+    localStorage.setItem("account", JSON.stringify(account))
     const [error, setError] = useState("");
 
-    const [showTxnDialog, setShowTxnDialog] = useState(false); // 🆕
-    const [txnData, setTxnData] = useState([]); // 🆕
+    const [showTxnDialog, setShowTxnDialog] = useState(false);
+    const [txnData, setTxnData] = useState([]);
+    const [showCloseDialog, setShowCloseDialog] = useState(false);
+    const [selectedAccountId, setSelectedAccountId] = useState("");
 
-    const breadcrumbItems = [
-        { label: "My Account", command: () => navigate("/customer") }
-    ];
     const home = { icon: "pi pi-home", command: () => navigate("/customer") };
 
     useEffect(() => {
@@ -31,16 +31,7 @@ function MyAccount() {
                     return;
                 }
 
-                const fetchData = res.data.map(acc => ({
-                    id: acc.id,
-                    type: acc.accountType?.type,
-                    ifscCode: acc.branch?.ifscCode,
-                    branchName: acc.branch?.branchName,
-                    status: acc.status,
-                    balance: acc.balance,
-                }));
-
-                setAccount(fetchData);
+                setAccount(res.data);
             } catch (err) {
                 if (err.response && err.response.data.message === "Customer has no Account") {
                     setError("You don't have an account. Create one to get started.");
@@ -65,9 +56,34 @@ function MyAccount() {
         }
     };
 
+    const handleCloseAccount = async () => {
+        if (!selectedAccountId) {
+            setError("Please select an account to close.");
+            return;
+        }
+
+        try {
+            await axios.put(
+                `http://localhost:8080/api/account/put/status/${selectedAccountId}/?status=CLOSING_REQUESTED`,
+                null,   
+                {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("token")
+                    }
+                }
+            );
+            alert("Account closure request submitted successfully.");
+            setShowCloseDialog(false);
+            setTimeout(() => window.location.reload(), 1000); // or refetch account list
+        } catch (error) {
+            alert("Failed to close account. Please try again.");
+        }
+    };
+
+
     return (
         <div className="container mt-4">
-            <BreadCrumb model={breadcrumbItems} home={home} />
+            <BreadCrumb home={home} />
             <div className="card mt-4">
                 <div className="card-body">
                     <h2 className="mt-3 fw-bold text-center mb-4 title-account">My Account</h2>
@@ -87,13 +103,13 @@ function MyAccount() {
                     {account.length > 0 && (
                         <div>
                             <DataTable value={account} className="mt-4">
-                                <Column field="id" header="Account ID" style={{ textAlign: 'center' }}/>
-                                <Column field="type" header="Account Type" style={{ textAlign: 'center' }}/>
-                                <Column field="ifscCode" header="IFSC Code" style={{ textAlign: 'center' }}/>
-                                <Column field="branchName" header="Branch Name" style={{ textAlign: 'center' }}/>
-                                <Column field="status" header="Status" style={{ textAlign: 'center' }}/>
-                                <Column header="Balance" body={(rowData) => `₹${rowData.balance.toFixed(2)}`} style={{ textAlign: 'center' }}/>
-                                
+                                <Column field="id" header="Account ID" style={{ textAlign: 'center' }} />
+                                <Column field="accountType.type" header="Account Type" style={{ textAlign: 'center' }} />
+                                <Column field="branch.ifscCode" header="IFSC Code" style={{ textAlign: 'center' }} />
+                                <Column field="branch.branchName" header="Branch Name" style={{ textAlign: 'center' }} />
+                                <Column field="status" header="Status" style={{ textAlign: 'center' }} />
+                                <Column header="Balance" body={(rowData) => `₹${rowData.balance.toFixed(2)}`} style={{ textAlign: 'center' }} />
+
                                 <Column
                                     header="Last 10 Txns"
                                     body={(rowData) => (
@@ -109,12 +125,27 @@ function MyAccount() {
                             </DataTable>
 
                             <div className="text-end mt-3">
-                                <Button label="Create Another Account" icon="pi pi-plus" onClick={() => navigate("/customer/account/create")} />
+                                <div className="d-flex justify-content-between mt-3">
+                                    <Button
+                                        label="Request Account Closure"
+                                        icon="pi pi-times-circle"
+                                        className="p-button-danger"
+                                        onClick={() => {
+                                            setShowCloseDialog(true);
+                                            setSelectedAccountId("");
+                                        }}
+                                    />
+                                    <Button
+                                        label="Create Another Account"
+                                        icon="pi pi-plus"
+                                        onClick={() => navigate("/customer/account/create")}
+                                    />
+                                </div>
                             </div>
                         </div>
                     )}
 
-                    {/* 🆕 Transactions Popup */}
+                    {/* Transactions Popup */}
                     <Dialog
                         header="Last 10 Transactions"
                         visible={showTxnDialog}
@@ -135,6 +166,34 @@ function MyAccount() {
                             <div>No transactions found.</div>
                         )}
                     </Dialog>
+
+                    <Dialog
+                        header="Request Account Closure"
+                        visible={showCloseDialog}
+                        onHide={() => setShowCloseDialog(false)}
+                        style={{ width: '30vw' }}
+                    >
+                        <div className="mb-3">
+                            <div>Select an account to close:</div>
+                            <select
+                                className="form-select mt-2"
+                                value={selectedAccountId}
+                                onChange={(e) => setSelectedAccountId(e.target.value)}
+                            >
+                                <option value="">-- Select Account --</option>
+                                {account.map((acc) => (
+                                    <option key={acc.id} value={acc.id}>
+                                        Account.ID: {acc.id} - {acc.accountType.type}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="text-end">
+                            <Button label="Submit" icon="pi pi-check" onClick={handleCloseAccount} />
+                        </div>
+                    </Dialog>
+
                 </div>
             </div>
         </div>

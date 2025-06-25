@@ -30,14 +30,7 @@ function MyLoan() {
         const res = await axios.get('http://localhost:8080/api/loan/get-one', {
           headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
         });
-
-        const sorted = Array.isArray(res.data)
-          ? res.data.sort((a, b) =>
-              a.status === 'ACTIVE' && b.status !== 'ACTIVE' ? -1 :
-              b.status === 'ACTIVE' && a.status !== 'ACTIVE' ? 1 : 0
-            )
-          : [];
-        setLoans(sorted);
+        setLoans(res.data);
       } catch (e) {
         console.error('Failed to fetch loans', e);
       }
@@ -87,7 +80,7 @@ function MyLoan() {
     <div className="container mt-2">
       <BreadCrumb model={breadcrumbItems} home={home} />
       <div className="card shadow p-4 mt-3">
-        <h2 className="text-center fw-bold fs-3 mb-4">My Loan</h2>
+        <h2 className="text-center fw-bold fs-3 mb-4 myloan-title">My Loan</h2>
 
         <DataTable
           value={loans}

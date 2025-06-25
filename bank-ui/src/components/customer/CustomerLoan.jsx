@@ -1,11 +1,9 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BreadCrumb } from 'primereact/breadcrumb';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
-import "../../css/general.css";
 
-function Loan() {
+function CustomerLoan() {
     const navigate = useNavigate();
 
     const breadcrumbItems = [{ label: 'Loan' }];
@@ -42,4 +40,4 @@ function Loan() {
     );
 }
 
-export default Loan
+export default CustomerLoan

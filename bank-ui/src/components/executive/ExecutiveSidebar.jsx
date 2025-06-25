@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { setUserDetails } from "../../store/actions/UserAction";
 import { useDispatch } from "react-redux";
 
-function CustomerSidebar({ setIsClosed, overlayRef, wrapperRef }) {
+function ExecutiveSidebar({ setIsClosed, overlayRef, wrapperRef }) {
     const location = useLocation();
 
     const navigate = useNavigate()
@@ -35,19 +35,25 @@ function CustomerSidebar({ setIsClosed, overlayRef, wrapperRef }) {
                         </div>
                     </div>
                     <li>
-                        <Link to="/customer" onClick={handleLinkClick}>
-                            <i className="bi bi-safe" style={{ marginRight: "10px" }}></i>
-                            My Account
+                        <Link to="/executive" onClick={handleLinkClick}>
+                            <i className="bi bi-building" style={{ marginRight: "10px" }}></i>
+                            My Branch
                         </Link>
                     </li>
                     <li>
-                        <Link to="/customer/transaction" onClick={handleLinkClick}>
+                        <Link to="/executive/accounts" onClick={handleLinkClick}>
+                            <i className="bi bi-safe" style={{ marginRight: "10px" }} />
+                            Account
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/executive/transactions" onClick={handleLinkClick}>
                             <i className="bi bi-currency-exchange" style={{ marginRight: "10px" }} />
                             Transaction
                         </Link>
                     </li>
                     <li>
-                        <Link to="/customer/loan" onClick={handleLinkClick}>
+                        <Link to="/executive/loans" onClick={handleLinkClick}>
                             <i className="bi bi-cash-stack" style={{ marginRight: "10px" }} />
                             Loan
                         </Link>
@@ -59,15 +65,9 @@ function CustomerSidebar({ setIsClosed, overlayRef, wrapperRef }) {
                         </Link>
                     </li>
                     <li>
-                        <Link to="/customer/profile" onClick={handleLinkClick}>
+                        <Link to="/executive/profile" onClick={handleLinkClick}>
                             <i className="bi bi-person" style={{ marginRight: "10px" }} />
                             Profile
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/customer/beneficiary" onClick={handleLinkClick}>
-                            <i className="bi bi-person-vcard" style={{ marginRight: "10px" }} />
-                            Beneficiary
                         </Link>
                     </li>
                     <li>
@@ -82,4 +82,4 @@ function CustomerSidebar({ setIsClosed, overlayRef, wrapperRef }) {
     );
 }
 
-export default CustomerSidebar;
+export default ExecutiveSidebar;

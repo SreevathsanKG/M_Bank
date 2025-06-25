@@ -6,7 +6,6 @@ import { Dialog } from 'primereact/dialog';
 import { Dropdown } from 'primereact/dropdown';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import "../../css/general.css";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAccByToken } from '../../store/actions/AccByTokenAction';
 
@@ -19,7 +18,6 @@ function LoanApply() {
     const [searchTerm, setSearchTerm] = useState("");
 
     const navigate = useNavigate();
-    const dispatch = useDispatch()
     const account = useSelector(state => state.account.account)
 
     const breadcrumbItems = [
@@ -30,7 +28,7 @@ function LoanApply() {
 
     useEffect(() => {
         fetchLoans();
-        fetchAccounts();
+        filterActiveAccounts();
     }, []);
 
     const fetchLoans = async () => {
@@ -44,9 +42,8 @@ function LoanApply() {
         }
     };
 
-    const fetchAccounts = () => {
+    const filterActiveAccounts = () => {
         try {
-            fetchAccByToken(dispatch)(localStorage.getItem("token"))
             const activeAccounts = account.filter(acc => acc.status === "ACTIVE");
             setAccounts(activeAccounts);
         } catch (err) {
@@ -82,9 +79,9 @@ function LoanApply() {
         <div className="container mt-2">
             <BreadCrumb model={breadcrumbItems} home={home} />
             <div className="card shadow mt-2 p-4">
-                <h3 className="text-center mb-2 Apply-title">Loan Details</h3>
+                <h3 className="text-center fw-bold mb-2 Apply-title">Loan Details</h3>
 
-                <div className="d-flex justify-content-end mb-2">
+                <div className="d-flex justify-content-end mb-2"    >
                     <input
                         type="text"
                         className="form-control w-25"
@@ -97,7 +94,7 @@ function LoanApply() {
                 <div className="loan-scroll-container">
                     <div className="row">
                         {filteredLoans.map((loan) => (
-                            <div className="col-md-6 col-lg-4 mb-3" key={loan.id}>
+                            <div className="col-md-6 col-lg-4 mb-2" key={loan.id}>
                                 <Card className="shadow-sm loan-card" title={loan.loanType}>
                                     <p className="text-muted"><strong>Loan Code:</strong> #{loan.id}</p>
                                     <p><strong>Principal Amount:</strong> ₹{loan.principalAmount}</p>

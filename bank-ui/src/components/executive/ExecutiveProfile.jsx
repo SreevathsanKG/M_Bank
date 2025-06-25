@@ -7,13 +7,13 @@ import { InputText } from "primereact/inputtext";
 import { RadioButton } from "primereact/radiobutton";
 import { Dialog } from "primereact/dialog";
 
-function CustomerProfile() {
+function ExecutiveProfile() {
     const navigate = useNavigate();
 
     const breadcrumbItems = [
-        { label: "Profile", command: () => navigate("/customer/profile") }
+        { label: "Profile", command: () => navigate("/executive/profile") }
     ];
-    const home = { icon: "pi pi-home", command: () => navigate("/customer") };
+    const home = { icon: "pi pi-home", command: () => navigate("/executive") };
 
     const [userData, setUserData] = useState({
         firstName: "",
@@ -27,7 +27,7 @@ function CustomerProfile() {
     useEffect(() => {
         const fetchUserDetails = async () => {
             try {
-                const res = await axios.get("http://localhost:8080/api/customer/get", {
+                const res = await axios.get("http://localhost:8080/api/executive/get-one", {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token")
                     }
@@ -52,9 +52,9 @@ function CustomerProfile() {
         address: ""
     });
 
-    const putCustomer = async () => {
+    const putExecutive = async () => {
         try {
-            await axios.put("http://localhost:8080/api/customer/put", tempData, {
+            await axios.put("http://localhost:8080/api/executive/put", tempData, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("token")
                 }
@@ -80,7 +80,7 @@ function CustomerProfile() {
                     <div className="card custom-card">
                         <div className="card-body">
                             <div className="text-center title-manage mb-3">
-                                <h2>Customer Profile</h2>
+                                <h2>Executive Profile</h2>
                             </div>
 
                             {msg && <div className="alert alert-info">{msg}</div>}
@@ -169,7 +169,7 @@ function CustomerProfile() {
                     </div>
 
                     <div className="text-end">
-                        <Button label="Update" icon="pi pi-check" onClick={putCustomer} />
+                        <Button label="Update" icon="pi pi-check" onClick={putExecutive} />
                     </div>
                 </div>
             </Dialog>
@@ -177,4 +177,4 @@ function CustomerProfile() {
     );
 }
 
-export default CustomerProfile;
+export default ExecutiveProfile;

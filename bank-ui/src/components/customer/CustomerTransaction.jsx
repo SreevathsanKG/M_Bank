@@ -4,11 +4,10 @@ import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import "../../css/general.css"
 import { fetchAccByToken } from '../../store/actions/AccByTokenAction';
 import { useDispatch, useSelector } from 'react-redux';
 
-function Transaction() {
+function CustomerTransaction() {
     const [transactionType, setTransactionType] = useState("");
     const [accounts, setAccounts] = useState([]);
     const [selectedAccount, setSelectedAccount] = useState(null);
@@ -23,25 +22,23 @@ function Transaction() {
     const [transferTypes, setTransferTypes] = useState([]);
     const [selectedTransferType, setSelectedTransferType] = useState(null);
 
-    const navigate = useNavigate();
-    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const account = useSelector(state => state.account.account)
 
     const breadcrumbItems = [{ label: 'Transaction' }];
-    const home = { icon: 'pi pi-home', command: () => navigate("/") };
+    const home = { icon: 'pi pi-home', command: () => navigate("/customer") };
 
     useEffect(() => {
-        fetchAccounts();
+        filterActiveAccounts();
         if (transactionType === "TRANSFER") {
             fetchBeneficiaries();
             fetchTransferTypes();
         }
     }, [transactionType]);
 
-    const fetchAccounts = () => {
+    const filterActiveAccounts = () => {
         try {
-            fetchAccByToken(dispatch)(localStorage.getItem("token"))
             const activeAccounts = account.filter(acc => acc.status === "ACTIVE");
             setAccounts(activeAccounts);
         } catch (err) {
@@ -209,4 +206,4 @@ function Transaction() {
     );
 }
 
-export default Transaction;
+export default CustomerTransaction;

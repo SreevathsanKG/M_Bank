@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import '../../css/CustomerDashboard.css';
+import '../../css/Dashboard.css';
 import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from "../../store/actions/UserAction";
 import Logo from '/images/logo-home-transparent.png'; 

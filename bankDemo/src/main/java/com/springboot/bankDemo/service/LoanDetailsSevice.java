@@ -32,4 +32,31 @@ public class LoanDetailsSevice {
 	public List<LoanDetails> getAll() {
 		return loanDetailsRepository.findAll();
 	}
+
+	public LoanDetails putLoanDetails(int id, LoanDetails loanDetails) {
+		LoanDetails dbLoanDetails = loanDetailsRepository.findById(id).orElseThrow(() -> new RuntimeException("ID is Invalid"));
+		if(loanDetails.getLoanType() != null)
+			dbLoanDetails.setLoanType(loanDetails.getLoanType());
+		if(loanDetails.getPrincipalAmount() != BigDecimal.valueOf(0)) {
+			dbLoanDetails.setPrincipalAmount(loanDetails.getPrincipalAmount());
+			BigDecimal amount = loanDetails.getPrincipalAmount();
+			dbLoanDetails.setTotalRepayableAmount(amount.add(amount.multiply(dbLoanDetails.getInterestRate().divide(BigDecimal.valueOf(100)))));
+			dbLoanDetails.setEmiAmount(dbLoanDetails.getTotalRepayableAmount().divide(BigDecimal.valueOf(dbLoanDetails.getTermInMonth()), 2, RoundingMode.HALF_UP));
+		}
+		if(loanDetails.getInterestRate() != BigDecimal.valueOf(0)) {
+			dbLoanDetails.setInterestRate(loanDetails.getInterestRate());
+			BigDecimal amount = dbLoanDetails.getPrincipalAmount();
+			dbLoanDetails.setTotalRepayableAmount(amount.add(amount.multiply(loanDetails.getInterestRate().divide(BigDecimal.valueOf(100)))));
+			dbLoanDetails.setEmiAmount(dbLoanDetails.getTotalRepayableAmount().divide(BigDecimal.valueOf(dbLoanDetails.getTermInMonth()), 2, RoundingMode.HALF_UP));
+		}
+		if(loanDetails.getTermInMonth() != 0) {
+			dbLoanDetails.setTermInMonth(loanDetails.getTermInMonth());
+			dbLoanDetails.setEmiAmount(dbLoanDetails.getTotalRepayableAmount().divide(BigDecimal.valueOf(loanDetails.getTermInMonth()), 2, RoundingMode.HALF_UP));
+		}
+		return loanDetailsRepository.save(dbLoanDetails);
+	}
+
+	public void deleteLoanDetails(int id) {
+		loanDetailsRepository.deleteById(id);
+	}
 }

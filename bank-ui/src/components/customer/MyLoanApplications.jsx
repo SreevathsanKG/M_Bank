@@ -56,83 +56,83 @@ function MyLoanApplications() {
     };
 
     const viewColumnTemplate = (rowData) => (
-    <div className="d-flex justify-content-center">
-        <Button
-            label="View"
-            className="p-button-sm p-button-info w-100"
-            onClick={() => showDetails(rowData)}
-        />
-    </div>
-);
+        <div className="d-flex justify-content-center">
+            <Button
+                label="View"
+                className="p-button-sm p-button-info w-100"
+                onClick={() => showDetails(rowData)}
+            />
+        </div>
+    );
 
     const actionColumnTemplate = (rowData) => (
-    <div className="d-flex justify-content-center">
-        <Button
-            label="Cancel"
-            className="p-button-sm p-button-danger w-100    "
-            disabled={rowData.status !== 'PENDING'}
-            onClick={() => cancelApplication(rowData.id)}
-        />
-    </div>
-);
+        <div className="d-flex justify-content-center">
+            <Button
+                label="Cancel"
+                className="p-button-sm p-button-danger w-100    "
+                disabled={rowData.status !== 'PENDING'}
+                onClick={() => cancelApplication(rowData.id)}
+            />
+        </div>
+    );
 
     const header = (
-    <div className="d-flex justify-content-end align-items-center">
-        <InputText
-            value={globalFilter}
-            onChange={(e) => setGlobalFilter(e.target.value)}
-            placeholder="Search..."
-        />
-    </div>
-);
+        <div className="d-flex justify-content-end align-items-center">
+            <InputText
+                value={globalFilter}
+                onChange={(e) => setGlobalFilter(e.target.value)}
+                placeholder="Search..."
+            />
+        </div>
+    );
 
     return (
         <div className="container mt-2">
             <BreadCrumb model={breadcrumbItems} home={home} />
             <div className="card p-4 shadow mt-3">
-                <h3 className="text-center mb-4 Application-title">My Loan Applications</h3>
+                <h3 className="text-center fw-bold mb-4 Application-title">My Loan Applications</h3>
 
                 {applications.length === 0 ? (
                     <div className="alert alert-info">You have not applied for any loan.</div>
                 ) : (
                     <DataTable
-    value={applications}
-    paginator
-    rows={5}
-    header={header}
-    globalFilter={globalFilter}
-    className="p-datatable-sm"
->
-    <Column
-        field="id"
-        header="Application ID"
-        style={{ textAlign: 'center' }}
-        headerStyle={{ textAlign: 'center' }}
-        className="text-center"
-    />
-    <Column
-        header="View Details"
-        body={viewColumnTemplate}
-        style={{ textAlign: 'center' }}
-        headerStyle={{ textAlign: 'center' }}
-        className="text-center"
-    />
-    <Column
-        field="status"
-        header="Status"
-        sortable
-        style={{ textAlign: 'center' }}
-        headerStyle={{ textAlign: 'center' }}
-        className="text-center"
-    />
-    <Column
-        header="Action"
-        body={actionColumnTemplate}
-        style={{ textAlign: 'center' }}
-        headerStyle={{ textAlign: 'center' }}
-        className="text-center"
-    />
-</DataTable>
+                        value={applications}
+                        paginator
+                        rows={5}
+                        header={header}
+                        globalFilter={globalFilter}
+                        className="p-datatable-sm"
+                    >
+                        <Column
+                            field="id"
+                            header="Application ID"
+                            style={{ textAlign: 'center' }}
+                            headerStyle={{ textAlign: 'center' }}
+                            className="text-center"
+                        />
+                        <Column
+                            header="View Details"
+                            body={viewColumnTemplate}
+                            style={{ textAlign: 'center' }}
+                            headerStyle={{ textAlign: 'center' }}
+                            className="text-center"
+                        />
+                        <Column
+                            field="status"
+                            header="Status"
+                            sortable
+                            style={{ textAlign: 'center' }}
+                            headerStyle={{ textAlign: 'center' }}
+                            className="text-center"
+                        />
+                        <Column
+                            header="Action"
+                            body={actionColumnTemplate}
+                            style={{ textAlign: 'center' }}
+                            headerStyle={{ textAlign: 'center' }}
+                            className="text-center"
+                        />
+                    </DataTable>
                 )}
 
                 <Dialog header="Loan Application Details" visible={dialogVisible} onHide={() => setDialogVisible(false)} style={{ width: '30vw' }}>

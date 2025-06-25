@@ -102,7 +102,7 @@ html, body, #root {
 
 /*Loan*/
 .loan-scroll-container {
-    max-height: calc(100vh - 250px);
+    max-height: calc(100vh - 290px);
     overflow-y: auto;
     padding-right: 10px;
 }
@@ -110,7 +110,10 @@ html, body, #root {
 .Apply-title,
 .Application-title,
 .beneficiary-title,
-.Loan-title{
+.myloan-title,
+.createAcc-title,
+.Loan-title,
+.mybranch-title{
     background-image: linear-gradient(
         to right,
         #df0060,
@@ -125,7 +128,8 @@ html, body, #root {
     color: transparent;
 }
 
-.loan-card {
+.loan-card,
+.mybranch-card {
     position: relative;
     padding: 16px;
     border-radius: 8px;
@@ -134,7 +138,8 @@ html, body, #root {
     overflow: hidden;
 }
 
-.loan-card::before {
+.loan-card::before,
+.mybranch-card::before {
     content: "";
     position: absolute;
     top: 0;
@@ -153,7 +158,8 @@ html, body, #root {
     border-bottom-left-radius: 8px;
 }
   
-.loan-card:hover {
+.loan-card:hover
+.mybranch-card:hover {
     box-shadow: 0 0 10px rgba(13, 110, 253, 0.3);
 }
 

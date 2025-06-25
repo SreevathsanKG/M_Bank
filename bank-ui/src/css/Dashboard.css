@@ -9,6 +9,22 @@ html {
     height: 100%;
 }
 
+html, body, #root {
+    height: 100%;
+    min-height: 100vh; /* Ensures it covers the full viewport height */
+    background: linear-gradient(
+    to right,
+    #df0060,
+    #b10075,
+    #5e0289,
+    #1b008e,
+    #00006b
+); /* A light grey color, replace with your desired hex, rgb, or named color */
+    margin: 0; /* Remove default browser margins */
+    padding: 0; /* Remove default browser padding */
+    font-family: 'Inter', sans-serif; /* Keep your preferred font */
+}
+
 .nav .open>a,
 .nav .open>a:hover,
 .nav .open>a:focus {
@@ -56,12 +72,15 @@ html {
 
 #page-content-wrapper {
     width: 100%;
-    padding-top: 70px;
+    padding-top: 68px; /* Adjust based on navbar height */
+    flex-grow: 1; /* Allow content to grow and fill space */
+    overflow: hidden; /* Prevent inner scroll unless explicitly defined */
+    display: flex;
 }
 
 #wrapper.toggled #page-content-wrapper {
-    position: absolute;
-    margin-right: -220px;
+    position: static;
+    margin-right: 0;
 }
 
 /*-------------------------------*/
@@ -73,6 +92,9 @@ html {
 
 .navbar {
      height: 68px; /* Increased height */
+     position: fixed;
+    width: 100%;
+    z-index: 1030;
 }
 
 .sidebar-nav {
@@ -196,7 +218,7 @@ html {
 .hamburger {
     position: fixed;
     top: 20px;
-    z-index: 999;
+    z-index: 1040;
     display: block;
     width: 32px;
     height: 32px;

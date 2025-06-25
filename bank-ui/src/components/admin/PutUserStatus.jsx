@@ -1,11 +1,9 @@
-import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Button } from "primereact/button";
 import { BreadCrumb } from "primereact/breadcrumb";
 import { fetchUserInfo } from "../../store/actions/UserInfoAction";
 import { useDispatch } from "react-redux";
-import "../../css/AdminDashboard.css";
 
 function PutUserStatus() {
     const { id, status } = useParams();

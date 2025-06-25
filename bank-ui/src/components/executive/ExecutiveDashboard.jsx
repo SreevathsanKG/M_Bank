@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import '../../css/Dashboard.css';
 import '../../css/general.css';
-import CustomerSidebar from './CustomerSidebar';
 import { Outlet, useNavigate } from 'react-router-dom';
-import CustomerNavbar from './CustomerNavbar';
 import { useDispatch } from 'react-redux';
 import { setUserDetails } from '../../store/actions/UserAction';
-import { fetchAccByToken } from '../../store/actions/AccByTokenAction';
+import ExecutiveSidebar from './ExecutiveSidebar';
+import ExecutiveNavbar from './ExecutiveNavbar';
 
-function CustomerDashboard() {
+function ExecutiveDashboard() {
 
     let navigate = useNavigate()
     let dispatch = useDispatch()
@@ -21,7 +20,6 @@ function CustomerDashboard() {
         if (user) {
             setUserDetails(dispatch)(user);
         }
-        fetchAccByToken(dispatch)(localStorage.getItem("token"))
         }, []);
 
     // State to track if the sidebar/overlay is "closed" (meaning the overlay is hidden and sidebar is collapsed)
@@ -57,13 +55,13 @@ function CustomerDashboard() {
     return (
         <div className='col-lg-12'>
             <div id="wrapper" ref={wrapperRef}>
-                <CustomerNavbar />
+                <ExecutiveNavbar/>
                 <div
                     className="overlay"
                     ref={overlayRef}
                     style={{ display: isClosed ? 'none' : 'block' }}
                 ></div>
-                <CustomerSidebar
+                <ExecutiveSidebar
                     setIsClosed={setIsClosed}
                     overlayRef={overlayRef}
                     wrapperRef={wrapperRef}
@@ -92,4 +90,4 @@ function CustomerDashboard() {
     )
 }
 
-export default CustomerDashboard
+export default ExecutiveDashboard

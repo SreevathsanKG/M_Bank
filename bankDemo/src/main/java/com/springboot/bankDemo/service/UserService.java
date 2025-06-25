@@ -58,7 +58,7 @@ public class UserService {
 	public Object getUserInfo(String username) {
 		User user = userRepository.getByUsername(username);
 		if(user.getUserStatus()!=UserStatus.ACTIVE)
-			return null;
+			throw new RuntimeException("INACTIVE");
 		switch(user.getRole()) {
 		case "CUSTOMER":
 			Customer customer = customerRepository.getCustomerByUsername(username);

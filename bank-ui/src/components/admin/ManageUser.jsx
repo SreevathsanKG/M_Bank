@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Button } from "primereact/button";
-import '../../css/AdminDashboard.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 function ManageUser() {

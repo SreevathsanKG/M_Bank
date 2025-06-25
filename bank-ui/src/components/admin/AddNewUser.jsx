@@ -2,7 +2,6 @@ import { BreadCrumb } from 'primereact/breadcrumb';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../../css/AdminDashboard.css';
 
 function RegisterUser() {
     const navigate = useNavigate();

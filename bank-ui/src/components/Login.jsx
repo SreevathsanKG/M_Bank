@@ -5,8 +5,6 @@ import { Eye, EyeSlash } from 'react-bootstrap-icons'
 import './../css/login.css'
 import { setUserDetails } from "../store/actions/UserAction"
 import { useDispatch } from "react-redux"
-import { Password } from 'primereact/password';
-import { FloatLabel } from 'primereact/floatlabel';
 
 
 function Login() {
@@ -47,7 +45,8 @@ function Login() {
                     navigate("/customer")
                     break;
                 case "EXECUTIVE":
-                    console.log("go to executive dashboard")
+                    localStorage.setItem("branchId", details.data.branch.id)
+                    navigate("/executive")
                     break;
                 case "MANAGER":
                     console.log("go to manager dashboard")
@@ -61,8 +60,9 @@ function Login() {
             }
             setMsg("Login Seccess!!")
         }catch(err){
-            console.log(err)
             setMsg("Invalid Credentials!!")
+            if(err.response.data.msg == "INACTIVE")
+                setMsg("Account is deactivated, please contact admin at admin@mavk.com")
         }
     }
 

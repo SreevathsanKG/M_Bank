@@ -7,7 +7,7 @@ const store = configureStore({
     reducer: {
         user: UserReducer,
         userInfo : UserInfoReducer,
-        account: AccByTokenReducer
+        account: AccByTokenReducer,
     }
 })
 

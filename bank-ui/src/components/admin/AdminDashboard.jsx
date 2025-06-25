@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import '../../css/AdminDashboard.css';
+import '../../css/Admin.css';
+import '../../css/Dashboard.css';
 import '../../css/general.css';
 import AdminSidebar from './AdminSidebar';
 import { Outlet, useNavigate } from 'react-router-dom';
