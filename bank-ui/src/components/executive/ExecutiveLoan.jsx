@@ -10,7 +10,7 @@ function ExecutiveLoan() {
     const breadcrumbItems = [{ label: "Loans" }];
 
     return (
-        <div className="container mt-2">
+        <div className="container mt-4">
             <BreadCrumb model={breadcrumbItems} home={home} />
             <div className="card shadow p-4 mt-3">
                 <h3 className="text-center fw-bold fs-2 mt-4 mb-5 Loan-title">Loans Management</h3>

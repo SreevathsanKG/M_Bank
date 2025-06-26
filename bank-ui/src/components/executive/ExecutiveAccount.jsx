@@ -10,7 +10,7 @@ function ExecutiveAccount() {
     const home = { icon: "pi pi-home", command: () => navigate("/executive") };
 
     return (
-        <div className="container mt-2">
+        <div className="container mt-4">
             <BreadCrumb model={breadcrumbItems} home={home} />
 
             <div className="card shadow p-4 mt-3">
@@ -53,6 +53,14 @@ function ExecutiveAccount() {
                         </Card>
                     </div>
                 </div>
+                <div className="text-center mt-4">
+    <Button
+        label="Manage Account Types"
+        icon="pi pi-cog"
+        className="p-button-secondary p-button-rounded mb-3"
+        onClick={() => navigate("/executive/accounts/types")}
+    />
+</div>
             </div>
         </div>
     );

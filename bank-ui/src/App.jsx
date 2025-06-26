@@ -31,6 +31,7 @@ import PendingAccounts from './components/executive/PendingAccounts'
 import ClosingRequestAccounts from './components/executive/ClosingRequestAccounts'
 import AccountCreation from './components/executive/AccountCreation'
 import AddCustomer from './components/executive/AddCustomer'
+import AccountTypes from './components/executive/AccountTypes'
 
 function App() {
 
@@ -57,6 +58,7 @@ function App() {
           <Route path="accounts/all" element={<AllAccounts/>}/>
           <Route path="accounts/pending" element={<PendingAccounts/>}/>
           <Route path="accounts/closing" element={<ClosingRequestAccounts/>}/>
+          <Route path="accounts/types" element={<AccountTypes/>}/>
           <Route path="transactions" element={<ExecutiveTransaction/>}/>
           <Route path="loans" element={<ExecutiveLoan/>}/>
           <Route path="loans/loanDetails" element={<LoanDetails/>}/>

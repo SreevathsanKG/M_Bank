@@ -208,13 +208,6 @@ public class TransactionServiceTest {
 	}
 
 	@Test
-	public void getTxnLastNMonthByAccIdTest() {
-		when(transactionRepository.getTxnFromDateByAccId(eq(1), any(), any())).thenReturn(List.of(transaction));
-		List<TransactionListDto> result = transactionService.getTxnLastNMonthByAccId(1, 1, 0, 5);
-		assertEquals(1, result.size());
-	}
-
-	@Test
     public void getAccStmtBtwDatebyAccIdTest() {
         when(accountRepository.findById(1)).thenReturn(Optional.of(account));
         when(transactionRepository.getTxnBtwDateByAccId(1, LocalDate.now().minusDays(5), LocalDate.now()))

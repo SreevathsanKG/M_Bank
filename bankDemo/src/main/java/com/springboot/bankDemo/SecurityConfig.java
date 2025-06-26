@@ -35,8 +35,8 @@ public class SecurityConfig {
 					.requestMatchers("/api/account/get/{branchId}").permitAll()//.hasAnyAuthority("EXECUTIVE","MANAGER")
 					.requestMatchers("/api/account/get/status").hasAnyAuthority("EXECUTIVE","MANAGER")
 					// AccountType
-					.requestMatchers("/api/accountType/post").hasAuthority("MANAGER")
-					.requestMatchers("/api/accountType/put/{id}").hasAuthority("MANAGER")
+					.requestMatchers("/api/accountType/post").permitAll()//.hasAuthority("EXECUTIVE")
+					.requestMatchers("/api/accountType/put/{id}").permitAll()//.hasAuthority("EXECUTIVE")
 					.requestMatchers("/api/accountType/get-all").permitAll()
 					.requestMatchers("/api/accountType/get/type").permitAll()
 					.requestMatchers("/api/accountType/get-one/{id}").permitAll()//
