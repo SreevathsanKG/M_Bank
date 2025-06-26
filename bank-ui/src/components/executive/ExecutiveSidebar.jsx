@@ -43,25 +43,31 @@ function ExecutiveSidebar({ setIsClosed, overlayRef, wrapperRef }) {
                     <li>
                         <Link to="/executive/accounts" onClick={handleLinkClick}>
                             <i className="bi bi-safe" style={{ marginRight: "10px" }} />
-                            Account
+                            Accounts
                         </Link>
                     </li>
                     <li>
                         <Link to="/executive/transactions" onClick={handleLinkClick}>
                             <i className="bi bi-currency-exchange" style={{ marginRight: "10px" }} />
-                            Transaction
+                            Transactions
                         </Link>
                     </li>
                     <li>
                         <Link to="/executive/loans" onClick={handleLinkClick}>
                             <i className="bi bi-cash-stack" style={{ marginRight: "10px" }} />
-                            Loan
+                            Loans
                         </Link>
                     </li>
                     <li>
-                        <Link to="/customer/report" onClick={handleLinkClick}>
-                            <i className="bi bi-file-earmark-text" style={{ marginRight: "10px" }} />
-                            Report
+                        <Link to="/executive/createAccount" onClick={handleLinkClick}>
+                            <i className="bi bi-file-earmark-plus" style={{ marginRight: "10px" }} />
+                            Create Account
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/executive/addCustomer" onClick={handleLinkClick}>
+                            <i className="bi bi-person-fill-add" style={{ marginRight: "10px" }} />
+                            Add Customer
                         </Link>
                     </li>
                     <li>

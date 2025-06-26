@@ -25,14 +25,14 @@ public class SecurityConfig {
 			.authorizeHttpRequests((authorize) -> authorize
 					// Account
 					.requestMatchers("/api/account/post/").permitAll()
-					.requestMatchers("/api/account/post/{customerId}/").hasAnyAuthority("EXECUTIVE","MANAGER")
+					.requestMatchers("/api/account/post/{customerId}/{branchId}").permitAll()//.hasAnyAuthority("EXECUTIVE","MANAGER")
 					.requestMatchers("/api/account/get-all").hasAuthority("MANAGER")
 					.requestMatchers("/api/account/put/status/{accountId}/").permitAll()//.hasAnyAuthority("CUSTOMER","EXECUTIVE")
 					.requestMatchers("/api/account/put/balance/{accountId}").permitAll()
 					.requestMatchers("/api/account/get-one").permitAll()//..hasAuthority("CUSTOMER")
 					.requestMatchers("/api/account/get/id/{accountId}").hasAnyAuthority("EXECUTIVE","MANAGER")
 					.requestMatchers("/api/account/get/customerId/{customerId}").hasAnyAuthority("EXECUTIVE","MANAGER")
-					.requestMatchers("/api/account/get/{branchId}").hasAnyAuthority("EXECUTIVE","MANAGER")
+					.requestMatchers("/api/account/get/{branchId}").permitAll()//.hasAnyAuthority("EXECUTIVE","MANAGER")
 					.requestMatchers("/api/account/get/status").hasAnyAuthority("EXECUTIVE","MANAGER")
 					// AccountType
 					.requestMatchers("/api/accountType/post").hasAuthority("MANAGER")
@@ -55,9 +55,9 @@ public class SecurityConfig {
 					// Customer
 					.requestMatchers("/api/customer/post").permitAll()
 					.requestMatchers("/api/customer/get").permitAll()
-					.requestMatchers("/api/customer/get-one/{id}").hasAnyAuthority("EXECUITVE")
+					.requestMatchers("/api/customer/get-one/{id}").permitAll()//.hasAnyAuthority("EXECUITVE")
 					.requestMatchers("/api/customer/get-all").hasAuthority("MANAGER")
-					.requestMatchers("/api/customer/put").permitAll()
+					.requestMatchers("/api/customer/put").permitAll()//.hasAuthority("CUSTOMER")
 					// Document
 					.requestMatchers("/api/document/post").hasAuthority("CUSTOMER")
 					.requestMatchers("/api/document/put").hasAuthority("CUSTOMER")
@@ -65,6 +65,7 @@ public class SecurityConfig {
 					.requestMatchers("/api/document/get").hasAuthority("EXECUTIVE")
 					.requestMatchers("/api/document/get-all").hasAuthority("MANAGER")
 					// Enums
+					.requestMatchers("/api/enum/account/status/get").permitAll()
 					.requestMatchers("/api/enum/loanApply/status/get").permitAll()
 					.requestMatchers("/api/enum/loan/status/get").permitAll()
 					.requestMatchers("/api/enum/loan/type/get").permitAll()
@@ -110,8 +111,9 @@ public class SecurityConfig {
 					.requestMatchers("/api/transaction/get-btw/{accountId}").permitAll()//.hasAnyAuthority("CUSTOMER","EXECUTIVE","MANAGER")
 					.requestMatchers("/api/transaction/get-from/{accountId}").permitAll()//.hasAnyAuthority("CUSTOMER","EXECUTIVE","MANAGER")
 					.requestMatchers("/api/transaction/get-10/{accountId}").permitAll()//.hasAnyAuthority("CUSTOMER","EXECUTIVE","MANAGER")
-					.requestMatchers("/api/transaction/get-nMonth/{accountId}").hasAnyAuthority("CUSTOMER","EXECUTIVE","MANAGER")
 					.requestMatchers("/api/transaction/get/statement/{accountId}").permitAll()//.hasAnyAuthority("CUSTOMER","EXECUTIVE","MANAGER")
+					.requestMatchers("/api/transaction/get-btw/branchId/{branchId}").permitAll()
+					.requestMatchers("/api/transaction/get-from/branchId/{branchId}").permitAll()
 					// User
 					.requestMatchers("/api/user/signup").permitAll()
 					.requestMatchers("/api/user/put/status/{id}").permitAll()

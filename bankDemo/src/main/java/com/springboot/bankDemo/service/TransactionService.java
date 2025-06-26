@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.springboot.bankDemo.dto.AccountStatementDto;
@@ -144,14 +143,6 @@ public class TransactionService {
 		return returnTransactionListDto(list);
 	}
 
-	// fetch transaction by given N month
-	public List<TransactionListDto> getTxnLastNMonthByAccId(int acountId, int nMonth, int page, int size) {
-		Pageable pageable = PageRequest.of(page, size);
-		LocalDate fromDate = LocalDate.now().minusMonths(nMonth);
-		List<Transaction> list = transactionRepository.getTxnFromDateByAccId(acountId, fromDate, pageable);
-		return returnTransactionListDto(list);
-	}
-
 	// fetch account statement
 	public AccountStatementDto getAccStmtBtwDatebyAccId(int accountId, LocalDate fromDate, LocalDate toDate) {
 		Account account = accountRepository.findById(accountId)
@@ -164,6 +155,17 @@ public class TransactionService {
 				openingBalance, closingBalance, stmtList);
 	}
 
+	
+	// fetch transaction btw date by branch id
+	public List<Transaction> getTxnBtwDateByBranchId(int branchId, LocalDate fromDate, LocalDate tillDate) {
+		return transactionRepository.getTxnBtwDateByBranchId(branchId, fromDate, tillDate);
+	}
+	
+	//fetch transaction from date by branch id
+	public List<Transaction> getTxnFromDateByBranchId(int branchId, LocalDate fromDate) {
+		return transactionRepository.getTxnFromDateByBranchId(branchId, fromDate);
+	}
+	
 	// fetch transaction between given date
 	public List<Transaction> getTransactionBetweenDate(LocalDate fromDate, LocalDate tillDate) {
 		return transactionRepository.getTransactionBetweenDate(fromDate, tillDate);

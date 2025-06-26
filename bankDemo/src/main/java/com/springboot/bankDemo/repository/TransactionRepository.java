@@ -25,7 +25,11 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 	@Query("select t from Transaction t where t.account.id=?1 order by t.id desc")
 	List<Transaction> getLast10TxnByAccId(int accountId, PageRequest limit);
 	
+	@Query("select t from Transaction t where t.account.branch.id=?1 and t.transactionDate  between ?2 and ?3 order by t.transactionDate asc")
+	List<Transaction> getTxnBtwDateByBranchId(int branchId, LocalDate fromDate, LocalDate tillDate);
 	
+	@Query("select t from Transaction t where t.account.branch.id=?1 and t.transactionDate>=?2 order by t.transactionDate asc")
+	List<Transaction> getTxnFromDateByBranchId(int branchId, LocalDate fromDate);
 	
 	
 	@Query("select t from Transaction t where t.transactionDate between ?1 and ?2 order by t.transactionDate asc")

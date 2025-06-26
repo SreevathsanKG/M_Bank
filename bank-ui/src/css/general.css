@@ -113,6 +113,7 @@ html, body, #root {
 .myloan-title,
 .createAcc-title,
 .Loan-title,
+.main-title,
 .mybranch-title{
     background-image: linear-gradient(
         to right,

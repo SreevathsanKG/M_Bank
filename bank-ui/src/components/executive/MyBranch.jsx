@@ -59,7 +59,7 @@ function MyBranch() {
                                     className="p-3 h-100 shadow-sm mybranch-card"
                                     title="Accounts"
                                     style={{ cursor: 'pointer' }}
-                                    onClick={() => navigate("/executive/account")}
+                                    onClick={() => navigate("/executive/accounts")}
                                 >
                                     <p>View and manage accounts for this branch.</p>
                                     <Button label="Go" icon="pi pi-arrow-right" />
@@ -71,7 +71,7 @@ function MyBranch() {
                                     className="p-3 h-100 shadow-sm mybranch-card"
                                     title="Transactions"
                                     style={{ cursor: 'pointer' }}
-                                    onClick={() => navigate("/executive/transaction")}
+                                    onClick={() => navigate("/executive/transactions")}
                                 >
                                     <p>Review transaction history and activities for this branch.</p>
                                     <Button label="Go" icon="pi pi-arrow-right" />

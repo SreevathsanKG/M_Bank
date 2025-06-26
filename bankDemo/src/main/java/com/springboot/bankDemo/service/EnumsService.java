@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.springboot.bankDemo.enums.AccountStatus;
 import com.springboot.bankDemo.enums.LoanApplicationStatus;
 import com.springboot.bankDemo.enums.LoanStatus;
 import com.springboot.bankDemo.enums.LoanType;
@@ -12,6 +13,12 @@ import com.springboot.bankDemo.enums.TransferType;
 
 @Service
 public class EnumsService {
+	
+	// fetch account status
+	public List<String> getEnumAccountStatus() {
+		List<String> status = Arrays.stream(AccountStatus.values()).map(as -> as.name()).toList();
+		return status;
+	}
 	
 	// fetch loan application status from enum
 	public List<String> getEnumLoanApplicationStatus() {

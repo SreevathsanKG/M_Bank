@@ -100,27 +100,38 @@ public class TransactionController {
 	}
 	
 	/*
-	 * AIM: get transaction by accountId for last N month
-	 * PARAM: PathVariable -> accountId | RequestParam -> nMonth, page, size
-	 * METHOD: GET
-	 * RESPONSE: List<TransactionListDto>
-	 * PATH: /api/transaction/get-nMonth/{accountId}?nMonth=1&page=0&size=10
-	 * */
-	@GetMapping("/get-nMonth/{accountId}")
-	public List<TransactionListDto> getTxnLastNMonthByAccId(@PathVariable int accountId,@RequestParam int nMonth,
-			@RequestParam(required = false, defaultValue = "0") int page,@RequestParam(required = false, defaultValue = "10000") int size) {
-		return transactionService.getTxnLastNMonthByAccId(accountId, nMonth, page, size);
-	}
-	
-	/*
 	 * AIM: get ACCOUNT STATEMENT
 	 * PARAM: PathVariable -> accountId | RequestParam -> fromDate, tillDate
 	 * METHOD: GET
 	 * RESPONSE: List<AccountStatement>
-	 * PATH: /api/transaction/get/statement/{accountId}?nfromDate=2025-06-07&tillDate=2025-06-09
+	 * PATH: /api/transaction/get/statement/{accountId}?fromDate=2025-06-07&tillDate=2025-06-09
 	 * */
 	@GetMapping("/get/statement/{accountId}")
 	public AccountStatementDto getAccStmtBtwDateByAccId(@PathVariable int accountId, @RequestParam LocalDate fromDate, @RequestParam LocalDate tillDate) {
 		return transactionService.getAccStmtBtwDatebyAccId(accountId, fromDate, tillDate);
+	}
+	
+	/*
+	 * AIM: get transaction btw date by branch id
+	 * PARAM: PathVariable -> branchId | RequestParam -> fromDate, tillDate 
+	 * METHOD: GET
+	 * RESPONSE: List<TransactionListDto>
+	 * PATH: /api/transaction/get-btw/branchId/{branchId}?fromDate=2025-06-07&tillDate=2025-06-09
+	 * */
+	@GetMapping("/get-btw/branchId/{branchId}")
+	public List<Transaction> getTxnBtwDateByBranchId(@PathVariable int branchId, @RequestParam LocalDate fromDate, @RequestParam LocalDate tillDate) {
+		return transactionService.getTxnBtwDateByBranchId(branchId, fromDate, tillDate);
+	}
+	
+	/*
+	 * AIM: get transaction from date by branch id
+	 * PARAM: PathVariable -> branchId | RequestParam -> fromDate 
+	 * METHOD: GET
+	 * RESPONSE: List<TransactionListDto>
+	 * PATH: /api/transaction/get-from/branchId/{branchId}?fromDate=2025-06-07
+	 * */
+	@GetMapping("/get-from/branchId/{branchId}")
+	public List<Transaction> getTxnFromDateByBranchId(@PathVariable int branchId, @RequestParam LocalDate fromDate) {
+		return transactionService.getTxnFromDateByBranchId(branchId, fromDate);
 	}
 }

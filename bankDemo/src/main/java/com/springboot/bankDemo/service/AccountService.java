@@ -12,6 +12,7 @@ import com.springboot.bankDemo.model.AccountType;
 import com.springboot.bankDemo.model.Branch;
 import com.springboot.bankDemo.model.Customer;
 import com.springboot.bankDemo.repository.AccountRepository;
+import com.springboot.bankDemo.repository.BranchRepository;
 
 @Service
 public class AccountService {
@@ -19,20 +20,20 @@ public class AccountService {
 	private AccountRepository accountRepository;
 	private CustomerService customerService;
 	private AccountTypeService accountTypeService;
-	private BranchService branchService;
+	private BranchRepository branchRepository;
 
 	public AccountService(AccountRepository accountRepository, CustomerService customerService,
-			AccountTypeService accountTypeService, BranchService branchService) {
+			AccountTypeService accountTypeService, BranchRepository branchRepository) {
 		this.accountRepository = accountRepository;
 		this.customerService = customerService;
 		this.accountTypeService = accountTypeService;
-		this.branchService = branchService;
+		this.branchRepository = branchRepository;
 	}
 
 	// insert by username - customer login cred
 	public Account postAccountByUsername(String username, String ifscCode, String type, Account account) {
 		Customer customer = customerService.getCustomerByUsername(username);
-		Branch branch = branchService.getByIfscCode(ifscCode);
+		Branch branch = branchRepository.getByIfscCode(ifscCode).orElseThrow(() -> new RuntimeException("IFSC code is Invalid"));
 		AccountType accountType = accountTypeService.getByType(type);
 		boolean exists = accountRepository.getAccountExistsByCustomerandType(customer, accountType);
 		if(exists)
@@ -46,15 +47,19 @@ public class AccountService {
 		return accountRepository.save(account);
 	}
 
-	// insert values into account - create account
-	public Account postAccount(int customerId, String ifscCode, String type, Account account) {
+	// create account by customer id
+	public Account postAccount(int customerId, int branchId, String type, Account account) {
 		Customer customer = customerService.getCustomerById(customerId);
-		account.setCustomer(customer);
-		Branch branch = branchService.getByIfscCode(ifscCode);
-		account.setBranch(branch);
+		Branch branch = branchRepository.findById(branchId).orElseThrow(() -> new RuntimeException("ID is Invalid"));
 		AccountType accountType = accountTypeService.getByType(type);
+		boolean exists = accountRepository.getAccountExistsByCustomerandType(customer, accountType);
+		if(exists)
+			throw new RuntimeException("Customer already has an account of this type");
+		account.setCustomer(customer);
+		account.setBranch(branch);
 		account.setAccountType(accountType);
 		account.setBalance(accountType.getInitialDeposit());
+		account.setStatus(AccountStatus.ACTIVE);
 		account.setOpenDate(LocalDate.now());
 		return accountRepository.save(account);
 	}

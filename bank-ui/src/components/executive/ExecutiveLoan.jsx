@@ -13,9 +13,9 @@ function ExecutiveLoan() {
         <div className="container mt-2">
             <BreadCrumb model={breadcrumbItems} home={home} />
             <div className="card shadow p-4 mt-3">
-                <h3 className="text-center fw-bold fs-3 mt-4 mb-5">Loan Management</h3>
+                <h3 className="text-center fw-bold fs-2 mt-4 mb-5 Loan-title">Loans Management</h3>
 
-                <div className="row g-4 justify-content-center">
+                <div className="row g-4 justify-content-center mt-4 mb-5">
                     <div className="col-md-4">
                         <Card title="Loan Details" className="text-center h-100">
                             <p>Manage loan types - add, edit or delete loan schemes.</p>

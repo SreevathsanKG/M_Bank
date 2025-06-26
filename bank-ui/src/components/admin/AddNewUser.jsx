@@ -1,5 +1,5 @@
 import { BreadCrumb } from 'primereact/breadcrumb';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -162,7 +162,7 @@ function RegisterUser() {
                             </div>
 
                             <div className="text-center mt-2">
-                                Back to Admin? <a href="/admin">Dashboard</a>
+                                Back to Admin? <Link to="/admin">Dashboard</Link>
                             </div>
                         </form>
                     </div>

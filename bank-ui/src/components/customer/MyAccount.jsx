@@ -30,8 +30,8 @@ function MyAccount() {
                     setError("You don't have an account. Create one to get started.");
                     return;
                 }
-
-                setAccount(res.data);
+                const filtered = res.data.filter(acc => acc.status !== 'REJECTED' && acc.status !== 'CLOSED');
+                setAccount(filtered);
             } catch (err) {
                 if (err.response && err.response.data.message === "Customer has no Account") {
                     setError("You don't have an account. Create one to get started.");

@@ -41,16 +41,16 @@ public class AccountController {
 	}
 	
 	/*
-	 * AIM: to insert values to account, which requires ifscCode,account-Type,customerId 
+	 * AIM: to insert values to account, which requires branchId,account-Type,customerId 
 	 * METHOD: POST
-	 * PARAM: account -> RequestBody, PathVariable <- customerId, branch-ifscCode, accountType-type 
+	 * PARAM: account -> RequestBody || PathVariable <- customerId, branchId || RequestParam -> accountType-type 
 	 * RESPONSE: Account
-	 * PATH: /api/account/post/{customerId}/ifsc=MAVK001&type=SAVING 
+	 * PATH: /api/account/post/{customerId}/{branchId}?type=SAVING 
 	 */
-	@PostMapping("/post/{customerId}/")
-	public Account postAccount(@PathVariable int customerId, @RequestParam String ifscCode, 
+	@PostMapping("/post/{customerId}/{branchId}")
+	public Account postAccount(@PathVariable int customerId, @PathVariable int branchId, 
 							@RequestParam String type, @RequestBody Account account) {
-		return accountService.postAccount(customerId, ifscCode, type, account);
+		return accountService.postAccount(customerId, branchId, type, account);
 	}
 	
 	/*

@@ -26,6 +26,11 @@ import CustomerLoan from './components/customer/CustomerLoan'
 import LoanDetails from './components/executive/LoanDetails'
 import LoanApplications from './components/executive/LoanApplications'
 import ApprovedLoans from './components/executive/ApprovedLoans'
+import AllAccounts from './components/executive/AllAccounts'
+import PendingAccounts from './components/executive/PendingAccounts'
+import ClosingRequestAccounts from './components/executive/ClosingRequestAccounts'
+import AccountCreation from './components/executive/AccountCreation'
+import AddCustomer from './components/executive/AddCustomer'
 
 function App() {
 
@@ -49,11 +54,16 @@ function App() {
         <Route path="/executive" element={<ExecutiveDashboard/>}>
           <Route index element={<MyBranch/>}/>
           <Route path="accounts" element={<ExecutiveAccount/>}/>
+          <Route path="accounts/all" element={<AllAccounts/>}/>
+          <Route path="accounts/pending" element={<PendingAccounts/>}/>
+          <Route path="accounts/closing" element={<ClosingRequestAccounts/>}/>
           <Route path="transactions" element={<ExecutiveTransaction/>}/>
           <Route path="loans" element={<ExecutiveLoan/>}/>
           <Route path="loans/loanDetails" element={<LoanDetails/>}/>
           <Route path="loans/applications" element={<LoanApplications/>}/>
           <Route path="loans/approvedLoans" element={<ApprovedLoans/>}/>
+          <Route path="createAccount" element={<AccountCreation/>}/>
+          <Route path="addCustomer" element={<AddCustomer/>}/>
           <Route path="profile" element={<ExecutiveProfile/>}/>
         </Route>
         <Route path="/admin" element={<AdminDashboard/>}>

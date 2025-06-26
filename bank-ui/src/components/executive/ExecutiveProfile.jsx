@@ -85,7 +85,11 @@ function ExecutiveProfile() {
 
                             {msg && <div className="alert alert-info">{msg}</div>}
 
-                            <div className="row g-3">
+                            <div className="row g-3 mt-4">
+                                <div className="col-md-6">
+                                    <label className="fw-bold">Executive ID:</label>
+                                    <p>{userData.id}</p>
+                                </div>
                                 <div className="col-md-6">
                                     <label className="fw-bold">First Name:</label>
                                     <p>{userData.firstName}</p>
@@ -110,7 +114,7 @@ function ExecutiveProfile() {
                                     <label className="fw-bold">Phone Number:</label>
                                     <p>{userData.phoneNumber}</p>
                                 </div>
-                                <div className="col-md-12">
+                                <div className="col-md-6">
                                     <label className="fw-bold">Address:</label>
                                     <p>{userData.address}</p>
                                 </div>

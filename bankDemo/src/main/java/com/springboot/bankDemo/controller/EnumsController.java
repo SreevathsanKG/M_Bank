@@ -22,7 +22,18 @@ public class EnumsController {
 	 * AIM: fetch all loan application status from enum
 	* METHOD: GET
 	 * RESPONSE: List<String>
-	 * PATH: /api/enums/loanApply/status/get
+	 * PATH: /api/enum/account/status/get
+	 * */
+	@GetMapping("/account/status/get")
+	public List<String> getEnumAccountStatus() {
+		return enumsService.getEnumAccountStatus();
+	}
+	
+	/*
+	 * AIM: fetch all loan application status from enum
+	* METHOD: GET
+	 * RESPONSE: List<String>
+	 * PATH: /api/enum/loanApply/status/get
 	 * */
 	@GetMapping("/loanApply/status/get")
 	public List<String> getEnumLoanApplicationStatus() {
@@ -33,7 +44,7 @@ public class EnumsController {
 	 * AIM: fetch all loan status from enum
 	 * METHOD: GET
 	 * RESPONSE: List<String>
-	 * PATH: /api/enums/loan/status/get
+	 * PATH: /api/enum/loan/status/get
 	 * */
 	@GetMapping("/loan/status/get")
 	public List<String> getEnumLoanStatus() {
@@ -44,7 +55,7 @@ public class EnumsController {
 	 * AIM: fetch all loan type from enum
 	 * METHOD: GET
 	 * RESPONSE: List<String>
-	 * PATH: /api/enums/laon/type/get
+	 * PATH: /api/enum/laon/type/get
 	 * */
 	@GetMapping("/loan/type/get")
 	public List<String> getEnumLoanType() {
@@ -54,7 +65,7 @@ public class EnumsController {
 	 * AIM: fetch all transfer type from enum
 	 * METHOD: GET
 	 * RESPONSE: List<String>
-	 * PATH: /api/enums/transfer/type/get
+	 * PATH: /api/enum/transfer/type/get
 	 * */
 	@GetMapping("/transfer/type/get")
 	public List<String> getEnumTransferType() {
