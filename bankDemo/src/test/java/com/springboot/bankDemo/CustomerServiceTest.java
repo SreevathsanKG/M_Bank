@@ -80,7 +80,10 @@ public class CustomerServiceTest {
 	@Test
 	public void getCustomerByIdTest() {
 		when(customerRepository.findById(1)).thenReturn(Optional.of(customer));
+		// actual
 		assertEquals(customer, customerService.getCustomerById(1));
+		
+		// use case id is invalid
 		RuntimeException e = assertThrows(RuntimeException.class, () -> customerService.getCustomerById(2));
 		assertEquals("ID is Invalid".toLowerCase(), e.getMessage().toLowerCase());
 	}

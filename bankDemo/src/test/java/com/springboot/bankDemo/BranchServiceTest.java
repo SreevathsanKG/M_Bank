@@ -1,6 +1,7 @@
 package com.springboot.bankDemo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -54,13 +55,25 @@ public class BranchServiceTest {
 	@Test
 	public void getByIfscCodeTest() {
 		when(branchRepository.getByIfscCode("IFSC0003")).thenReturn(Optional.of(branch));
+		// actual
 		assertEquals(branch, branchService.getByIfscCode("IFSC0003"));
+		
+		// use case ifsc code is invalid
+		RuntimeException e = assertThrows(RuntimeException.class,
+				() -> branchService.getByIfscCode("IFSC01"));
+		assertEquals("IFSC Code is Invalid", e.getMessage());
 	}
 
 	@Test
 	public void getByIdTest() {
 		when(branchRepository.findById(1)).thenReturn(Optional.of(branch));
+		// actual
 		assertEquals(branch, branchService.getById(1));
+		
+		// use case id is invalid
+		RuntimeException e = assertThrows(RuntimeException.class,
+				() -> branchService.getById(5));
+		assertEquals("Id is Invalid", e.getMessage());
 	}
 
 	@Test

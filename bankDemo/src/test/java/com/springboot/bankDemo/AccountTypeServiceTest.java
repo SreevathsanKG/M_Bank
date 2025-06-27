@@ -49,13 +49,9 @@ public class AccountTypeServiceTest {
 		AccountType updated = new AccountType();
 		updated.setType("CURRENT");
 		updated.setInitialDeposit(BigDecimal.valueOf(5000));
-
 		when(accountTypeRepository.findById(1)).thenReturn(Optional.of(accountType));
-		when(accountTypeRepository.save(any(AccountType.class))).thenAnswer(i -> i.getArgument(0));
-
-		AccountType result = accountTypeService.putAccountType(1, updated);
-		assertEquals("CURRENT", result.getType());
-		assertEquals(BigDecimal.valueOf(5000), result.getInitialDeposit());
+		when(accountTypeRepository.save(any(AccountType.class))).thenReturn(updated);
+		assertEquals(updated, accountTypeService.putAccountType(1, updated));
 	}
 
 	@Test

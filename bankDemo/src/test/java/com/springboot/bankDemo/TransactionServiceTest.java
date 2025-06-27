@@ -186,7 +186,7 @@ public class TransactionServiceTest {
 	@Test
 	public void getTxnBtwDateByAccIdTest() {
 		List<Transaction> txnList = List.of(transaction);
-		when(transactionRepository.getTxnBtwDateByAccId(eq(1), any(), any(), any())).thenReturn(txnList);
+		when(transactionRepository.getTxnBtwDateByAccId(eq(1), any(), any())).thenReturn(txnList);
 		List<TransactionListDto> result = transactionService.getTxnBtwDateByAccId(1, LocalDate.now().minusDays(5),
 				LocalDate.now());
 		assertEquals(1, result.size());
@@ -195,7 +195,7 @@ public class TransactionServiceTest {
 	@Test
 	public void getTxnFromDateByAccIdTest() {
 		List<Transaction> txnList = List.of(transaction);
-		when(transactionRepository.getTxnFromDateByAccId(eq(1), any(), any())).thenReturn(txnList);
+		when(transactionRepository.getTxnFromDateByAccId(eq(1), any())).thenReturn(txnList);
 		List<TransactionListDto> result = transactionService.getTxnFromDateByAccId(1, LocalDate.now().minusDays(3));
 		assertFalse(result.isEmpty());
 	}

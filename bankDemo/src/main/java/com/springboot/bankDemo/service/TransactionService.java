@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,8 @@ import com.springboot.bankDemo.repository.TransactionRepository;
 @Service
 public class TransactionService {
 
+	Logger logger = LoggerFactory.getLogger(TransactionService.class);
+	
 	public TransactionRepository transactionRepository;
 	public AccountRepository accountRepository;
 	public BeneficiaryRepository beneficiaryRepository;
@@ -40,13 +44,21 @@ public class TransactionService {
 	public Transaction postDeposit(int accountId, TransactionDto transactionDto) {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new RuntimeException("ID is Invalid"));
+		logger.info("Account details: "+account);
 		BigDecimal amount = transactionDto.getAmount();
-		if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0)
+		logger.info("Amount need to be Deposite: "+amount);
+		logger.info("Check amount is not null and not negative or zero");
+		if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+			logger.error("Amount cannot be less than or equal to Zero");
 			throw new RuntimeException("Amount cannot be less than or equal to Zero");
+		}
 		account.setBalance(account.getBalance().add(amount));
+		logger.info("Save the amount to the account");
 		accountRepository.save(account);
+		logger.info("call function to set transaction datas");
 		transaction = returnSetTransaction("DEPOSIT", amount, account, EntryType.CREDIT,
 				transactionDto.getDescription(), account);
+		logger.info("Save the transaction");
 		return transactionRepository.save(transaction);
 	}
 

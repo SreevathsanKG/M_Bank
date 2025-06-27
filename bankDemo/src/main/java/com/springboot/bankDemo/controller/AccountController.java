@@ -48,9 +48,9 @@ public class AccountController {
 	 * PATH: /api/account/post/{customerId}/{branchId}?type=SAVING 
 	 */
 	@PostMapping("/post/{customerId}/{branchId}")
-	public Account postAccount(@PathVariable int customerId, @PathVariable int branchId, 
+	public Account postAccountByCustomerId(@PathVariable int customerId, @PathVariable int branchId, 
 							@RequestParam String type, @RequestBody Account account) {
-		return accountService.postAccount(customerId, branchId, type, account);
+		return accountService.postAccountByCustomerId(customerId, branchId, type, account);
 	}
 	
 	/*

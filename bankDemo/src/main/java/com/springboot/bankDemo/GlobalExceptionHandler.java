@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.springboot.bankDemo.exception.InvalidInputException;
 import com.springboot.bankDemo.exception.ResourceNotFoundException;
 
 @ControllerAdvice
@@ -37,10 +38,11 @@ public class GlobalExceptionHandler {
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(map);
 	}
 	
-	@ExceptionHandler(exception = IllegalArgumentException.class)
-	public ResponseEntity<?> handleIllegalArgument(IllegalArgumentException e) {
+	// for invalid input exception
+	@ExceptionHandler(exception = InvalidInputException.class)
+	public ResponseEntity<?> handleInputInvalidException(InvalidInputException e) {
 		Map<String, String> map = new HashMap<>();
 		map.put("msg", e.getMessage());
-	    return ResponseEntity.badRequest().body(map);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(map);
 	}
 }

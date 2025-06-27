@@ -24,6 +24,7 @@ import com.springboot.bankDemo.model.Branch;
 import com.springboot.bankDemo.model.Customer;
 import com.springboot.bankDemo.model.User;
 import com.springboot.bankDemo.repository.AccountRepository;
+import com.springboot.bankDemo.repository.BranchRepository;
 import com.springboot.bankDemo.service.AccountService;
 import com.springboot.bankDemo.service.AccountTypeService;
 import com.springboot.bankDemo.service.BranchService;
@@ -40,6 +41,8 @@ public class AccountServiceTest {
 	private CustomerService customerService;
 	@Mock
 	private AccountTypeService accountTypeService;
+	@Mock
+	private BranchRepository branchRepository;
 	@Mock
 	private BranchService branchService;
 
@@ -97,19 +100,39 @@ public class AccountServiceTest {
 	@Test
 	void postAccountByUsernameTest() {
 		when(customerService.getCustomerByUsername("user1")).thenReturn(customer);
-		when(branchService.getByIfscCode("IFSC001")).thenReturn(branch);
+		when(branchRepository.getByIfscCode("IFSC0003")).thenReturn(Optional.of(branch));
 		when(accountTypeService.getByType("SAVINGS")).thenReturn(accountType);
 		when(accountRepository.getAccountExistsByCustomerandType(customer, accountType)).thenReturn(false);
 		when(accountRepository.save(any(Account.class))).thenReturn(account);
-		assertEquals(account, accountService.postAccountByUsername("user1", "IFSC001", "SAVINGS", account));
-		
+		//actual
+		assertEquals(account, accountService.postAccountByUsername("user1", "IFSC0003", "SAVINGS", account));
+	    
+		// use case customer already has and account of the same type
 		when(accountRepository.getAccountExistsByCustomerandType(customer, accountType)).thenReturn(true);
-	    RuntimeException e = assertThrows(RuntimeException.class, () -> {
-	        accountService.postAccountByUsername("user1", "IFSC001", "SAVINGS", account);
+		RuntimeException e = assertThrows(RuntimeException.class, () -> {
+	        accountService.postAccountByUsername("user1", "IFSC0003", "SAVINGS", account);
 	    });
 	    assertEquals("Customer already has an account of this type".toLowerCase(), e.getMessage().toLowerCase());
 	}
 
+	@Test
+    public void postAccountByCustomerIdTest() {
+        when(customerService.getCustomerById(1)).thenReturn(customer);
+        when(branchRepository.findById(1)).thenReturn(Optional.of(branch));
+        when(accountTypeService.getByType("SAVINGS")).thenReturn(accountType);
+        when(accountRepository.getAccountExistsByCustomerandType(customer, accountType)).thenReturn(false);
+        when(accountRepository.save(any(Account.class))).thenReturn(account);
+        // actual
+        assertEquals(account, accountService.postAccountByCustomerId(1, 1, "SAVINGS", account));
+        
+        // use case customer already has and account of the same type
+        when(accountRepository.getAccountExistsByCustomerandType(customer, accountType)).thenReturn(true);
+        RuntimeException e = assertThrows(RuntimeException.class, () -> {
+	        accountService.postAccountByCustomerId(1, 1, "SAVINGS", account);
+	    });
+        assertEquals("Customer already has an account of this type".toLowerCase(), e.getMessage().toLowerCase());
+    }
+	
 	@Test
 	void putAccountStatusTest() {
 		when(accountRepository.findById(1)).thenReturn(Optional.of(account));
@@ -121,7 +144,6 @@ public class AccountServiceTest {
 	void putAccountBalanceTest() {
 		when(accountRepository.findById(1)).thenReturn(Optional.of(account));
 		when(accountRepository.save(account)).thenReturn(account);
-
 		BigDecimal amtToAdd = new BigDecimal("1000.00");
 		Account result = accountService.putAccountBalance(1, amtToAdd);
 		assertEquals(new BigDecimal("6000.00"), result.getBalance());
@@ -132,6 +154,60 @@ public class AccountServiceTest {
 		when(accountRepository.findById(1)).thenReturn(Optional.of(account));
 		assertEquals(account, accountService.getById(1));
 	}
+	
+	@Test
+	public void getByCustomerIdTest() {
+	    when(accountRepository.getByCustomerId(1)).thenReturn(Optional.of(List.of(account)));
+	    // actual
+	    assertEquals(List.of(account), accountService.getByCustomerId(1));
+	    
+	    // use case customer has no account
+	    RuntimeException e = assertThrows(RuntimeException.class, () -> {
+	        accountService.getByCustomerId(5);
+	    });
+	    assertEquals("Customer Id has no Account".toLowerCase(), e.getMessage().toLowerCase());
+	}
+	
+	@Test
+	public void getByBranchIdTest() {
+	    when(accountRepository.getByBranchId(1)).thenReturn(Optional.of(List.of(account)));
+	    // actual
+	    assertEquals(List.of(account), accountService.getByBranchId(1));
+	    
+	    // use case invalid branch id
+	    RuntimeException e = assertThrows(RuntimeException.class, () -> {
+	        accountService.getByBranchId(5);
+	    });
+	    assertEquals("Branch Id is Invalid".toLowerCase(), e.getMessage().toLowerCase());
+	}
+	
+	@Test
+	public void getByUsernameTest() {
+	    when(customerService.getCustomerByUsername("david@gmail.com")).thenReturn(customer);
+	    when(accountRepository.getByCustomerId(customer.getId())).thenReturn(Optional.of(List.of(account)));
+	    // actual
+	    assertEquals(List.of(account), accountService.getByUsername("david@gmail.com"));
+	    
+	    // use case customer has no account
+	    RuntimeException e = assertThrows(RuntimeException.class, () -> {
+	        accountService.getByCustomerId(5);
+	    });
+	    assertEquals("Customer Id has no Account".toLowerCase(), e.getMessage().toLowerCase());
+	}
+
+	@Test
+	public void getByStatusTest() {
+	    when(accountRepository.getByStatus("ACTIVE")).thenReturn(Optional.of(List.of(account)));
+	    // actual
+	    assertEquals(List.of(account), accountService.getByStatus("ACTIVE"));
+	    
+	 // use case status is invalid
+	    RuntimeException e = assertThrows(RuntimeException.class, () -> {
+	        accountService.getByStatus("EVITCA");
+	    });
+	    assertEquals("status is Invalid".toLowerCase(), e.getMessage().toLowerCase());
+	}
+
 
 	@Test
 	void getAllTest() {
