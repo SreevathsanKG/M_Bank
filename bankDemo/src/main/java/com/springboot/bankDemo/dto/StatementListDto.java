@@ -16,17 +16,19 @@ public class StatementListDto {
 	private EntryType entryType;
 	private String description;
 	private BigDecimal balanceAfterTxn;
+	private int transferAccountId;
 	
 	public StatementListDto() {	}
 
 	public StatementListDto(String transactionType, LocalDate transactionDate, BigDecimal amount,
-			EntryType entryType, String description, BigDecimal balanceAfterTxn) {
+			EntryType entryType, String description, BigDecimal balanceAfterTxn, int transferAccountId) {
 		this.transactionType = transactionType;
 		this.transactionDate = transactionDate;
 		this.amount = amount;
 		this.entryType = entryType;
 		this.description = description;
 		this.balanceAfterTxn = balanceAfterTxn;
+		this.transferAccountId = transferAccountId;
 	}
 
 	public String getTransactionType() { return transactionType; }
@@ -41,4 +43,6 @@ public class StatementListDto {
 	public void setDescription(String description) { this.description = description; }
 	public BigDecimal getBalanceAfterTxn() { return balanceAfterTxn; 	}
 	public void setBalanceAfterTxn(BigDecimal balanceAfterTxn) { this.balanceAfterTxn = balanceAfterTxn; }
+	public int getTransferAccountId() { return transferAccountId; }
+	public void setTransferAccountId(int transferAccountId) { this.transferAccountId = transferAccountId; }
 }

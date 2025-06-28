@@ -49,7 +49,7 @@ function Login() {
                     navigate("/executive")
                     break;
                 case "MANAGER":
-                    console.log("go to manager dashboard")
+                    navigate("/manager")
                     break;
                 case "ADMIN":
                     navigate("/admin")

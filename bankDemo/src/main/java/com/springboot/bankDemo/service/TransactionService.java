@@ -234,6 +234,7 @@ public class TransactionService {
 			dto.setEntryType(t.getEntryType());
 			dto.setDescription(t.getDescription());
 			dto.setBalanceAfterTxn(t.getBalanceAfterTxn());
+			dto.setTransferAccountId(t.getTransferAccountId());
 			return dto;
 		}).toList();
 	}

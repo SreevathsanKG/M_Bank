@@ -71,13 +71,25 @@ function CustomerTransaction() {
         const transactionDto = { amount, description };
         try {
             if (transactionType === "DEPOSIT") {
-                await axios.post(`http://localhost:8080/api/transaction/post/deposit/${selectedAccount.id}`, transactionDto);
+                await axios.post(`http://localhost:8080/api/transaction/post/deposit/${selectedAccount.id}`, transactionDto, {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("token")
+                    }
+                });
             } else if (transactionType === "WITHDRAW") {
-                await axios.post(`http://localhost:8080/api/transaction/post/withdraw/${selectedAccount.id}`, transactionDto);
+                await axios.post(`http://localhost:8080/api/transaction/post/withdraw/${selectedAccount.id}`, transactionDto, {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("token")
+                    }
+                });
             } else if (transactionType === "TRANSFER") {
                 await axios.post(
                     `http://localhost:8080/api/transaction/post/transfer/${selectedAccount.id}/${selectedBeneficiary.id}?transferType=${selectedTransferType}`,
-                    transactionDto
+                    transactionDto, {
+                    headers: {
+                        Authorization: "Bearer " + localStorage.getItem("token")
+                    }
+                }
                 );
             }
             alert("Transaction successful");

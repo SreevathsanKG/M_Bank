@@ -7,13 +7,13 @@ import { InputText } from "primereact/inputtext";
 import { RadioButton } from "primereact/radiobutton";
 import { Dialog } from "primereact/dialog";
 
-function ExecutiveProfile() {
+function ManagerProfile() {
     const navigate = useNavigate();
 
     const breadcrumbItems = [
-        { label: "Profile", command: () => navigate("/executive/profile") }
+        { label: "Profile", command: () => navigate("/manager/profile") }
     ];
-    const home = { icon: "pi pi-home", command: () => navigate("/executive") };
+    const home = { icon: "pi pi-home", command: () => navigate("/manager") };
 
     const [userData, setUserData] = useState({
         firstName: "",
@@ -30,7 +30,7 @@ function ExecutiveProfile() {
     
     const fetchUserDetails = async () => {
         try {
-            const res = await axios.get("http://localhost:8080/api/executive/get-one", {
+            const res = await axios.get("http://localhost:8080/api/manager/get-one", {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("token")
                 }
@@ -53,16 +53,16 @@ function ExecutiveProfile() {
         address: ""
     });
 
-    const putExecutive = async () => {
+    const putManager = async () => {
         try {
-            await axios.put("http://localhost:8080/api/executive/put", tempData, {
+            await axios.put("http://localhost:8080/api/manager/put", tempData, {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("token")
                 }
             });
             setMsg("Profile updated successfully.");
             setShowDialog(false);
-            fetchUserDetails()
+            fetchUserDetails();
         } catch (error) {
             console.error(error);
             setMsg("Failed to update profile.");
@@ -82,15 +82,19 @@ function ExecutiveProfile() {
                     <div className="card custom-card">
                         <div className="card-body">
                             <div className="text-center title-manage mb-3">
-                                <h2>Executive Profile</h2>
+                                <h2>Manager Profile</h2>
                             </div>
 
                             {msg && <div className="alert alert-info">{msg}</div>}
 
                             <div className="row g-3 mt-4">
                                 <div className="col-md-6">
-                                    <label className="fw-bold">Executive ID:</label>
+                                    <label className="fw-bold">Manager ID:</label>
                                     <p>{userData.id}</p>
+                                </div>
+                                <div className="col-md-6">
+                                    <label className="fw-bold">Email:</label>
+                                    <p>{userData.email}</p>
                                 </div>
                                 <div className="col-md-6">
                                     <label className="fw-bold">First Name:</label>
@@ -107,10 +111,6 @@ function ExecutiveProfile() {
                                 <div className="col-md-6">
                                     <label className="fw-bold">Gender:</label>
                                     <p>{userData.gender}</p>
-                                </div>
-                                <div className="col-md-6">
-                                    <label className="fw-bold">Email:</label>
-                                    <p>{userData.email}</p>
                                 </div>
                                 <div className="col-md-6">
                                     <label className="fw-bold">Phone Number:</label>
@@ -175,7 +175,7 @@ function ExecutiveProfile() {
                     </div>
 
                     <div className="text-end">
-                        <Button label="Update" icon="pi pi-check" onClick={putExecutive} />
+                        <Button label="Update" icon="pi pi-check" onClick={putManager} />
                     </div>
                 </div>
             </Dialog>
@@ -183,4 +183,4 @@ function ExecutiveProfile() {
     );
 }
 
-export default ExecutiveProfile;
+export default ManagerProfile;

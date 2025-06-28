@@ -78,5 +78,4 @@ public class ExecutiveService {
 	public List<Executive> getAll() {
 		return executiveRepository.findAll();
 	}
-	
 }

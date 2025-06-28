@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-import '../../css/Admin.css';
 import '../../css/Dashboard.css';
 import '../../css/general.css';
-import AdminSidebar from './AdminSidebar';
+import ManagerSidebar from './ManagerSidebar';
 import { Outlet, useNavigate } from 'react-router-dom';
-import AdminNavbar from './AdminNavbar';
+import ManagerNavbar from './ManagerNavbar';
 import { useDispatch } from 'react-redux';
 import { fetchUserInfo } from '../../store/actions/UserInfoAction';
 import { setUserDetails } from '../../store/actions/UserAction';
 
-function ManagerDashboard() {
+function AdminDashboard() {
 
     let navigate = useNavigate()
     let dispatch = useDispatch()
@@ -57,13 +56,13 @@ function ManagerDashboard() {
     return (
         <div className='col-lg-12'>
             <div id="wrapper" ref={wrapperRef}>
-                <AdminNavbar />
+                <ManagerNavbar />
                 <div
                     className="overlay"
                     ref={overlayRef}
                     style={{ display: isClosed ? 'none' : 'block' }}
                 ></div>
-                <AdminSidebar
+                <ManagerSidebar
                     setIsClosed={setIsClosed}
                     overlayRef={overlayRef}
                     wrapperRef={wrapperRef}
@@ -92,4 +91,4 @@ function ManagerDashboard() {
     )
 }
 
-export default ManagerDashboard
+export default AdminDashboard

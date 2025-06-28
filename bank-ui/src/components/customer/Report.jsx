@@ -14,7 +14,6 @@ function Report() {
 
     const [transactions, setTransactions] = useState([]);
     const [statementDto, setStatementDto] = useState(null);
-    const [isStatement, setIsStatement] = useState(false);
     const [showStatementModal, setShowStatementModal] = useState(false);
 
     const [fromDate, setFromDate] = useState(null);
@@ -52,7 +51,6 @@ function Report() {
                 headers: { Authorization: "Bearer " + localStorage.getItem("token") },
             });
             setTransactions(res.data);
-            setIsStatement(false);
         } catch (error) {
             console.error("Error fetching last 10 transactions:", error);
         }
@@ -67,7 +65,6 @@ function Report() {
                 params: { fromDate: formatDate(fromDate), tillDate: formatDate(toDate) },
             });
             setTransactions(res.data);
-            setIsStatement(false);
         } catch (error) {
             console.error("Error fetching between-date transactions:", error);
         }
@@ -82,7 +79,6 @@ function Report() {
                 params: { fromDate: formatDate(fromDate) },
             });
             setTransactions(res.data);
-            setIsStatement(false);
         } catch (error) {
             console.error("Error fetching from-date transactions:", error);
         }
@@ -102,7 +98,6 @@ function Report() {
             setStatementDto(res.data);
             setShowStatementModal(true);
             setTransactions(res.data.statementListDtos);
-            setIsStatement(true);
         } catch (error) {
             console.error("Error fetching statement:", error);
         }
@@ -129,13 +124,14 @@ function Report() {
             txn.transactionType,
             `Rs.${txn.amount.toFixed(2)}`,
             txn.entryType,
+            txn.transferAccountId,
             txn.description,
             `Rs.${txn.balanceAfterTxn.toFixed(2)}`
         ]);
 
         autoTable(doc, {
             startY: 60,
-            head: [["Date", "Type", "Amount", "Entry", "Description", "Balance"]],
+            head: [["Date", "Type", "Amount", "Entry", "Transfer A/C ID", "Description", "Balance"]],
             body: tableData,
         });
 
@@ -238,13 +234,13 @@ function Report() {
                 paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
                 tableStyle={{ minWidth: "30rem" }}
             >
-                <Column field="transactionType" header="Type" />
-                <Column field="transactionDate" header="Date" />
-                <Column field="amount" header="Amount" body={(rowData) => `₹${rowData.amount?.toFixed(2)}`} />
-                {!isStatement && <Column field="transferAccountId" header="Transfer A/C ID" />}
-                <Column field="entryType" header="Entry" />
-                <Column field="description" header="Description" />
-                <Column field="balanceAfterTxn" header="Balance" body={(rowData) => `₹${rowData.balanceAfterTxn?.toFixed(2)}`} />
+                <Column field="transactionType" header="Type" style={{ textAlign: 'center' }}/>
+                <Column field="transactionDate" header="Date" style={{ textAlign: 'center' }}/>
+                <Column field="amount" header="Amount" body={(rowData) => `₹${rowData.amount?.toFixed(2)}`} style={{ textAlign: 'center' }}/>
+                <Column field="transferAccountId" header="Transfer A/C ID" style={{ textAlign: 'center' }}/>
+                <Column field="entryType" header="Entry" style={{ textAlign: 'center' }}/>
+                <Column field="description" header="Description" style={{ textAlign: 'center' }}/>
+                <Column field="balanceAfterTxn" header="Balance" body={(rowData) => `₹${rowData.balanceAfterTxn?.toFixed(2)}`} style={{ textAlign: 'center' }}/>
             </DataTable>
         </div>
     );

@@ -1,9 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from "../../store/actions/UserAction";
-import Logo from '/images/logo-home-transparent.png'; 
 
-function ExecutiveNavbar() {
+function ManagerNavbar() {
     const user = useSelector(state => state.user)
     const navigate = useNavigate();
     const dispatch = useDispatch()
@@ -22,7 +21,7 @@ function ExecutiveNavbar() {
                 <div className="d-flex align-items-center ms-5">
                     {/* Logo */}
                     <img
-                        src={Logo}
+                        src="/images/logo-home-transparent.png"
                         alt="Logo"
                         height="60"
                         style={{ objectFit: 'contain' }}
@@ -41,7 +40,7 @@ function ExecutiveNavbar() {
                             style={{ cursor: 'pointer' }}
                         />
                         <ul className="dropdown-menu dropdown-menu-end">
-                            <li className="dropdown-item"><Link to="/executive/profile">Profile Management</Link></li>
+                            <li className="dropdown-item"><Link to="/manager/profile">Profile Management</Link></li>
                             <li><hr className="dropdown-divider" /></li>
                             <li><button className="dropdown-item" onClick={() => logout()}>Logout</button></li>
                         </ul>
@@ -52,4 +51,4 @@ function ExecutiveNavbar() {
     )
 }
 
-export default ExecutiveNavbar;
+export default ManagerNavbar; 

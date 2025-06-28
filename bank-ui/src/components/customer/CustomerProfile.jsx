@@ -25,22 +25,23 @@ function CustomerProfile() {
         address: ""
     });
     useEffect(() => {
-        const fetchUserDetails = async () => {
-            try {
-                const res = await axios.get("http://localhost:8080/api/customer/get", {
-                    headers: {
-                        Authorization: "Bearer " + localStorage.getItem("token")
-                    }
-                });
-                setUserData(res.data);
-            } catch (err) {
-                console.error(err);
-            }
-        };
-        fetchUserDetails();
+        fetchUserDetails()
     }, []);
-
-    const [msg, setMsg] = useState("");
+    
+    const fetchUserDetails = async () => {
+        try {
+            const res = await axios.get("http://localhost:8080/api/customer/get", {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            });
+            setUserData(res.data);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+    
+    const [msg, setMsg] = useState("")
     const [showDialog, setShowDialog] = useState(false);
     const [tempData, setTempData] = useState({
         firstName: "",
@@ -60,11 +61,11 @@ function CustomerProfile() {
                 }
             });
             setMsg("Profile updated successfully.");
-            setUserData(tempData)
-            setShowDialog(false);
+            setShowDialog(false)
+            fetchUserDetails()
         } catch (error) {
-            console.error(error);
-            setMsg("Failed to update profile.");
+            console.error(error)
+            setMsg("Failed to update profile.")
         }
     };
 

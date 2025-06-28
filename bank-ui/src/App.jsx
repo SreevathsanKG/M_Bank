@@ -32,6 +32,15 @@ import ClosingRequestAccounts from './components/executive/ClosingRequestAccount
 import AccountCreation from './components/executive/AccountCreation'
 import AddCustomer from './components/executive/AddCustomer'
 import AccountTypes from './components/executive/AccountTypes'
+import ManagerDashboard from './components/manager/ManagerDashboard'
+import Manager from './components/manager/Manager'
+import ManagerProfile from './components/manager/ManagerProfile'
+import MyBank from './components/manager/MyBank'
+import Branch from './components/manager/Branch'
+import Accounts from './components/manager/Accounts'
+import Transactions from './components/manager/Transactions'
+import Loans from './components/manager/Loans'
+import ManageBranch from './components/manager/ManageBranch'
 
 function App() {
 
@@ -73,6 +82,15 @@ function App() {
           <Route path="addUser" element={<AddNewUser/>}/>
           <Route path="putUserStatus/:id/:status" element={<PutUserStatus/>}/>
           <Route path="complaints" element={<Complaints />} />
+        </Route>
+        <Route path="/manager" element={<ManagerDashboard/>}>
+          <Route index element={<MyBank/>}/>
+          <Route path="accounts" element={<Accounts/>}/>
+          <Route path="transactions" element={<Transactions/>}/>
+          <Route path="loans" element={<Loans/>}/>
+          <Route path="branch" element={<Branch/>}/>
+          <Route path="branch/manage/:id" element={<ManageBranch/>}/>"
+          <Route path="profile" element={<ManagerProfile/>}/>
         </Route>
         {/* <Route path="/loan" element={<LoanApplicationForm/>}/> */}
       </Routes>

@@ -115,7 +115,7 @@ public class TransactionController {
 	 * AIM: get transaction btw date by branch id
 	 * PARAM: PathVariable -> branchId | RequestParam -> fromDate, tillDate 
 	 * METHOD: GET
-	 * RESPONSE: List<TransactionListDto>
+	 * RESPONSE: List<Transaction>
 	 * PATH: /api/transaction/get-btw/branchId/{branchId}?fromDate=2025-06-07&tillDate=2025-06-09
 	 * */
 	@GetMapping("/get-btw/branchId/{branchId}")
@@ -127,11 +127,46 @@ public class TransactionController {
 	 * AIM: get transaction from date by branch id
 	 * PARAM: PathVariable -> branchId | RequestParam -> fromDate 
 	 * METHOD: GET
-	 * RESPONSE: List<TransactionListDto>
+	 * RESPONSE: List<Transaction>
 	 * PATH: /api/transaction/get-from/branchId/{branchId}?fromDate=2025-06-07
 	 * */
 	@GetMapping("/get-from/branchId/{branchId}")
 	public List<Transaction> getTxnFromDateByBranchId(@PathVariable int branchId, @RequestParam LocalDate fromDate) {
 		return transactionService.getTxnFromDateByBranchId(branchId, fromDate);
+	}
+
+	/*
+	 * AIM: get transaction btw date
+	 * PARAM: RequestParam -> fromDate, tillDate 
+	 * METHOD: GET
+	 * RESPONSE: List<Transaction>
+	 * PATH: /api/transaction/get-btw?fromDate=2025-06-07&tillDate=2025-06-09
+	 * */
+	@GetMapping("/get-btw")
+	public List<Transaction> getTransactionBetweenDate(@RequestParam LocalDate fromDate, @RequestParam LocalDate tillDate) {
+		return transactionService.getTransactionBetweenDate(fromDate, tillDate);
+	}
+	
+//	/*
+//	 * AIM: get transaction from date
+//	 * PARAM: RequestParam -> fromDate 
+//	 * METHOD: GET
+//	 * RESPONSE: List<Transaction>
+//	 * PATH: /api/transaction/get-from?fromDate=2025-06-07
+//	 * */
+	@GetMapping("/get-from")
+	public List<Transaction> getTransactionFromDate(@RequestParam LocalDate fromDate) {
+		return transactionService.getTransactionsFromDate(fromDate);
+	}
+	
+	/*
+	 * AIM: get all transaction
+	 * METHOD: GET
+	 * RESPONSE: List<Transaction>
+	 * PATH: /api/transaction/get-all
+	 * */
+	@GetMapping("/get-all")
+	public List<Transaction> getAll() {
+		return transactionService.getAll();
 	}
 }

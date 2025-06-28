@@ -54,13 +54,13 @@ function ExecutiveAccount() {
                     </div>
                 </div>
                 <div className="text-center mt-4">
-    <Button
-        label="Manage Account Types"
-        icon="pi pi-cog"
-        className="p-button-secondary p-button-rounded mb-3"
-        onClick={() => navigate("/executive/accounts/types")}
-    />
-</div>
+                    <Button
+                        label="Manage Account Types"
+                        icon="pi pi-cog"
+                        className="p-button-secondary p-button-rounded mb-3"
+                        onClick={() => navigate("/executive/accounts/types")}
+                    />
+                </div>
             </div>
         </div>
     );

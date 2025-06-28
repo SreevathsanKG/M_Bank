@@ -7,23 +7,36 @@ import { Calendar } from "primereact/calendar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function ExecutiveTransaction() {
+function Transactions() {
     const navigate = useNavigate();
-    const branchId = localStorage.getItem("branchId");
-
     const [transactions, setTransactions] = useState([]);
     const [fromDate, setFromDate] = useState(null);
     const [toDate, setToDate] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [first, setFirst] = useState(0);
-    const [rows, setRows] = useState(8);
+    const [rows, setRows] = useState(9);
 
-    const breadcrumbItems = [
-        { label: "Transactions" }
-    ];
-    const home = { icon: "pi pi-home", command: () => navigate("/executive") };
+    const breadcrumbItems = [{ label: "Transactions" }];
+    const home = { icon: "pi pi-home", command: () => navigate("/manager") };
+
+    useEffect(() => {
+        fetchAllTransactions();
+    }, []);
 
     const formatDate = (date) => date?.toISOString().split("T")[0];
+
+    const fetchAllTransactions = async () => {
+        try {
+            const res = await axios.get("http://localhost:8080/api/transaction/get-all", {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("token")
+                }
+            });
+            setTransactions(res.data);
+        } catch (err) {
+            console.error("Error fetching all transactions", err);
+        }
+    };
 
     const fetchBetweenDates = async () => {
         if (!fromDate || !toDate) {
@@ -32,7 +45,7 @@ function ExecutiveTransaction() {
         }
 
         try {
-            const res = await axios.get(`http://localhost:8080/api/transaction/get-btw/branchId/${branchId}`, {
+            const res = await axios.get("http://localhost:8080/api/transaction/get-btw", {
                 params: {
                     fromDate: formatDate(fromDate),
                     tillDate: formatDate(toDate)
@@ -53,7 +66,7 @@ function ExecutiveTransaction() {
         }
 
         try {
-            const res = await axios.get(`http://localhost:8080/api/transaction/get-from/branchId/${branchId}`, {
+            const res = await axios.get("http://localhost:8080/api/transaction/get-from", {
                 params: {
                     fromDate: formatDate(fromDate)
                 }, headers: {
@@ -67,7 +80,7 @@ function ExecutiveTransaction() {
     };
 
     const filteredTransactions = transactions.filter(txn =>
-        `${txn.accountId} ${txn.transactionType} ${txn.entryType}`.toLowerCase().includes(searchTerm.toLowerCase())
+        `${txn.account?.id} ${txn.transactionType} ${txn.entryType}`.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const onPageChange = (e) => {
@@ -99,7 +112,7 @@ function ExecutiveTransaction() {
                     <input
                         type="text"
                         className="form-control"
-                        placeholder="Search ...."
+                        placeholder="Search..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -116,16 +129,17 @@ function ExecutiveTransaction() {
                 showGridlines
                 stripedRows
                 tableStyle={{ minWidth: "30rem" }}
+                className="p-datatable-sm"
             >
-                <Column field="account.id" header="Account ID" style={{ width: '15%', textAlign: 'center' }} sortable />
-                <Column field="transactionType" header="Type" style={{ width: '20%', textAlign: 'center' }} />
-                <Column field="transactionDate" header="Date" style={{ width: '15%', textAlign: 'center' }} sortable />
-                <Column field="amount" header="Amount" body={(row) => `₹${row.amount?.toFixed(2)}`} style={{ width: '20%', textAlign: 'center' }} sortable />
-                <Column field="entryType" header="Entry" style={{ width: '15%', textAlign: 'center' }} />
-                <Column field="transferAccountId" header="Transfer A/C ID" style={{ width: '15%', textAlign: 'center' }} sortable />
+                <Column field="account.id" header="Account ID" style={{ textAlign: 'center' }} sortable />
+                <Column field="transactionType" header="Type" style={{ textAlign: 'center' }} />
+                <Column field="transactionDate" header="Date" style={{ textAlign: 'center' }} sortable />
+                <Column field="amount" header="Amount" body={(row) => `₹${row.amount?.toFixed(2)}`} style={{ textAlign: 'center' }} sortable />
+                <Column field="entryType" header="Entry" style={{ textAlign: 'center' }} />
+                <Column field="transferAccountId" header="Transfer A/C ID" style={{ textAlign: 'center' }} sortable />
             </DataTable>
         </div>
     );
 }
 
-export default ExecutiveTransaction;
+export default Transactions;
