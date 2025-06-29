@@ -55,11 +55,11 @@ public class CustomerController {
 	 * METHOD: GET 
 	 * PARAM: CustomerID -> PathVariable
 	 * RESPONSE: Customer 
-	 * PATH: /api/customer/get-one/{id}
+	 * PATH: /api/customer/get-one/{customerId}
 	 */
-	@GetMapping("/get-one/{id}")
-	public Customer getCustomerById(@PathVariable int id) {
-		return customerService.getCustomerById(id);
+	@GetMapping("/get-one/{customerId}")
+	public Customer getCustomerById(@PathVariable int customerId) {
+		return customerService.getCustomerById(customerId);
 	}
 
 	/*

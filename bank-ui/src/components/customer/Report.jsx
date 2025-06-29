@@ -33,6 +33,7 @@ function Report() {
     const formatDate = (date) => date?.toISOString().split("T")[0];
 
     const fetchLast10Transactions = async () => {
+        if (!selectedAccount) return alert("Select an account")
         try {
             const res = await axios.get(`http://localhost:8080/api/transaction/get-10/${selectedAccount.id}`, {
                 headers: { Authorization: "Bearer " + localStorage.getItem("token") },
@@ -123,17 +124,17 @@ function Report() {
             body: tableData,
         });
 
-        doc.save("Account_Statement.pdf");
-    };
+        doc.save("Account_Statement.pdf")
+    }
 
     const onPageChange = (event) => {
-        setFirst(event.first);
-        setRows(event.rows);
-    };
+        setFirst(event.first)
+        setRows(event.rows)
+    }
 
     const filteredTransactions = transactions.filter((txn) =>
         `${txn.transactionType} ${txn.description} ${txn.entryType}`.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    )
 
     return (
         <div className="container mt-3">
@@ -147,42 +148,30 @@ function Report() {
                 <div className="col-md-3 mb-3">
                     <Calendar value={toDate} onChange={(e) => setToDate(e.value)} placeholder="To Date" showIcon />
                 </div>
-                
+
                 <div className="col-md-6 d-flex flex-wrap gap-2 mb-3">
                     <Button label="Filter Between Dates" icon="pi pi-filter" onClick={fetchBetweenDates} />
                     <Button label="Filter From Date" icon="pi pi-calendar" onClick={fetchFromDate} />
+                    <Button label="Last 10 Txns" icon="pi pi-history" onClick={() => {fetchLast10Transactions()}} />
                 </div>
+
                 <div className="col-md-6 mt-2">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Search transactions..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+                    <input type="text" className="form-control" placeholder="Search transactions..." value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
+
                 <div className="col-md-6 d-flex flex-wrap gap-2">
                     <Button label="View Statement" icon="pi pi-file" onClick={fetchStatement} className="p-button-info" />
-                    <Dropdown
-                        value={selectedAccount}
-                        onChange={(e) => {
-                            setSelectedAccount(e.value);
-                        }}
+                    <Dropdown value={selectedAccount} onChange={(e) => { setSelectedAccount(e.value)}}
                         options={accounts.filter(acc => acc.status === "ACTIVE")}
                         optionLabel={(option) => `${option.id} - ${option.accountType.type}`}
-                        placeholder="Select Account"
-                        className="w-full md:w-20rem"
-                    />
+                        placeholder="Select Account" className="w-full md:w-20rem" />
                 </div>
             </div>
 
-            <Dialog
-                header="Account Statement"
-                visible={showStatementModal}
-                onHide={() => setShowStatementModal(false)}
-                style={{ width: '60vw' }}
-                breakpoints={{ '960px': '95vw' }}
-                draggable={false}
+
+            <Dialog header="Account Statement" visible={showStatementModal} onHide={() => setShowStatementModal(false)} style={{ width: '60vw' }}
+                breakpoints={{ '960px': '95vw' }} draggable={false}
             >
                 {statementDto && (
                     <div className="p-3">
@@ -207,29 +196,20 @@ function Report() {
             </Dialog>
 
             {/* Data Table */}
-            <DataTable
-                value={filteredTransactions}
-                showGridlines
-                stripedRows
-                scrollable
-                scrollHeight="400px"
-                paginator
-                rows={rows}
-                first={first}
-                onPage={onPageChange}
-                paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
+            <DataTable value={filteredTransactions} showGridlines stripedRows scrollable scrollHeight="400px" paginator rows={rows} first={first}
+                onPage={onPageChange} paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
                 tableStyle={{ minWidth: "30rem" }}
             >
-                <Column field="transactionType" header="Type" style={{ textAlign: 'center' }}/>
-                <Column field="transactionDate" header="Date" style={{ textAlign: 'center' }}/>
-                <Column field="amount" header="Amount" body={(rowData) => `₹${rowData.amount?.toFixed(2)}`} style={{ textAlign: 'center' }}/>
-                <Column field="transferAccountId" header="Transfer A/C ID" style={{ textAlign: 'center' }}/>
-                <Column field="entryType" header="Entry" style={{ textAlign: 'center' }}/>
-                <Column field="description" header="Description" style={{ textAlign: 'center' }}/>
-                <Column field="balanceAfterTxn" header="Balance" body={(rowData) => `₹${rowData.balanceAfterTxn?.toFixed(2)}`} style={{ textAlign: 'center' }}/>
+                <Column field="transactionType" header="Type" style={{ textAlign: 'center' }} />
+                <Column field="transactionDate" header="Date" style={{ textAlign: 'center' }} />
+                <Column field="amount" header="Amount" body={(rowData) => `₹${rowData.amount?.toFixed(2)}`} style={{ textAlign: 'center' }} />
+                <Column field="transferAccountId" header="Transfer A/C ID" style={{ textAlign: 'center' }} />
+                <Column field="entryType" header="Entry" style={{ textAlign: 'center' }} />
+                <Column field="description" header="Description" style={{ textAlign: 'center' }} />
+                <Column field="balanceAfterTxn" header="Balance" body={(rowData) => `₹${rowData.balanceAfterTxn?.toFixed(2)}`} style={{ textAlign: 'center' }} />
             </DataTable>
         </div>
-    );
+    )
 }
 
-export default Report;
+export default Report

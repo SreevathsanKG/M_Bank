@@ -27,7 +27,9 @@ function PendingAccounts() {
     useEffect(() => {
         const fetchAccounts = async () => {
             try {
-                const res = await axios.get(`http://localhost:8080/api/account/get/${branchId}`);
+                const res = await axios.get(`http://localhost:8080/api/account/get/${branchId}`,{
+                    headers: { 'Authorization' : "Bearer " +localStorage.getItem("token")}
+                });
                 const filtered = res.data.filter(acc => acc.status === 'PENDING_APPROVAL');
                 setAccounts(filtered);
             } catch (err) {
@@ -39,7 +41,9 @@ function PendingAccounts() {
 
     const updateStatus = async (accountId, newStatus) => {
         try {
-            await axios.put(`http://localhost:8080/api/account/put/status/${accountId}/?status=${newStatus}`);
+            await axios.put(`http://localhost:8080/api/account/put/status/${accountId}/?status=${newStatus}`,{
+                headers: { 'Authorization' : "Bearer " +localStorage.getItem("token")}
+            });
             const updated = accounts.map(acc =>
                 acc.id === accountId ? { ...acc, status: newStatus } : acc
             );

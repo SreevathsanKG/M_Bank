@@ -54,7 +54,7 @@ function ApprovedLoans() {
 
   const handleStatusChange = async (loanId, status) => {
     try {
-      await axios.put(`http://localhost:8080/api/loan/put/status/${loanId}?status=${status}`, {}, {
+      await axios.put(`http://localhost:8080/api/loan/put/status/${loanId}?status=${status}`, {
         headers: { Authorization: "Bearer " + localStorage.getItem("token") }
       });
       fetchLoans();

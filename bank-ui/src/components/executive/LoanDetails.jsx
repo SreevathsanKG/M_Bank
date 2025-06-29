@@ -48,13 +48,6 @@ function ExecutiveLoanDetails() {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (window.confirm("Are you sure you want to delete this loan type?")) {
-            await axios.delete(`http://localhost:8080/api/loanDetails/delete/${id}`);
-            fetchLoans();
-        }
-    };
-
     const handleSave = async () => {
         const payload = {
             loanType: loanForm.loanType,
@@ -65,9 +58,13 @@ function ExecutiveLoanDetails() {
 
         try {
             if (loanForm.id) {
-                await axios.put(`http://localhost:8080/api/loanDetails/put/${loanForm.id}`, payload);
+                await axios.put(`http://localhost:8080/api/loanDetails/put/${loanForm.id}`, payload, {
+                    headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
+                });
             } else {
-                await axios.post("http://localhost:8080/api/loanDetails/post", payload);
+                await axios.post("http://localhost:8080/api/loanDetails/post", payload, {
+                    headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
+                });
             }
             setShowAddEditDialog(false);
             fetchLoans();
@@ -133,12 +130,6 @@ function ExecutiveLoanDetails() {
                                                     setLoanForm(loan);
                                                     setShowAddEditDialog(true);
                                                 }}
-                                            />
-                                            <Button
-                                                label="Delete"
-                                                icon="pi pi-trash"
-                                                className="p-button-sm p-button-danger"
-                                                onClick={() => handleDelete(loan.id)}
                                             />
                                         </div>
                                     </div>

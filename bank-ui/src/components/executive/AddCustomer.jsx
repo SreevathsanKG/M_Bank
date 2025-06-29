@@ -36,6 +36,8 @@ function AddCustomer() {
                 phoneNumber,
                 username,
                 password
+            },{
+                headers: { 'Authorization': `Bearer ${localStorage.getItem("token")}` }
             });
             setMsg("Customer created successfully.");
         } catch (err) {

@@ -27,7 +27,9 @@ function ClosingRequestAccounts() {
     useEffect(() => {
         const fetchAccounts = async () => {
             try {
-                const res = await axios.get(`http://localhost:8080/api/account/get/${branchId}`);
+                const res = await axios.get(`http://localhost:8080/api/account/get/${branchId}`,{
+                    headers: { 'Authorization' : "Bearer " +localStorage.getItem("token")}
+                });
                 const filtered = res.data.filter(acc => acc.status === 'CLOSING_REQUESTED');
                 setAccounts(filtered);
             } catch (err) {
@@ -39,7 +41,9 @@ function ClosingRequestAccounts() {
 
     const updateStatus = async (accountId, newStatus) => {
         try {
-            await axios.put(`http://localhost:8080/api/account/put/status/${accountId}/?status=${newStatus}`);
+            await axios.put(`http://localhost:8080/api/account/put/status/${accountId}/?status=${newStatus}`,{
+                headers: { 'Authorization' : "Bearer " +localStorage.getItem("token")}
+            });
             const updated = accounts.filter(acc => acc.id !== accountId);
             setAccounts(updated);
         } catch (err) {
@@ -69,8 +73,8 @@ function ClosingRequestAccounts() {
                     header={header}
                     className="p-datatable-sm table-bordered"
                 >
-                    <Column field="id" header="Account ID" sortable style={{ textAlign: 'center' }} />
-                    <Column field="accountType.type" header="Account Type" style={{ textAlign: 'center' }} />
+                    <Column field="id" header="Account ID" style={{ textAlign: 'center' }} />
+                    <Column field="accountType.type" header="Account Type" sortable style={{ textAlign: 'center' }} />
                     <Column header="Account Details" body={row =>
                         <Button label="View" className="p-button-text p-button-primary" onClick={() => {
                             setSelectedAccount(row);

@@ -7,7 +7,6 @@ import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 function LoanApplications() {
     const navigate = useNavigate();

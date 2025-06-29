@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BreadCrumb } from 'primereact/breadcrumb'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
@@ -82,14 +82,15 @@ function MyLoan() {
         <DataTable value={loans} paginator rows={5} globalFilter={filter}
           header={header} className="p-datatable-sm table-bordered"
         >
-          <Column field="id" header="Loan ID" sortable style={{ textAlign: 'center' }} headerStyle={{ textAlign: 'center' }} />
+          <Column field="id" header="Loan ID" style={{ textAlign: 'center' }} headerStyle={{ textAlign: 'center' }} />
+          <Column field="loanApplication.loanDetails.loanType" header="Type" sortable style={{ textAlign: 'center' }} headerStyle={{ textAlign: 'center' }} />
           <Column header="Loan Details" style={{ textAlign: 'center' }} headerStyle={{ textAlign: 'center' }} body={row =>
             <Button label="Details" className="p-button-text" onClick={() => showDetails(row)} />
           } />
           <Column field="balanceAmount" header="Outstanding" body={row => `₹${row.balanceAmount}`} style={{ textAlign: 'center' }} headerStyle={{ textAlign: 'center' }} />
           <Column field="status" header="Status" sortable style={{ textAlign: 'center' }} headerStyle={{ textAlign: 'center' }} />
-          <Column field="startDate" header="Start Date" body={row => new Date(row.startDate).toLocaleDateString()} style={{ textAlign: 'center' }} headerStyle={{ textAlign: 'center' }} />
-          <Column field="endDate" header="End Date" body={row => new Date(row.endDate).toLocaleDateString()} style={{ textAlign: 'center' }} headerStyle={{ textAlign: 'center' }} />
+          <Column field="startDate" header="Start Date" style={{ textAlign: 'center' }} headerStyle={{ textAlign: 'center' }} />
+          <Column field="endDate" header="End Date" style={{ textAlign: 'center' }} headerStyle={{ textAlign: 'center' }} />
           <Column header="Repayment" style={{ textAlign: 'center' }} headerStyle={{ textAlign: 'center' }} body={row =>
             <Button label="Repay" className="p-button-text p-button-warning" onClick={() => showRepayment(row)} />
           } />
@@ -102,8 +103,8 @@ function MyLoan() {
               <p><strong>Loan ID:</strong> {detailsLoan.id}</p>
               <p><strong>Status:</strong> {detailsLoan.status}</p>
               <p><strong>Balance:</strong> ₹{detailsLoan.balanceAmount}</p>
-              <p><strong>Start Date:</strong> {new Date(detailsLoan.startDate).toLocaleDateString()}</p>
-              <p><strong>End Date:</strong> {new Date(detailsLoan.endDate).toLocaleDateString()}</p>
+              <p><strong>Start Date:</strong> {detailsLoan.startDate}</p>
+              <p><strong>End Date:</strong> {detailsLoan.endDate}</p>
               <hr />
               <p><strong>Loan Code:</strong> #{detailsLoan.loanApplication.loanDetails.id}</p>
               <p><strong>Loan Type:</strong> {detailsLoan.loanApplication.loanDetails.loanType}</p>

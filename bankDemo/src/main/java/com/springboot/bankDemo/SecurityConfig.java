@@ -57,7 +57,7 @@ public class SecurityConfig {
 					// Customer
 					.requestMatchers("/api/customer/post").permitAll()
 					.requestMatchers("/api/customer/get").hasAuthority("CUSTOMER")
-					.requestMatchers("/api/customer/get-one/{id}").hasAnyAuthority("EXECUITVE")
+					.requestMatchers("/api/customer/get-one/{customerId}").hasAuthority("EXECUTIVE")
 					.requestMatchers("/api/customer/get-all").hasAuthority("MANAGER")
 					.requestMatchers("/api/customer/put").permitAll()
 					// Enums
@@ -91,7 +91,6 @@ public class SecurityConfig {
 					.requestMatchers("/api/loanDetails/post").permitAll()
 					.requestMatchers("/api/loanDetails/put/{id}").permitAll()
 					.requestMatchers("/api/loanDetails/get/all").permitAll()
-					.requestMatchers("/api/loanDetails/delete/{id}").permitAll()
 					// Loan Repayment
 					.requestMatchers("/api/loanRepay/poat/{laonId}").hasAuthority("CUSTOMER")
 					.requestMatchers("/api/loanRepay/get-by/loanId/{loanId}").authenticated()

@@ -180,7 +180,7 @@ function CustomerProfile() {
                 </div>
             </Dialog>
         </div>
-    );
+    )
 }
 
-export default CustomerProfile;
+export default CustomerProfile

@@ -27,7 +27,9 @@ function AccountTypes() {
 
     const loadAccountTypes = async () => {
         try {
-            const res = await axios.get("http://localhost:8080/api/accountType/get-all");
+            const res = await axios.get("http://localhost:8080/api/accountType/get-all",{
+                headers: { 'Authorization' : `Bearer ${localStorage.getItem("token")}` }
+            });
             setAccountTypes(res.data);
         } catch (err) {
             console.error("Failed to load account types", err);
@@ -52,11 +54,15 @@ function AccountTypes() {
                 await axios.put(`http://localhost:8080/api/accountType/put/${formData.id}`, {
                     type: formData.type,
                     initialDeposit: formData.initialDeposit
+                },{
+                    headers: { 'Authorization' : `Bearer ${localStorage.getItem("token")}` }
                 });
             } else {
                 await axios.post(`http://localhost:8080/api/accountType/post`, {
                     type: formData.type,
                     initialDeposit: formData.initialDeposit
+                },{
+                    headers: { 'Authorization' : `Bearer ${localStorage.getItem("token")}` }
                 });
             }
             setVisibleDialog(false);

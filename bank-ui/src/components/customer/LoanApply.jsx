@@ -1,61 +1,60 @@
-import React, { use, useEffect, useState } from 'react';
-import { BreadCrumb } from 'primereact/breadcrumb';
-import { Card } from 'primereact/card';
-import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog';
-import { Dropdown } from 'primereact/dropdown';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAccByToken } from '../../store/actions/AccByTokenAction';
+import React, { use, useEffect, useState } from 'react'
+import { BreadCrumb } from 'primereact/breadcrumb'
+import { Card } from 'primereact/card'
+import { Button } from 'primereact/button'
+import { Dialog } from 'primereact/dialog'
+import { Dropdown } from 'primereact/dropdown'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import {    useSelector } from 'react-redux'
 
 function LoanApply() {
-    const [loanList, setLoanList] = useState([]);
-    const [selectedLoan, setSelectedLoan] = useState(null);
-    const [showDetails, setShowDetails] = useState(false);
-    const [accounts, setAccounts] = useState([]);
-    const [selectedAccounts, setSelectedAccounts] = useState({});
-    const [searchTerm, setSearchTerm] = useState("");
+    const [loanList, setLoanList] = useState([])
+    const [selectedLoan, setSelectedLoan] = useState(null)
+    const [showDetails, setShowDetails] = useState(false)
+    const [accounts, setAccounts] = useState([])
+    const [selectedAccounts, setSelectedAccounts] = useState({})
+    const [searchTerm, setSearchTerm] = useState("")
 
-    const navigate = useNavigate();
-    const account = useSelector(state => state.account.account)
+    const navigate = useNavigate()
+    const allAccounts = useSelector(state => state.account.account)
 
     const breadcrumbItems = [
         { label: 'Loan', command: () => navigate('/customer/loan') },
         { label: 'Apply Loan' }
-    ];
-    const home = { icon: 'pi pi-home', command: () => navigate('/customer') };
+    ]
+    const home = { icon: 'pi pi-home', command: () => navigate('/customer') }
 
     useEffect(() => {
-        fetchLoans();
-        filterActiveAccounts();
-    }, []);
+        fetchLoans()
+        filterActiveAccounts()
+    }, [])
 
     const fetchLoans = async () => {
         try {
             const res = await axios.get("http://localhost:8080/api/loanDetails/get/all", {
                 headers: { Authorization: "Bearer " + localStorage.getItem("token") }
-            });
-            setLoanList(res.data);
+            })
+            setLoanList(res.data)
         } catch (err) {
-            console.error("Failed to fetch loan details", err);
+            console.error("Failed to fetch loan details", err)
         }
-    };
+    }
 
     const filterActiveAccounts = () => {
         try {
-            const activeAccounts = account.filter(acc => acc.status === "ACTIVE");
-            setAccounts(activeAccounts);
+            const activeAccounts = allAccounts.filter(acc => acc.status === "ACTIVE");
+            setAccounts(activeAccounts)
         } catch (err) {
-            console.error("Failed to fetch accounts", err);
+            console.error("Failed to fetch accounts", err)
         }
-    };
+    }
 
     const applyLoan = async (loanId) => {
-        const account = selectedAccounts[loanId];
+        const account = selectedAccounts[loanId]
         if (!account) {
-            alert("Please select an account to apply.");
-            return;
+            alert("Please select an account to apply.")
+            return
         }
         try {
             await axios.post(
@@ -64,16 +63,16 @@ function LoanApply() {
                 {
                     headers: { Authorization: "Bearer " + localStorage.getItem("token") }
                 }
-            );
-            alert("Loan applied successfully.");
+            )
+            alert("Loan applied successfully.")
         } catch (err) {
-            alert("Loan application failed.");
+            alert("Loan application failed.")
         }
-    };
+    }
 
     const filteredLoans = loanList.filter(loan =>
         loan.loanType.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    )
 
     return (
         <div className="container mt-2">
@@ -82,13 +81,8 @@ function LoanApply() {
                 <h3 className="text-center fw-bold mb-2 Apply-title">Loan Details</h3>
 
                 <div className="d-flex justify-content-end mb-2"    >
-                    <input
-                        type="text"
-                        className="form-control w-25"
-                        placeholder="Search by Loan Type"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+                    <input type="text" className="form-control w-25" placeholder="Search by Loan Type" value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
 
                 <div className="loan-scroll-container">
@@ -100,35 +94,15 @@ function LoanApply() {
                                     <p><strong>Principal Amount:</strong> ₹{loan.principalAmount}</p>
                                     <p><strong>Interest Rate:</strong> {loan.interestRate}%</p>
                                     <p><strong>Term:</strong> {loan.termInMonth} months</p>
-
-                                    <Button
-                                        label="Details"
-                                        icon="pi pi-eye"
-                                        className="p-button-text"
-                                        onClick={() => {
-                                            setSelectedLoan(loan);
-                                            setShowDetails(true);
-                                        }}
-                                    />
-
+                                    <Button label="Details" icon="pi pi-eye" className="p-button-text"
+                                        onClick={() => {setSelectedLoan(loan), setShowDetails(true)}} />
                                     <div className="mt-3">
-                                        <Dropdown
-                                            value={selectedAccounts[loan.id] || null}
-                                            onChange={(e) =>
-                                                setSelectedAccounts(prev => ({ ...prev, [loan.id]: e.value }))
-                                            }
-                                            options={accounts}
-                                            optionLabel={(a) => `${a.id} - ${a.accountType.type}`}
-                                            placeholder="Select Account ID to apply"
-                                            className="w-100"
-                                        />
+                                        <Dropdown value={selectedAccounts[loan.id] || null}
+                                            onChange={(e) => setSelectedAccounts(sa => ({ ...sa, [loan.id]: e.value }))}
+                                            options={accounts} optionLabel={(a) => `${a.id} - ${a.accountType.type}`}
+                                            placeholder="Select Account ID to apply" className="w-100" />
                                     </div>
-
-                                    <Button
-                                        label="Apply"
-                                        className="p-button-sm p-button-success mt-2 w-100"
-                                        onClick={() => applyLoan(loan.id)}
-                                    />
+                                    <Button label="Apply" className="p-button-sm p-button-success mt-2 w-100" onClick={() => applyLoan(loan.id)}/>
                                 </Card>
                             </div>
                         ))}

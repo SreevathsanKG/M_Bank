@@ -30,7 +30,9 @@ function AllAccounts() {
     useEffect(() => {
         const fetchAccounts = async () => {
             try {
-                const res = await axios.get(`http://localhost:8080/api/account/get/${branchId}`);
+                const res = await axios.get(`http://localhost:8080/api/account/get/${branchId}`,{
+                    headers: { 'Authorization' : "Bearer " +localStorage.getItem("token")}
+                })
                 const filtered = res.data.filter(acc =>
                     ["ACTIVE", "FROZEN"].includes(acc.status)
                 );
@@ -44,7 +46,9 @@ function AllAccounts() {
 
     const updateStatus = async (accountId, newStatus) => {
         try {
-            await axios.put(`http://localhost:8080/api/account/put/status/${accountId}/?status=${newStatus}`);
+            await axios.put(`http://localhost:8080/api/account/put/status/${accountId}/?status=${newStatus}`,{
+                headers: { 'Authorization' : "Bearer " +localStorage.getItem("token")}
+            });
             const updatedList = accounts.map(acc => {
                 if (acc.id === accountId) {
                     acc.status = newStatus;

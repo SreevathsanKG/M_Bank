@@ -31,7 +31,9 @@ function Branch() {
 
     const fetchBranches = async () => {
         try {
-            const res = await axios.get("http://localhost:8080/api/branch/get-all");
+            const res = await axios.get("http://localhost:8080/api/branch/get-all",{
+                headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
+            });
             setBranches(res.data);
         } catch (err) {
             console.error("Failed to fetch branches", err);
@@ -40,7 +42,9 @@ function Branch() {
 
     const handleAddBranch = async () => {
         try {
-            await axios.post("http://localhost:8080/api/branch/post", form);
+            await axios.post("http://localhost:8080/api/branch/post", form,{
+                headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
+            });
             setMsg("Branch added successfully!");
             setShowDialog(false);
             fetchBranches();

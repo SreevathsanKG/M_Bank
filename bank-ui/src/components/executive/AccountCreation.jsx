@@ -25,7 +25,9 @@ function AccountCreation() {
     useEffect(() => {
         const fetchTypes = async () => {
             try {
-                const res = await axios.get("http://localhost:8080/api/accountType/get-all");
+                const res = await axios.get("http://localhost:8080/api/accountType/get-all",{
+                    headers: { 'Authorization' : `Bearer ${localStorage.getItem("token")}` }
+                });
                 setAccountTypes(res.data);
             } catch (err) {
                 console.error("Failed to fetch account types", err);
@@ -41,7 +43,9 @@ function AccountCreation() {
     // Fetch customer details by ID
     const fetchCustomerDetails = async () => {
         try {
-            const res = await axios.get(`http://localhost:8080/api/customer/get-one/${customerId}`);
+            const res = await axios.get(`http://localhost:8080/api/customer/get-one/${customerId}`,{
+                headers: { 'Authorization' : "Bearer " +localStorage.getItem("token")}
+            });
             setCustomerInfo(res.data);
             setCustError("");
         } catch (err) {
@@ -58,6 +62,8 @@ function AccountCreation() {
                 {
                     panNumber: pan,
                     aadharNumber: aadhar
+                },{
+                    headers: { 'Authorization' : "Bearer " +localStorage.getItem("token")}
                 }
             );
             setMsg("Account created successfully!");

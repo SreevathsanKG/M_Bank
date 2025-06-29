@@ -57,32 +57,20 @@ function MyLoanApplications() {
 
     const viewColumnTemplate = (rowData) => (
         <div className="d-flex justify-content-center">
-            <Button
-                label="View"
-                className="p-button-sm p-button-info w-100"
-                onClick={() => showDetails(rowData)}
-            />
+            <Button label="View" className="p-button-sm p-button-info w-100" onClick={() => showDetails(rowData)} />
         </div>
     );
 
     const actionColumnTemplate = (rowData) => (
         <div className="d-flex justify-content-center">
-            <Button
-                label="Cancel"
-                className="p-button-sm p-button-danger w-100    "
-                disabled={rowData.status !== 'PENDING'}
-                onClick={() => cancelApplication(rowData.id)}
-            />
+            <Button label="Cancel" className="p-button-sm p-button-danger w-100" disabled={rowData.status !== 'PENDING'}
+                onClick={() => cancelApplication(rowData.id)} />
         </div>
     );
 
     const header = (
         <div className="d-flex justify-content-end align-items-center">
-            <InputText
-                value={globalFilter}
-                onChange={(e) => setGlobalFilter(e.target.value)}
-                placeholder="Search..."
-            />
+            <InputText value={globalFilter} onChange={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
         </div>
     );
 
@@ -95,43 +83,17 @@ function MyLoanApplications() {
                 {applications.length === 0 ? (
                     <div className="alert alert-info">You have not applied for any loan.</div>
                 ) : (
-                    <DataTable
-                        value={applications}
-                        paginator
-                        rows={5}
-                        header={header}
-                        globalFilter={globalFilter}
-                        className="p-datatable-sm"
-                    >
-                        <Column
-                            field="id"
-                            header="Application ID"
-                            style={{ textAlign: 'center' }}
-                            headerStyle={{ textAlign: 'center' }}
-                            className="text-center"
-                        />
-                        <Column
-                            header="View Details"
-                            body={viewColumnTemplate}
-                            style={{ textAlign: 'center' }}
-                            headerStyle={{ textAlign: 'center' }}
-                            className="text-center"
-                        />
-                        <Column
-                            field="status"
-                            header="Status"
-                            sortable
-                            style={{ textAlign: 'center' }}
-                            headerStyle={{ textAlign: 'center' }}
-                            className="text-center"
-                        />
-                        <Column
-                            header="Action"
-                            body={actionColumnTemplate}
-                            style={{ textAlign: 'center' }}
-                            headerStyle={{ textAlign: 'center' }}
-                            className="text-center"
-                        />
+                    <DataTable value={applications} paginator rows={5} header={header} globalFilter={globalFilter} className="p-datatable-sm" >
+                        <Column field="id" header="Application ID" style={{ textAlign: 'center' }} 
+                            headerStyle={{ textAlign: 'center' }} className="text-center" />
+                        <Column field="loanDetails.loanType" header="Loan Type" style={{ textAlign: 'center' }} 
+                            headerStyle={{ textAlign: 'center' }} className="text-center" />
+                        <Column header="View Details" body={viewColumnTemplate} style={{ textAlign: 'center' }}
+                            headerStyle={{ textAlign: 'center' }} className="text-center" />
+                        <Column field="status" header="Status" sortable style={{ textAlign: 'center' }}
+                            headerStyle={{ textAlign: 'center' }} className="text-center" />
+                        <Column  header="Action" body={actionColumnTemplate} style={{ textAlign: 'center' }}
+                            headerStyle={{ textAlign: 'center' }} className="text-center" />
                     </DataTable>
                 )}
 
