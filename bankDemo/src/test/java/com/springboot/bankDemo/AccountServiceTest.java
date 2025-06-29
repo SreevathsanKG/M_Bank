@@ -161,11 +161,11 @@ public class AccountServiceTest {
 	    // actual
 	    assertEquals(List.of(account), accountService.getByCustomerId(1));
 	    
-	    // use case customer has no account
+	    // use case customer id has no account
 	    RuntimeException e = assertThrows(RuntimeException.class, () -> {
 	        accountService.getByCustomerId(5);
 	    });
-	    assertEquals("Customer Id has no Account".toLowerCase(), e.getMessage().toLowerCase());
+	    assertEquals("Customer Id has no account".toLowerCase(), e.getMessage().toLowerCase());
 	}
 	
 	@Test
@@ -183,16 +183,15 @@ public class AccountServiceTest {
 	
 	@Test
 	public void getByUsernameTest() {
-	    when(customerService.getCustomerByUsername("david@gmail.com")).thenReturn(customer);
-	    when(accountRepository.getByCustomerId(customer.getId())).thenReturn(Optional.of(List.of(account)));
+	    when(accountRepository.getByUsername("david@gmail.com")).thenReturn(List.of(account));
 	    // actual
 	    assertEquals(List.of(account), accountService.getByUsername("david@gmail.com"));
 	    
 	    // use case customer has no account
 	    RuntimeException e = assertThrows(RuntimeException.class, () -> {
-	        accountService.getByCustomerId(5);
+	        accountService.getByUsername("dave@gmail.com");
 	    });
-	    assertEquals("Customer Id has no Account".toLowerCase(), e.getMessage().toLowerCase());
+	    assertEquals("Customer has no Account".toLowerCase(), e.getMessage().toLowerCase());
 	}
 
 	@Test

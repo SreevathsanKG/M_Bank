@@ -101,9 +101,9 @@ public class SecurityConfig {
 					.requestMatchers("/api/manager/get-one").hasAuthority("MANAGER")
 					.requestMatchers("/api/manager/get-all").hasAuthority("MANAGER")
 					// Transaction
-					.requestMatchers("/api/transaction/post/deposit/{accountId}").authenticated()
-					.requestMatchers("/api/transaction/post/withdraw/{accountId}").authenticated()
-					.requestMatchers("/api/transaction/post/transfer/{accountId}/{beneficiaryId}").authenticated()
+					.requestMatchers("/api/transaction/post/deposit/{accountId}").hasAuthority("CUSTOMER")
+					.requestMatchers("/api/transaction/post/withdraw/{accountId}").hasAuthority("CUSTOMER")
+					.requestMatchers("/api/transaction/post/transfer/{accountId}/{beneficiaryId}").hasAuthority("CUSTOMER")
 					.requestMatchers("/api/transaction/get-btw/{accountId}").hasAnyAuthority("CUSTOMER","EXECUTIVE","MANAGER")
 					.requestMatchers("/api/transaction/get-from/{accountId}").hasAnyAuthority("CUSTOMER","EXECUTIVE","MANAGER")
 					.requestMatchers("/api/transaction/get-10/{accountId}").hasAnyAuthority("CUSTOMER","EXECUTIVE","MANAGER")

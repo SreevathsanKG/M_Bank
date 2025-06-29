@@ -117,8 +117,10 @@ public class AccountService {
 	
 	// fetch account by username
 	public List<Account> getByUsername(String username) {
-		Customer customer = customerService.getCustomerByUsername(username);
-		return accountRepository.getByCustomerId(customer.getId()).orElseThrow(() -> new RuntimeException("Customer Id has no Account"));
+		List<Account> list = accountRepository.getByUsername(username);
+		if (list.isEmpty())
+			throw new RuntimeException("Customer has no account");
+		return list;
 	}
 	
 	// fetch by status 

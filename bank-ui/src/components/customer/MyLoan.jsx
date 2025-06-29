@@ -1,80 +1,77 @@
-import React, { useEffect, useState } from 'react';
-import { BreadCrumb } from 'primereact/breadcrumb';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { InputText } from 'primereact/inputtext';
-import { Dialog } from 'primereact/dialog';
-import { Button } from 'primereact/button';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { BreadCrumb } from 'primereact/breadcrumb'
+import { DataTable } from 'primereact/datatable'
+import { Column } from 'primereact/column'
+import { InputText } from 'primereact/inputtext'
+import { Dialog } from 'primereact/dialog'
+import { Button } from 'primereact/button'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 function MyLoan() {
-  const [loans, setLoans] = useState([]);
-  const [filter, setFilter] = useState('');
-  const [detailsLoan, setDetailsLoan] = useState(null);
-  const [showDetailsDialog, setShowDetailsDialog] = useState(false);
-  const [showRepayDialog, setShowRepayDialog] = useState(false);
-  const [repayLoan, setRepayLoan] = useState(null);
-  const [repayAmount, setRepayAmount] = useState('');
+  const [loans, setLoans] = useState([])
+  const [filter, setFilter] = useState('')
+  const [detailsLoan, setDetailsLoan] = useState(null)
+  const [showDetailsDialog, setShowDetailsDialog] = useState(false)
+  const [showRepayDialog, setShowRepayDialog] = useState(false)
+  const [repayLoan, setRepayLoan] = useState(null)
+  const [repayAmount, setRepayAmount] = useState('')
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const breadcrumbItems = [
     { label: 'Loan', command: () => navigate('/customer/loan') },
     { label: 'My Loan' }
-];
-  const home = { icon: 'pi pi-home', command: () => navigate('/customer') };
+  ]
+  const home = { icon: 'pi pi-home', command: () => navigate('/customer') }
 
   useEffect(() => {
-    const fetchLoans = async () => {
-      try {
-        const res = await axios.get('http://localhost:8080/api/loan/get-one', {
-          headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
-        });
-        setLoans(res.data);
-      } catch (e) {
-        console.error('Failed to fetch loans', e);
-      }
-    };
-    fetchLoans();
-  }, []);
+    fetchLoans()
+  }, [])
+
+  const fetchLoans = async () => {
+    try {
+      const res = await axios.get('http://localhost:8080/api/loan/get-one', {
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+      });
+      setLoans(res.data)
+    } catch (e) {
+      console.error('Failed to fetch loans', e)
+    }
+  }
 
   const showDetails = loan => {
-    setDetailsLoan(loan);
-    setShowDetailsDialog(true);
-  };
+    setDetailsLoan(loan)
+    setShowDetailsDialog(true)
+  }
 
   const showRepayment = loan => {
-    setRepayLoan(loan);
-    setRepayAmount('');
-    setShowRepayDialog(true);
-  };
+    setRepayLoan(loan)
+    setRepayAmount(loan.loanApplication.loanDetails.emiAmount);
+    setShowRepayDialog(true)
+  }
 
   const repayLoanAmount = async () => {
-    if (!repayAmount || isNaN(repayAmount) || repayAmount <= 0) {
-      alert('Enter a valid amount.');
-      return;
-    }
-
     try {
       await axios.post(`http://localhost:8080/api/loanRepay/post/${repayLoan.id}?amount=${repayAmount}`, {}, {
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
       });
-      alert("Repayment successful");
-      setShowRepayDialog(false);
+      alert("Repayment successful")
+      setShowRepayDialog(false)
+      fetchLoans()
     } catch (err) {
-      alert("Repayment failed");
+      if (err.response.data.msg == "You cannot pay more than the loan balance amount") {
+        alert(err.response.data.msg)
+      } else {
+        alert("Repayment failed")
+      }
     }
-  };
+  }
 
   const header = (
     <div className="d-flex justify-content-end mb-2">
-      <InputText
-        placeholder="Search loans..."
-        value={filter}
-        onChange={e => setFilter(e.target.value)}
-      />
+      <InputText placeholder="Search loans..." value={filter} onChange={e => setFilter(e.target.value)} />
     </div>
-  );
+  )
 
   return (
     <div className="container mt-2">
@@ -82,12 +79,8 @@ function MyLoan() {
       <div className="card shadow p-4 mt-3">
         <h2 className="text-center fw-bold fs-3 mb-4 myloan-title">My Loan</h2>
 
-        <DataTable
-          value={loans}
-          paginator rows={5}
-          globalFilter={filter}
-          header={header}
-          className="p-datatable-sm table-bordered"
+        <DataTable value={loans} paginator rows={5} globalFilter={filter}
+          header={header} className="p-datatable-sm table-bordered"
         >
           <Column field="id" header="Loan ID" sortable style={{ textAlign: 'center' }} headerStyle={{ textAlign: 'center' }} />
           <Column header="Loan Details" style={{ textAlign: 'center' }} headerStyle={{ textAlign: 'center' }} body={row =>
@@ -132,20 +125,15 @@ function MyLoan() {
               <p className="mb-2"><strong>Loan ID:</strong> {repayLoan.id}</p>
               <p><strong>Account ID:</strong> {repayLoan.loanApplication.account.id}</p>
               <p className="text-danger">Amount will be debited from this account</p>
-              <InputText
-                value={repayAmount}
-                onChange={e => setRepayAmount(e.target.value)}
-                placeholder="Enter amount"
-                keyfilter="pint"
-                className="w-100"
-              />
+              <p>Emi Amount:</p>
+              <InputText value={`₹${repayAmount}`} placeholder="Enter amount" keyfilter="pint" className="w-100" />
               <Button label="Repay" className="mt-3 w-100 p-button-success" onClick={repayLoanAmount} />
             </div>
           )}
         </Dialog>
       </div>
     </div>
-  );
+  )
 }
 
-export default MyLoan;
+export default MyLoan

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springboot.bankDemo.dto.TransferTypeDto;
 import com.springboot.bankDemo.service.EnumsService;
 
 @RestController
@@ -68,7 +69,7 @@ public class EnumsController {
 	 * PATH: /api/enum/transfer/type/get
 	 * */
 	@GetMapping("/transfer/type/get")
-	public List<String> getEnumTransferType() {
+	public List<TransferTypeDto> getEnumTransferType() {
 		return enumsService.getEnumTransferType();
 	}
 }

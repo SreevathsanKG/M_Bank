@@ -1,6 +1,7 @@
 package com.springboot.bankDemo;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -115,10 +116,16 @@ public class LoanRepaymentServiceTest {
 	@Test
 	public void postLoanRepaymentTest() {
 		when(loanRepository.findById(1)).thenReturn(Optional.of(loan));
+		when(transactionService.postLoanWithdraw(1, new BigDecimal("20000"))).thenReturn(null);	
 		when(loanService.putLoanBalance(1, new BigDecimal("20000"))).thenReturn(loan);
 		when(loanRepaymentRepository.save(any(LoanRepayment.class))).thenReturn(loanRepayment);
-		when(transactionService.postLoanWithdraw(1, new BigDecimal("20000"))).thenReturn(null);	
+		// actual
 		assertEquals(loanRepayment, loanRepaymentService.postLoanRepayment(1, new BigDecimal("20000")));
+		
+		// use case more than loan balance
+		RuntimeException e = assertThrows(RuntimeException.class,
+				() -> loanRepaymentService.postLoanRepayment(1, BigDecimal.valueOf(200000)));
+		assertEquals("You cannot pay more than the loan balance amount", e.getMessage());
 	}
 
 	@Test

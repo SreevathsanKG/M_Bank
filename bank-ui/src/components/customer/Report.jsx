@@ -8,6 +8,7 @@ import axios from "axios";
 import { Dialog } from 'primereact/dialog';
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from 'primereact/dropdown';
+import { useSelector } from "react-redux";
 
 function Report() {
     const navigate = useNavigate();
@@ -21,27 +22,13 @@ function Report() {
     const [searchTerm, setSearchTerm] = useState("");
 
     const [first, setFirst] = useState(0);
-    const [rows, setRows] = useState(5);
+    const [rows, setRows] = useState(8);
 
-    const [accounts, setAccounts] = useState([]);
+    const accounts = useSelector(state => state.account.account);
     const [selectedAccount, setSelectedAccount] = useState(null);
 
     const breadcrumbItems = [{ label: "Transaction Report" }];
     const home = { icon: "pi pi-home", command: () => navigate("/customer") };
-
-    useEffect(() => {
-        const fetchAccounts = async () => {
-            try {
-                const res = await axios.get("http://localhost:8080/api/account/get-one", {
-                    headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-                });
-                setAccounts(res.data);
-            } catch (err) {
-                console.error("Failed to fetch accounts", err);
-            }
-        };
-        fetchAccounts();
-    }, []);
 
     const formatDate = (date) => date?.toISOString().split("T")[0];
 
@@ -58,6 +45,7 @@ function Report() {
 
     const fetchBetweenDates = async () => {
         if (!fromDate || !toDate) return alert("Select both from and to dates");
+        if (!selectedAccount) return alert("Select an account")
 
         try {
             const res = await axios.get(`http://localhost:8080/api/transaction/get-btw/${selectedAccount.id}`, {
@@ -148,21 +136,32 @@ function Report() {
     );
 
     return (
-        <div className="container mt-4">
+        <div className="container mt-3">
             <BreadCrumb model={breadcrumbItems} home={home} />
 
             {/* Filter Section */}
             <div className="row my-3">
-                <div className="col-md-3">
+                <div className="col-md-3 mb-3">
                     <Calendar value={fromDate} onChange={(e) => setFromDate(e.value)} placeholder="From Date" showIcon />
                 </div>
-                <div className="col-md-3">
+                <div className="col-md-3 mb-3">
                     <Calendar value={toDate} onChange={(e) => setToDate(e.value)} placeholder="To Date" showIcon />
                 </div>
-                <div className="col-md-6 d-flex flex-wrap gap-2">
+                
+                <div className="col-md-6 d-flex flex-wrap gap-2 mb-3">
                     <Button label="Filter Between Dates" icon="pi pi-filter" onClick={fetchBetweenDates} />
                     <Button label="Filter From Date" icon="pi pi-calendar" onClick={fetchFromDate} />
-                    <Button label="Last 10" icon="pi pi-history" onClick={fetchLast10Transactions} />
+                </div>
+                <div className="col-md-6 mt-2">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search transactions..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </div>
+                <div className="col-md-6 d-flex flex-wrap gap-2">
                     <Button label="View Statement" icon="pi pi-file" onClick={fetchStatement} className="p-button-info" />
                     <Dropdown
                         value={selectedAccount}
@@ -206,19 +205,6 @@ function Report() {
                     </div>
                 )}
             </Dialog>
-
-            {/* Search Box */}
-            <div className="row mb-2">
-                <div className="col-md-6">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Search transactions..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-            </div>
 
             {/* Data Table */}
             <DataTable

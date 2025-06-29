@@ -20,6 +20,10 @@ function CustomerSignUp() {
 
     const postCustomer = async (e) => {
         e.preventDefault() // prevent form from reload
+        if (firstName == "" || lastName == "" || birthday == "" || gender == "" || email == "" || phone == "" || address == "" || username == "" || password == "") {
+            setMsg("All fields are required!")
+            return
+        }
         try {
             await axios.post("http://localhost:8080/api/customer/post",{
                 'firstName': firstName,
@@ -33,6 +37,7 @@ function CustomerSignUp() {
                 'password': password
             })
             setMsg("Registration Successful!")
+            setTimeout(() => navigate("/"), 2500)
         } catch (error) {
             setMsg("Something went wrong!")
         }

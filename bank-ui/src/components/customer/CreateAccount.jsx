@@ -1,42 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { BreadCrumb } from "primereact/breadcrumb";
-import { Dropdown } from "primereact/dropdown";
-import { Button } from "primereact/button";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react"
+import { BreadCrumb } from "primereact/breadcrumb"
+import { Dropdown } from "primereact/dropdown"
+import { Button } from "primereact/button"
+import { useNavigate } from "react-router-dom"
 import axios from "axios";
 
 function CreateAccount() {
-    const navigate = useNavigate();
-    const [accountTypes, setAccountTypes] = useState([]);
-    const [branches, setBranches] = useState([]);
-    const [selectedType, setSelectedType] = useState(null);
-    const [selectedBranch, setSelectedBranch] = useState(null);
-    const [pan, setPan] = useState("");
-    const [aadhar, setAadhar] = useState("");
-    const [msg, setMsg] = useState("");
+    const navigate = useNavigate()
+    const [accountTypes, setAccountTypes] = useState([])
+    const [branches, setBranches] = useState([])
+    const [selectedType, setSelectedType] = useState(null)
+    const [selectedBranch, setSelectedBranch] = useState(null)
+    const [pan, setPan] = useState("")
+    const [aadhar, setAadhar] = useState("")
+    const [msg, setMsg] = useState("")
 
     const breadcrumbItems = [
         { label: "My Account", command: () => navigate("/customer") },
         { label: "Create Account", command: () => navigate("/customer/account/create") }
     ];
-    const home = { icon: "pi pi-home", command: () => navigate("/customer") };
+    const home = { icon: "pi pi-home", command: () => navigate("/customer") }
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [typeRes, branchRes] = await Promise.all([
-                    axios.get("http://localhost:8080/api/accountType/get-all"),
-                    axios.get("http://localhost:8080/api/branch/get-all")
-                ]);
-                setAccountTypes(typeRes.data);
-                setBranches(branchRes.data);
+                const typeRes = await axios.get("http://localhost:8080/api/accountType/get-all")
+                setAccountTypes(typeRes.data)
+                const branchRes = await axios.get("http://localhost:8080/api/branch/get-all")
+                setBranches(branchRes.data)
             } catch (err) {
-                console.error("Failed to fetch types or branches", err);
+                console.error("Failed to fetch types or branches", err)
             }
-        };
+        }
 
-        fetchData();
-    }, []);
+        fetchData()
+    }, [])
 
     const postAccount = async () => {
         try {
@@ -51,12 +49,12 @@ function CreateAccount() {
                         Authorization: "Bearer " + localStorage.getItem("token")
                     }
                 }
-            );
+            )
             setMsg("Account created successfully!");
-            setTimeout(() => navigate("/customer"), 1500);
+            setTimeout(() => navigate("/customer"), 2500)
         } catch (err) {
             setMsg("Failed to create account.");
-            console.error(err);
+            console.error(err)
         }
     };
 
@@ -67,7 +65,7 @@ function CreateAccount() {
                 <div className="card-body">
                     <h2 className="mt-4 fw-bold text-center mb-4 createAcc-title">Create Account</h2>
 
-                    {msg && <div className="alert alert-info">{msg}</div>}
+                    {msg!=""? <div className="alert alert-info">{msg}</div> : ""}
 
                     <div className="row g-3 mt-3">
                         <div className="col-md-6">
@@ -106,34 +104,20 @@ function CreateAccount() {
 
                         <div className="col-md-6">
                             <label className="form-label">PAN Number</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={pan}
-                                onChange={(e) => setPan(e.target.value)}
-                                required
-                            />
+                            <input type="text" className="form-control" value={pan}
+                                onChange={(e) => setPan(e.target.value)}/>
                         </div>
 
                         <div className="col-md-6">
                             <label className="form-label">Aadhar Number</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={aadhar}
-                                onChange={(e) => setAadhar(e.target.value)}
-                                required
-                            />
+                            <input type="text" className="form-control" value={aadhar} 
+                                onChange={(e) => setAadhar(e.target.value)} />
                         </div>
                     </div>
 
                     <div className="text-end mt-4">
-                        <Button
-                            label="Create Account"
-                            icon="pi pi-check"
-                            onClick={postAccount}
-                            disabled={!selectedType || !selectedBranch || !pan || !aadhar}
-                        />
+                        <Button label="Create Account" icon="pi pi-check" onClick={postAccount}
+                            disabled={!selectedType || !selectedBranch || !pan || !aadhar} />
                     </div>
                 </div>
             </div>

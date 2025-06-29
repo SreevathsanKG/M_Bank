@@ -30,12 +30,14 @@ public class LoanRepaymentService {
 	// post loan repayment
 	public LoanRepayment postLoanRepayment(int loanId, BigDecimal amount) {
 		Loan loan = loanRepository.findById(loanId).orElseThrow(() -> new RuntimeException("ID is Invalid"));
-		loanService.putLoanBalance(loanId, amount);
+		if (amount.compareTo(loan.getBalanceAmount()) == 1)
+			throw new RuntimeException("You cannot pay more than the loan balance amount");
 		LoanRepayment loanRepayment = new LoanRepayment();
 		loanRepayment.setRepaymentAmount(amount);
 		loanRepayment.setRepaymentDate(LocalDate.now());
 		loanRepayment.setLoan(loan);
 		transactionService.postLoanWithdraw(loan.getLoanApplication().getAccount().getId(), amount);
+		loanService.putLoanBalance(loanId, amount);
 		return loanRepaymentRepository.save(loanRepayment);
 	}
 	

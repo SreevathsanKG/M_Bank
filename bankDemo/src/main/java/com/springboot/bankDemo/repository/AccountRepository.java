@@ -20,6 +20,9 @@ public interface AccountRepository extends JpaRepository<Account, Integer>{
 
 	@Query("select a from Account a where a.status=?1")
 	Optional<List<Account>> getByStatus(String status);
+	
+	@Query("select a from Account a where a.customer.user.username=?1")
+	List<Account> getByUsername(String username);
 
 	@Query("select count(a)>0 from Account a where a.customer=?1 and a.accountType=?2 and a.status != 'CLOSED'")
 	boolean getAccountExistsByCustomerandType(Customer customer, AccountType accountType);

@@ -1,102 +1,102 @@
-import React, { useState, useEffect } from 'react';
-import { BreadCrumb } from 'primereact/breadcrumb';
-import { Button } from 'primereact/button';
-import { Dropdown } from 'primereact/dropdown';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { fetchAccByToken } from '../../store/actions/AccByTokenAction';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react'
+import { BreadCrumb } from 'primereact/breadcrumb'
+import { Button } from 'primereact/button'
+import { Dropdown } from 'primereact/dropdown'
+import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { useSelector } from 'react-redux'
 
 function CustomerTransaction() {
-    const [transactionType, setTransactionType] = useState("");
-    const [accounts, setAccounts] = useState([]);
-    const [selectedAccount, setSelectedAccount] = useState(null);
+    const [transactionType, setTransactionType] = useState("")
+    const [accounts, setAccounts] = useState([])
+    const [selectedAccount, setSelectedAccount] = useState(null)
 
-    const [beneficiaries, setBeneficiaries] = useState([]);
-    const [selectedBeneficiary, setSelectedBeneficiary] = useState(null);
-    const [noBeneficiary, setNoBeneficiary] = useState(false);
+    const [beneficiaries, setBeneficiaries] = useState([])
+    const [selectedBeneficiary, setSelectedBeneficiary] = useState(null)
+    const [noBeneficiary, setNoBeneficiary] = useState(false)
 
-    const [amount, setAmount] = useState("");
-    const [description, setDescription] = useState("");
+    const [amount, setAmount] = useState("")
+    const [description, setDescription] = useState("")
 
-    const [transferTypes, setTransferTypes] = useState([]);
-    const [selectedTransferType, setSelectedTransferType] = useState(null);
+    const [transferTypes, setTransferTypes] = useState([])
+    const [selectedTransferType, setSelectedTransferType] = useState(null)
 
     const navigate = useNavigate()
 
-    const account = useSelector(state => state.account.account)
+    const allAccounts = useSelector(state => state.account.account)
 
-    const breadcrumbItems = [{ label: 'Transaction' }];
-    const home = { icon: 'pi pi-home', command: () => navigate("/customer") };
+    const breadcrumbItems = [{ label: 'Transaction' }]
+    const home = { icon: 'pi pi-home', command: () => navigate("/customer") }
 
     useEffect(() => {
-        filterActiveAccounts();
+        filterActiveAccounts()
         if (transactionType === "TRANSFER") {
-            fetchBeneficiaries();
-            fetchTransferTypes();
+            fetchBeneficiaries()
+            fetchTransferTypes()
         }
-    }, [transactionType]);
+    }, [transactionType])
 
     const filterActiveAccounts = () => {
-        try {
-            const activeAccounts = account.filter(acc => acc.status === "ACTIVE");
-            setAccounts(activeAccounts);
-        } catch (err) {
-            console.error("Error fetching accounts", err);
-        }
-    };
+            const activeAccounts = allAccounts.filter(acc => acc.status === "ACTIVE")
+            setAccounts(activeAccounts)
+    }
 
     const fetchBeneficiaries = async () => {
         try {
             const res = await axios.get("http://localhost:8080/api/beneficiary/get", {
                 headers: { Authorization: "Bearer " + localStorage.getItem("token") }
             });
-            setNoBeneficiary(res.data.length === 0);
+            setNoBeneficiary(res.data.length === 0)
             setBeneficiaries(res.data);
         } catch (err) {
-            console.error("Error fetching beneficiaries", err);
+            console.error("Error fetching beneficiaries", err)
         }
-    };
+    }
 
     const fetchTransferTypes = async () => {
         try {
             const res = await axios.get("http://localhost:8080/api/enum/transfer/type/get");
             setTransferTypes(res.data);
         } catch (err) {
-            console.error("Error fetching transfer types", err);
+            console.error("Error fetching transfer types", err)
         }
-    };
+    }
 
     const processTransaction = async () => {
-        const transactionDto = { amount, description };
+        const transactionDto = { amount, description }
         try {
             if (transactionType === "DEPOSIT") {
                 await axios.post(`http://localhost:8080/api/transaction/post/deposit/${selectedAccount.id}`, transactionDto, {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token")
                     }
-                });
+                })
             } else if (transactionType === "WITHDRAW") {
                 await axios.post(`http://localhost:8080/api/transaction/post/withdraw/${selectedAccount.id}`, transactionDto, {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token")
                     }
-                });
+                })
             } else if (transactionType === "TRANSFER") {
                 await axios.post(
-                    `http://localhost:8080/api/transaction/post/transfer/${selectedAccount.id}/${selectedBeneficiary.id}?transferType=${selectedTransferType}`,
+                    `http://localhost:8080/api/transaction/post/transfer/${selectedAccount.id}/${selectedBeneficiary.id}?transferType=${selectedTransferType.type}`,
                     transactionDto, {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token")
                     }
                 }
-                );
+                )
             }
-            alert("Transaction successful");
+            setAmount("")
+            setDescription("")
+            setSelectedAccount(null)
+            setSelectedBeneficiary(null)
+            setSelectedTransferType(null)
+            alert("Transaction successful")
         } catch (err) {
-            alert("Transaction failed");
+            alert("Transaction failed")
         }
-    };
+    }
 
     return (
         <div className="container mt-2">
@@ -115,13 +115,9 @@ function CustomerTransaction() {
                         <div className="col-md-6">
                             <div className="mb-3">
                                 <label>Select Account</label>
-                                <Dropdown
-                                    value={selectedAccount}
-                                    onChange={(e) => setSelectedAccount(e.value)}
-                                    options={accounts}
-                                    optionLabel={(a) => `${a.id} - ${a.accountType.type}`}
-                                    placeholder="Select Account"
-                                    className="w-100"
+                                <Dropdown value={selectedAccount} onChange={(e) => setSelectedAccount(e.value)}
+                                    options={accounts} optionLabel={(a) => `${a.id} - ${a.accountType.type}`}
+                                    placeholder="Select Account" className="w-100"
                                 />
                             </div>
 
@@ -130,10 +126,7 @@ function CustomerTransaction() {
                                     {noBeneficiary ? (
                                         <div className="alert alert-warning d-flex justify-content-between align-items-center">
                                             <span>No Beneficiaries available</span>
-                                            <Button
-                                                label="Go to Beneficiary"
-                                                icon="pi pi-user-plus"
-                                                className="p-button-sm"
+                                            <Button label="Go to Beneficiary" icon="pi pi-user-plus" className="p-button-sm"
                                                 onClick={() => navigate("/customer/beneficiary")}
                                             />
                                         </div>
@@ -141,35 +134,23 @@ function CustomerTransaction() {
                                         <>
                                             <div className="mb-3">
                                                 <label>Select Beneficiary</label>
-                                                <Dropdown
-                                                    value={selectedBeneficiary}
-                                                    onChange={(e) => setSelectedBeneficiary(e.value)}
-                                                    options={beneficiaries}
-                                                    optionLabel={(b) =>
-                                                        `${b.name} - ${b.accountNumber} - ${b.ifscCode} - ${b.branchName}`
-                                                    }
-                                                    placeholder="Select Beneficiary"
-                                                    className="w-100"
+                                                <Dropdown value={selectedBeneficiary} onChange={(e) => setSelectedBeneficiary(e.value)}
+                                                    placeholder="Select Beneficiary" className="w-100" options={beneficiaries}
+                                                    optionLabel={(b) => `${b.name} - ${b.accountNumber} - ${b.ifscCode} - ${b.branchName}`}
                                                 />
                                             </div>
                                             <div className="mb-3 row">
                                                 <div className="col-6">
                                                     <label>Amount</label>
-                                                    <input
-                                                        type="number"
-                                                        className="form-control"
-                                                        value={amount}
+                                                    <input type="number" className="form-control" value={amount}
                                                         onChange={(e) => setAmount(e.target.value)}
                                                     />
                                                 </div>
                                                 <div className="col-6">
                                                     <label>Transfer Type</label>
-                                                    <Dropdown
-                                                        value={selectedTransferType}
-                                                        onChange={(e) => setSelectedTransferType(e.value)}
-                                                        options={transferTypes}
-                                                        placeholder="Select Type"
-                                                        className="w-100"
+                                                    <Dropdown value={selectedTransferType} onChange={(e) => setSelectedTransferType(e.value)}
+                                                        options={transferTypes} optionLabel={(t) => `${t.type} - ₹${t.charge.toFixed(2)}`}
+                                                        placeholder="Select Type" className="w-100"
                                                     />
                                                 </div>
                                             </div>
@@ -181,10 +162,7 @@ function CustomerTransaction() {
                             {transactionType !== "TRANSFER" && (
                                 <div className="mb-3">
                                     <label>Amount</label>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        value={amount}
+                                    <input type="number" className="form-control" value={amount}
                                         onChange={(e) => setAmount(e.target.value)}
                                     />
                                 </div>
@@ -192,21 +170,14 @@ function CustomerTransaction() {
 
                             <div className="mb-3">
                                 <label>Description</label>
-                                <textarea
-                                    className="form-control"
-                                    rows={2}
-                                    value={description}
+                                <textarea className="form-control" rows={2} value={description}
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
                             </div>
 
                             <Button
-                                label="Process"
-                                className="p-button-success w-100 mt-3"
-                                onClick={processTransaction}
-                                disabled={
-                                    !selectedAccount ||
-                                    !amount ||
+                                label="Process" className="p-button-success w-100 mt-3" onClick={processTransaction}
+                                disabled={!selectedAccount || !amount ||
                                     (transactionType === "TRANSFER" && (!selectedBeneficiary || !selectedTransferType))
                                 }
                             />

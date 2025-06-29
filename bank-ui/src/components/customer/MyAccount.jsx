@@ -1,84 +1,80 @@
-import React, { useEffect, useState } from "react";
-import { BreadCrumb } from "primereact/breadcrumb";
-import { Button } from "primereact/button";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-import { Dialog } from "primereact/dialog"; // 🆕 For the popup
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { useEffect, useState } from "react"
+import { BreadCrumb } from "primereact/breadcrumb"
+import { Button } from "primereact/button"
+import { DataTable } from "primereact/datatable"
+import { Column } from "primereact/column"
+import { Dialog } from "primereact/dialog" // 🆕 For the popup
+import { useNavigate } from "react-router-dom"
+import axios from "axios"
 
 function MyAccount() {
-    const navigate = useNavigate();
-    const [account, setAccount] = useState([]);
+    const navigate = useNavigate()
+    const [account, setAccount] = useState([])
     localStorage.setItem("account", JSON.stringify(account))
-    const [error, setError] = useState("");
+    const [error, setError] = useState("")
 
-    const [showTxnDialog, setShowTxnDialog] = useState(false);
-    const [txnData, setTxnData] = useState([]);
-    const [showCloseDialog, setShowCloseDialog] = useState(false);
-    const [selectedAccountId, setSelectedAccountId] = useState("");
+    const [showTxnDialog, setShowTxnDialog] = useState(false)
+    const [txnData, setTxnData] = useState([])
+    const [showCloseDialog, setShowCloseDialog] = useState(false)
+    const [selectedAccountId, setSelectedAccountId] = useState("")
 
-    const home = { icon: "pi pi-home", command: () => navigate("/customer") };
+    const home = { icon: "pi pi-home", command: () => navigate("/customer") }
 
     useEffect(() => {
-        const fetchAccount = async () => {
-            try {
-                const res = await axios.get("http://localhost:8080/api/account/get-one", {
-                    headers: { Authorization: "Bearer " + localStorage.getItem("token") }
-                });
-                if (res.data.length === 0) {
-                    setError("You don't have an account. Create one to get started.");
-                    return;
-                }
-                const filtered = res.data.filter(acc => acc.status !== 'REJECTED' && acc.status !== 'CLOSED');
-                setAccount(filtered);
-            } catch (err) {
-                if (err.response && err.response.data.message === "Customer has no Account") {
-                    setError("You don't have an account. Create one to get started.");
-                } else {
-                    setError("Failed to load account.");
-                }
-            }
-        };
+        fetchAccount()
+    }, [])
 
-        fetchAccount();
-    }, []);
+    const fetchAccount = async () => {
+        try {
+            const res = await axios.get("http://localhost:8080/api/account/get-one", {
+                headers: { Authorization: "Bearer " + localStorage.getItem("token") }
+            });
+            const filtered = res.data.filter(acc => acc.status !== 'REJECTED' && acc.status !== 'CLOSED')
+            setAccount(filtered)
+        } catch (err) {
+            if (err.response.data.msg === "Customer has no account") {
+                setError("You don't have an account. Create one to get started.")
+            } else {
+                setError("Failed to load account.")
+            }
+        }
+    }
 
     const handleLast10Txn = async (accountId) => {
         try {
             const res = await axios.get(`http://localhost:8080/api/transaction/get-10/${accountId}`, {
                 headers: { Authorization: "Bearer " + localStorage.getItem("token") }
             });
-            setTxnData(res.data);
-            setShowTxnDialog(true);
+            setTxnData(res.data)
+            setShowTxnDialog(true)
         } catch (error) {
-            console.error("Error fetching transactions:", error);
+            console.error("Error fetching transactions:", error)
         }
-    };
+    }
 
     const handleCloseAccount = async () => {
         if (!selectedAccountId) {
-            setError("Please select an account to close.");
-            return;
+            setError("Please select an account to close.")
+            return
         }
 
         try {
             await axios.put(
                 `http://localhost:8080/api/account/put/status/${selectedAccountId}/?status=CLOSING_REQUESTED`,
-                null,   
+                null,
                 {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("token")
                     }
                 }
-            );
-            alert("Account closure request submitted successfully.");
-            setShowCloseDialog(false);
-            setTimeout(() => window.location.reload(), 1000); // or refetch account list
+            )
+            alert("Account closure request submitted successfully.")
+            setShowCloseDialog(false)
+            fetchAccount()
         } catch (error) {
-            alert("Failed to close account. Please try again.");
+            alert("Failed to close account. Please try again.")
         }
-    };
+    }
 
 
     return (
@@ -88,7 +84,7 @@ function MyAccount() {
                 <div className="card-body">
                     <h2 className="mt-3 fw-bold text-center mb-4 title-account">My Account</h2>
 
-                    {error && (
+                    { error!="" ?
                         <div className="alert alert-warning mt-3">
                             {error}{" "}
                             <Button
@@ -97,12 +93,12 @@ function MyAccount() {
                                 className="ms-2"
                                 onClick={() => navigate("/customer/account/create")}
                             />
-                        </div>
-                    )}
+                        </div> : ""
+                    }
 
-                    {account.length > 0 && (
+                    { account.length > 0 ?
                         <div>
-                            <DataTable value={account} className="mt-4">
+                            <DataTable value={account} className="mt-4">    
                                 <Column field="id" header="Account ID" style={{ textAlign: 'center' }} />
                                 <Column field="accountType.type" header="Account Type" style={{ textAlign: 'center' }} />
                                 <Column field="branch.ifscCode" header="IFSC Code" style={{ textAlign: 'center' }} />
@@ -142,8 +138,8 @@ function MyAccount() {
                                     />
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        </div> : ""
+                    }
 
                     {/* Transactions Popup */}
                     <Dialog
@@ -153,7 +149,7 @@ function MyAccount() {
                         style={{ width: '60vw' }}
                         breakpoints={{ '960px': '95vw' }}
                     >
-                        {txnData.length > 0 ? (
+                        {txnData.length > 0 ? 
                             <DataTable value={txnData}>
                                 <Column field="transactionDate" header="Date" />
                                 <Column field="transactionType" header="Type" />
@@ -161,12 +157,12 @@ function MyAccount() {
                                 <Column field="entryType" header="Entry" />
                                 <Column field="description" header="Description" />
                                 <Column field="balanceAfterTxn" header="Balance After" body={(rowData) => `₹${rowData.balanceAfterTxn.toFixed(2)}`} />
-                            </DataTable>
-                        ) : (
+                            </DataTable> :
                             <div>No transactions found.</div>
-                        )}
+                        }
                     </Dialog>
 
+                    {/* Closing Request Popup */}
                     <Dialog
                         header="Request Account Closure"
                         visible={showCloseDialog}
@@ -197,7 +193,7 @@ function MyAccount() {
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default MyAccount;
+export default MyAccount
