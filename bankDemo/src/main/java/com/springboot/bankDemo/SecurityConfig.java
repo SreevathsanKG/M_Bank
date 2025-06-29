@@ -60,12 +60,6 @@ public class SecurityConfig {
 					.requestMatchers("/api/customer/get-one/{id}").hasAnyAuthority("EXECUITVE")
 					.requestMatchers("/api/customer/get-all").hasAuthority("MANAGER")
 					.requestMatchers("/api/customer/put").permitAll()
-					// Document
-					.requestMatchers("/api/document/post").hasAuthority("CUSTOMER")
-					.requestMatchers("/api/document/put").hasAuthority("CUSTOMER")
-					.requestMatchers("/api/document/get").hasAuthority("CUSTOMER")
-					.requestMatchers("/api/document/get").hasAuthority("EXECUTIVE")
-					.requestMatchers("/api/document/get-all").hasAuthority("MANAGER")
 					// Enums
 					.requestMatchers("/api/enum/account/status/get").permitAll()
 					.requestMatchers("/api/enum/loanApply/status/get").permitAll()
