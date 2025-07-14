@@ -99,39 +99,16 @@ function ApprovedLoans() {
           className="p-datatable-sm"
         >
           <Column field="id" header="Loan ID" style={{ textAlign: 'center' }} />
-          <Column
-            header="Loan Details"
-            body={(row) => (
-              <Button
-                label="Details"
-                className="p-button-text"
-                onClick={() => {
-                  setSelectedLoan(row);
-                  setShowDetails(true);
-                }}
-              />
-            )}
-            style={{ textAlign: 'center' }}
+          <Column header="Loan Details" body={(row) => (
+            <Button label="Details" className="p-button-text"
+              onClick={() => { setSelectedLoan(row), setShowDetails(true) }} />
+          )} style={{ textAlign: 'center' }}
           />
-          <Column
-            field="balanceAmount"
-            header="Outstanding"
-            body={(row) => `₹${row.balanceAmount}`}
-            style={{ textAlign: 'center' }}
-          />
-          <Column
-            field="status"
-            header="Status"
-            body={(row) => (
-              <Dropdown
-                value={row.status}
-                options={statusOptions}
-                onChange={(e) => handleStatusChange(row.id, e.value)}
-                disabled={row.status === "CLOSED"}
-                className="w-100"
-              />
-            )}
-            style={{ textAlign: 'center' }}
+          <Column field="balanceAmount" header="Outstanding" body={(row) => `₹${row.balanceAmount}`} style={{ textAlign: 'center' }} />
+          <Column field="status" header="Status" body={(row) => (
+            <Dropdown value={row.status} options={statusOptions} onChange={(e) => handleStatusChange(row.id, e.value)}
+              disabled={row.status === "CLOSED"} className="w-100" />
+          )} style={{ textAlign: 'center' }}
           />
           <Column
             field="startDate"
@@ -176,6 +153,12 @@ function ApprovedLoans() {
               <p><strong>EMI:</strong> ₹{selectedLoan.loanApplication.loanDetails.emiAmount}</p>
               <p><strong>Application ID:</strong> {selectedLoan.loanApplication.id}</p>
               <p><strong>Account ID:</strong> {selectedLoan.loanApplication.account.id}</p>
+              <hr className="my-3" />
+              <h5 className="mb-3 fw-bold text-success">Customer Details</h5>
+              <p><strong>Name:</strong> {selectedLoan.loanApplication.account.customer.firstName} {selectedLoan.loanApplication.account.customer.lastName}</p>
+              <p><strong>Email:</strong> {selectedLoan.loanApplication.account.customer.email}</p>
+              <p><strong>Phone:</strong> {selectedLoan.loanApplication.account.customer.phoneNumber}</p>
+              <p><strong>DOB:</strong> {selectedLoan.loanApplication.account.customer.dateOfBirth}</p>
             </div>
           )}
         </Dialog>

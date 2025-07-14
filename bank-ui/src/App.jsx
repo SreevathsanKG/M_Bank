@@ -33,7 +33,6 @@ import AccountCreation from './components/executive/AccountCreation'
 import AddCustomer from './components/executive/AddCustomer'
 import AccountTypes from './components/executive/AccountTypes'
 import ManagerDashboard from './components/manager/ManagerDashboard'
-import Manager from './components/manager/Manager'
 import ManagerProfile from './components/manager/ManagerProfile'
 import MyBank from './components/manager/MyBank'
 import Branch from './components/manager/Branch'
@@ -41,7 +40,7 @@ import Accounts from './components/manager/Accounts'
 import Transactions from './components/manager/Transactions'
 import Loans from './components/manager/Loans'
 import ManageBranch from './components/manager/ManageBranch'
-
+  
 function App() {
 
   return (

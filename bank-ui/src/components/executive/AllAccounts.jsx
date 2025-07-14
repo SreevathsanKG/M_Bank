@@ -46,7 +46,7 @@ function AllAccounts() {
 
     const updateStatus = async (accountId, newStatus) => {
         try {
-            await axios.put(`http://localhost:8080/api/account/put/status/${accountId}/?status=${newStatus}`,{
+            await axios.put(`http://localhost:8080/api/account/put/status/${accountId}/?status=${newStatus}`,null,{
                 headers: { 'Authorization' : "Bearer " +localStorage.getItem("token")}
             });
             const updatedList = accounts.map(acc => {
@@ -77,34 +77,23 @@ function AllAccounts() {
             <div className="card shadow p-4 mt-3">
                 <h2 className="text-center fw-bold fs-3 mb-4 main-title">All Accounts</h2>
 
-                <DataTable
-                    value={filteredAccounts}
-                    paginator rows={5}
-                    header={header}
+                <DataTable value={filteredAccounts} paginator rows={5} header={header}
                     className="p-datatable-sm table-bordered"
                 >
                     <Column field="id" header="Account ID" sortable style={{ textAlign: 'center' }} />
                     <Column field="accountType.type" header="Account Type" style={{ textAlign: 'center' }} />
                     <Column header="Account Details" body={row =>
                         <Button label="View" className="p-button-text p-button-primary" onClick={() => {
-                            setSelectedAccount(row);
-                            setShowAccountDialog(true);
-                        }} />
+                            setSelectedAccount(row), setShowAccountDialog(true) }} />
                     } style={{ textAlign: 'center' }} />
                     <Column header="Customer Name" field="customer.firstName" style={{ textAlign: 'center' }} />
                     <Column header="Customer Details" body={row =>
                         <Button label="View" className="p-button-text p-button-info" onClick={() => {
-                            setSelectedAccount(row);
-                            setShowCustomerDialog(true);
-                        }} />
+                            setSelectedAccount(row), setShowCustomerDialog(true)}} />
                     } style={{ textAlign: 'center' }} />
                     <Column header="Edit Status" body={row =>
-                        <Dropdown
-                            value={row.status}
-                            options={statusOptions}
-                            onChange={(e) => updateStatus(row.id, e.value)}
-                            className="w-100"
-                        />
+                        <Dropdown value={row.status} options={statusOptions}
+                            onChange={(e) => updateStatus(row.id, e.value)} className="w-100" />
                     } style={{ textAlign: 'center' }} />
                 </DataTable>
 

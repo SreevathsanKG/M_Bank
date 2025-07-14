@@ -87,12 +87,8 @@ function AccountTypes() {
                 </div>
 
                 <div className="mb-3">
-                    <InputText
-                        className="form-control"
-                        placeholder="Search by type..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
+                    <InputText className="form-control" placeholder="Search by type..."
+                        value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
                 </div>
 
                 <div className="row">
@@ -101,12 +97,8 @@ function AccountTypes() {
                             <Card title={`Type CODE: ${accType.id}`} className="h-100 text-center loan-card">
                                 <p><strong>Type:</strong> {accType.type}</p>
                                 <p><strong>Initial Deposit:</strong> ₹{accType.initialDeposit}</p>
-                                <Button
-                                    label="Edit"
-                                    icon="pi pi-pencil"
-                                    className="p-button-sm"
-                                    onClick={() => openEditDialog(accType)}
-                                />
+                                <Button label="Edit" icon="pi pi-pencil"
+                                    className="p-button-sm" onClick={() => openEditDialog(accType)} />
                             </Card>
                         </div>
                     ))}
@@ -123,20 +115,13 @@ function AccountTypes() {
             >
                 <div className="mb-3">
                     <label className="form-label">Type</label>
-                    <InputText
-                        className="form-control"
-                        value={formData.type}
-                        onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                    />
+                    <InputText className="form-control" value={formData.type}
+                        onChange={(e) => setFormData({ ...formData, type: e.target.value })} />
                 </div>
                 <div className="mb-3">
                     <label className="form-label">Initial Deposit</label>
-                    <InputText
-                        className="form-control"
-                        type="number"
-                        value={formData.initialDeposit}
-                        onChange={(e) => setFormData({ ...formData, initialDeposit: e.target.value })}
-                    />
+                    <InputText className="form-control" type="number" value={formData.initialDeposit}
+                        onChange={(e) => setFormData({ ...formData, initialDeposit: e.target.value })} />
                 </div>
                 <Button label="Save" className="mt-2" onClick={saveAccountType} />
             </Dialog>

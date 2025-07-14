@@ -122,7 +122,7 @@ function Login() {
                                 <button className="login-btn btn-primary rounded-pill" onClick={() => processLogin()}>LOGIN</button>
                             </div>
                             <div className="text-center mt-3">
-                                Don't have an account?{" "}
+                                For Customer, Don't have an account?{" "}
                                 <Link onClick={() => navigate("/signup")} to="/signup">Sign Up</Link>
                             </div>
                         </div>

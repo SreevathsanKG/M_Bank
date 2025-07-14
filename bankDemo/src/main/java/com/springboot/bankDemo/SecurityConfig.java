@@ -82,7 +82,7 @@ public class SecurityConfig {
 					// Loan Application
 					.requestMatchers("/api/loanApply/post/{loanDetailsId}/{accountId}").hasAuthority("CUSTOMER")
 					.requestMatchers("/api/loanApply/put/status/cancelled/{id}").hasAuthority("CUSTOMER")
-					.requestMatchers("/api/loanApply/put/status/{id}").hasAnyRole("EXECUTIVE","MANAGER")
+					.requestMatchers("/api/loanApply/put/status/{id}").hasAuthority("EXECUTIVE")
 					.requestMatchers("/api/loanApply/get-one").hasAuthority("CUSTOMER")
 					.requestMatchers("/api/loanApply/get-by/status").hasAnyAuthority("EXECUTIVE","MANAGER")
 					.requestMatchers("/api/loanApply/get-by/branchId/{branchId}").hasAnyAuthority("EXECUTIVE","MANAGER")

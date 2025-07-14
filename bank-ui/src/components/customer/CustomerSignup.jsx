@@ -46,7 +46,7 @@ function CustomerSignUp() {
     return (
         <div className="signup-container min-vh-100 d-flex  align-items-center">
             <div className="card signup-card shadow-p4">
-                <h2 className="mb-4 text-center signup-title fw-bold ">Registration Form</h2>
+                <h2 className="mb-4 text-center signup-title fw-bold ">Customer Registration Form</h2>
                 <form className="row g-3" onSubmit={postCustomer}>
                     {
                         msg != "" ? <div>

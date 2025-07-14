@@ -41,7 +41,7 @@ function PendingAccounts() {
 
     const updateStatus = async (accountId, newStatus) => {
         try {
-            await axios.put(`http://localhost:8080/api/account/put/status/${accountId}/?status=${newStatus}`,{
+            await axios.put(`http://localhost:8080/api/account/put/status/${accountId}/?status=${newStatus}`, null,{
                 headers: { 'Authorization' : "Bearer " +localStorage.getItem("token")}
             });
             const updated = accounts.map(acc =>
@@ -117,9 +117,9 @@ function PendingAccounts() {
                         <div>
                             <p><strong>Customer ID:</strong> {selectedAccount.customer.id}</p>
                             <p><strong>Name:</strong> {selectedAccount.customer.firstName} {selectedAccount.customer.lastName}</p>
-                            <p><strong>Email:</strong> {selectedAccount.customer.user.email}</p>
+                            <p><strong>Email:</strong> {selectedAccount.customer.email}</p>
                             <p><strong>Phone:</strong> {selectedAccount.customer.phoneNumber}</p>
-                            <p><strong>DOB:</strong> {selectedAccount.customer.dob}</p>
+                            <p><strong>DOB:</strong> {selectedAccount.customer.dateOfBirth}</p>
                         </div>
                     )}
                 </Dialog>

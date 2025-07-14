@@ -30,7 +30,7 @@ function LoanApplications() {
     const fetchApplications = async () => {
         try {
             const res = await axios.get(`http://localhost:8080/api/loanApply/get-by/branchId/${branchId}`, {
-                headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+                headers: { "Authorization": "Bearer " + localStorage.getItem("token") },
             });
             setApplications(res.data);
         } catch (err) {
@@ -40,10 +40,10 @@ function LoanApplications() {
 
     const handleStatusChange = async (id, status) => {
         try {
-            await axios.put(`http://localhost:8080/api/loanApply/put/status/${id}?status=${status}`, null, {
-                headers: { Authorization: "Bearer " + localStorage.getItem("token") },
+            await axios.put(`http://localhost:8080/api/loanApply/put/status/${id}?status=${status}`,null,{
+                headers: { "Authorization": "Bearer " + localStorage.getItem("token")},
             });
-            fetchApplications(); // Refresh list
+            fetchApplications()
         } catch {
             alert("Failed to update status.");
         }
@@ -125,6 +125,12 @@ function LoanApplications() {
                             <p><strong>EMI:</strong> ₹{selectedApplication.loanDetails.emiAmount}</p>
                             <p><strong>Account ID:</strong> {selectedApplication.account.id}</p>
                             <p><strong>Status:</strong> {selectedApplication.status}</p>
+                            <hr className="my-3" />
+                            <h5 className="mb-3 fw-bold text-success">Customer Details</h5>
+                            <p><strong>Name:</strong> {selectedApplication.account.customer.firstName} {selectedApplication.account.customer.lastName}</p>
+                            <p><strong>Email:</strong> {selectedApplication.account.customer.email}</p>
+                            <p><strong>Phone:</strong> {selectedApplication.account.customer.phoneNumber}</p>
+                            <p><strong>DOB:</strong> {selectedApplication.account.customer.dateOfBirth}</p>
                         </div>
                     )}
                 </Dialog>

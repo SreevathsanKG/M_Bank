@@ -17,7 +17,6 @@ function AccountCreation() {
     const [msg, setMsg] = useState("");
 
     const breadcrumbItems = [
-        { label: "Accounts", command: () => navigate("/executive/accounts") },
         { label: "Create Account" }
     ];
     const home = { icon: "pi pi-home", command: () => navigate("/executive") };
@@ -85,13 +84,8 @@ function AccountCreation() {
                     <div className="col-md-6">
                         <label className="form-label fw-bold">Customer ID</label>
                         <div className="input-group">
-                            <input
-                                type="number"
-                                className="form-control"
-                                value={customerId}
-                                onChange={(e) => setCustomerId(e.target.value)}
-                                placeholder="Enter Customer ID"
-                            />
+                            <input type="number" className="form-control" value={customerId}
+                                onChange={(e) => setCustomerId(e.target.value)} placeholder="Enter Customer ID" />
                             <Button icon="pi pi-check" className="p-button-sm" disabled={!customerId} onClick={fetchCustomerDetails} />
                         </div>
                         {custError && <small className="text-danger">{custError}</small>}
@@ -108,14 +102,8 @@ function AccountCreation() {
 
                     <div className="col-md-6">
                         <label className="form-label fw-bold">Account Type</label>
-                        <Dropdown
-                            value={selectedType}
-                            options={accountTypes}
-                            onChange={(e) => setSelectedType(e.value)}
-                            optionLabel="type"
-                            placeholder="Select Account Type"
-                            className="w-100"
-                        />
+                        <Dropdown value={selectedType} options={accountTypes} onChange={(e) => setSelectedType(e.value)}
+                            optionLabel="type" placeholder="Select Account Type" className="w-100" />
                         {selectedType && (
                             <small className="text-muted">Initial Deposit: ₹{selectedType.initialDeposit}</small>
                         )}
@@ -123,38 +111,24 @@ function AccountCreation() {
 
                     <div className="col-md-6">
                         <label className="form-label fw-bold">PAN Number</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={pan}
-                            onChange={(e) => setPan(e.target.value)}
-                            placeholder="Enter PAN number"
-                        />
+                        <input type="text" className="form-control" value={pan}
+                            onChange={(e) => setPan(e.target.value)} placeholder="Enter PAN number" />
                     </div>
 
                     <div className="col-md-6">
                         <label className="form-label fw-bold">Aadhar Number</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={aadhar}
-                            onChange={(e) => setAadhar(e.target.value)}
-                            placeholder="Enter Aadhar number"
-                        />
+                        <input type="text" className="form-control" value={aadhar}
+                            onChange={(e) => setAadhar(e.target.value)} placeholder="Enter Aadhar number" />
                     </div>
                 </div>
 
                 <div className="text-end mt-4">
-                    <Button
-                        label="Create Account"
-                        icon="pi pi-check"
-                        onClick={createAccount}
-                        disabled={!customerId || !selectedType || !pan || !aadhar}
-                    />
+                    <Button label="Create Account" icon="pi pi-check" onClick={createAccount}
+                        disabled={!customerId || !selectedType || !pan || !aadhar} />
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default AccountCreation;
+export default AccountCreation
